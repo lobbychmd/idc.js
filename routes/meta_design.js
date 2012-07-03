@@ -9,9 +9,15 @@ exports.index = function (req, res) {
         var newMeta = !doc1;
         //console.log(doc1);
         require('meta_tree').inherite(req.query, doc1, function (doc) {
+            var HashCode = doc.HashCode;
+            doc.HashCode = null;
             var docstr = JSON.stringify(doc);
             var hashcode = require('js_utils').hashcode(docstr);
+            //console.log(docstr);console.log(HashCode);console.log(hashcode);
+            doc.HashCode = HashCode;
+            
             require('meta_version').version_info(tree_config[req.params.metaType].table, doc._id, hashcode, function (err, version_info) {
+	 
                 res.render('design.html', {
                     layout: false, _id: req.query._id, metaType: req.params.metaType,
                     model: docstr, id: req.query._id?req.query._id:Math.random().toString().substring(2),
