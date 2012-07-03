@@ -1,0 +1,92 @@
+﻿<style>
+    .header { font-size:0.88em; background: #2D2D2D; color:#CCCCCC !important; height:18px;padding:6px;}
+    .header a{margin-left:5px;color:#CCCCCC !important; text-decoration:none;}
+
+    .header div.left{float:left;}
+    .header div.right{float:right;}
+    .header div.right ol{display: block;list-style: none outside none;margin: 0;padding: 0;}
+    .header div.right ol li{display: inline-block;line-height: 20px;padding: 0px 4px;;position: relative;vertical-align: top;border-left:1px solid #666;}
+    span.logo { font-size:24px;  font-weight:bold; margin-bottom:10px;}
+    a.logo{ text-decoration:none}
+    #Project{display:none}
+    div.function a{ text-decoration:none; background:#ddd;padding:2px 10px;}
+    #top-bar {border: 1px solid #E5E5E5;height: 60px; background:none repeat scroll 0 0 #F5F5F5;width:auto; display:block;}
+    #logo-container {clear: left;padding: 0;width: 264px;float:left;color:#ccc; text-decoration:none; margin-left:10px;}
+    #search{ padding:12px;}
+    #btnSearch{ background:#1155CC; color:#ddd}
+    #search-input{max-width: 50%;min-width: 384px;vertical-align: middle;-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;
+    -moz-border-right-colors: none;-moz-border-top-colors: none;background: none repeat scroll 0 0 #FFFFFF;border-color: #C0C0C0 #D9D9D9 #D9D9D9;
+    border-radius: 1px 1px 1px 1px;border-right: 1px solid #D9D9D9;border-style: solid;border-width: 1px;height: 27px;padding: 0 0 0 8px;
+    border: 1px solid #CCCCCC;font-size: 14px;height: 18px;margin: 0 16px 0 0;padding-top: 3px;}
+    span#sroptlink{font-size:0.75em; margin-left:20px; text-transform: lowercase;white-space: nowrap;text-decoration: none;    color: #1155CC;cursor: pointer;}
+</style>
+
+<div class="header">
+    <div class='left'>
+        <a href="/home/debug" target="_blank">debug</a>
+        <a href="/struct/index">数据结构</a>
+        <a href="/home" target="_blank">旧版</a>
+        <a href="/blog" target="_blank">黑板报</a>
+    </div>
+    <div class='right'>
+        <ol>
+            <li>
+                <span>
+                    {{if global_data.user}} ${global_data.user.UserNO} (<a href="/logout">退出</a>){{else}}(<a href="/login">登录</a>) {{/if}} 
+                </span>
+            </li>
+            <li>
+                <select id="combobox">
+                    {{each global_data.projects }}
+                    <option value="${name}" {{if name == global_data.project}}selected="selected"{{/if}}  >${value}</option>
+                    {{/each}}
+                </select>
+            </li>
+            <li>
+                <a href="/Account/Setting" style='display:inline-block;width:18px;height:18px; background: url("/images/h_bedf916a.png") repeat scroll 0 0 transparent;'></a>
+            </li>
+        </ol>
+    </div>
+    <div style="clear:both"></div>
+
+
+
+</div>
+
+<div id="top-bar">
+    <a id="logo-container" href="   /">
+        <h1 id="logo" style="margin:5px;">
+            <img src="/images/Sparus.png" style="border:0px; display:inline-block;height:48px;vertical-align:middle" />
+            <span style="display:inline-block; vertical-align:middle">Sparus</span>
+        </h1>
+    </a>
+    <div id="search">
+        <input type="text" title="&quot;搜索您的供稿&quot;" class="jfk-textinput" id="search-input"/>
+        <a id="btnSearch" href="#searchNode">搜索</a>
+        <span class="lk small" id="sroptlink">显示搜索选项</span>
+    </div>
+</div>
+
+<script>
+    $('#btnSearch').button().click(function () {
+        var query = $('#search-input').val();
+        if (query) {
+            var ul = $("#browser>li[metaType=search]>ul").children().remove().end().indicator({});
+            $.post('/search/' + query, function (d) {
+                var data = treeData(d);
+                var branches = $('#jt_tree_li').tmpl(data).appendTo(ul);
+                $("#browser").treeviewEx({
+                    add: branches
+                });
+                ul.indicator({ remove: true }).focus();
+            });
+        }
+    });
+    $("#combobox").change(function () {
+        $.post("/updateposition/" + $(this).val(), function (data) {
+            if (!data.IsValid) 
+                alert(data.Errors[0].Message);
+            window.location = window.location.toString();
+        });
+    });
+</script>

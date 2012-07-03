@@ -1,0 +1,16 @@
+﻿ 
+
+<form method="post" class="metaObject" id="metaObjectArray-${_id}">
+    <input type="submit" value="保存" action="/saves/${metaType}" href="#" />
+    <hr />
+</form>
+
+<script>
+    var mo = $('#metaObjectArray-${_id}');
+    mo.metaObject("${metaType}", {{html model}}, true)
+		.find('[type=submit]').PageButton().bind('onSucceed', function(r, returnValues){
+			mo.objRefresh ( false );
+		});
+    
+    </script>
+

@@ -1,0 +1,41 @@
+﻿ 
+
+<div style="float:left;width:200px;border-right:1px solid #ddd;min-height:100px" >
+    <label>展开所有</label><input type="checkbox"  id="expandAll" />
+    <input type="button" value="重新生成脚本" id="reScript"/>
+    <hr />
+    <ul id="script-browser" class="filetree" style="overflow:auto;" checkbox="1">
+        
+    </ul>
+    
+</div>
+<div style="margin-left:201px;min-height:100px;">
+    <textarea id="scripts" rows=20 style="width:100%">${root_script}</textarea></div>
+
+<script>
+    $(function(){
+        var data = treeData( {{html tree_data}}, true);
+        var li = $('#jt_tree_li').tmpl(data);
+        $("#script-browser").append(li).treeviewEx({recursionAll: true, checkbox:true});
+        $('#expandAll').click(function(){
+            if ($(this).attr('checked')) $("#script-browser").attr('recursionAll', '1');
+            else $("#script-browser").removeAttr('recursionAll');
+        });
+
+        $('#reScript').click(function(){
+            $.post("/scripts", $('#script-browser input').serializeArray(), function(data){
+                $('#scripts').val(data).attr('rows', Math.max(20, data.split('\n').length));
+            });
+        });
+        $('#script-browser input[type=checkbox]').click(function(){  //全选/全不选 下级
+            var all = $(this).closest('li').find('[type=checkbox]');
+            if ($(this).attr('checked')) all.attr('checked', 'checked');
+            else all.removeAttr('checked');
+        });
+    });
+//    CodeMirror.fromTextArea($('#scripts')[0], {
+//                    lineNumbers: true,
+//                    matchBrackets: true,
+//                    mode: "text/x-plsql"
+//                });
+</script>

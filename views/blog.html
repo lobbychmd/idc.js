@@ -1,0 +1,31 @@
+﻿
+<div style="border-bottom: 1px #ccc solid; min-height:200px; margin-bottom : 20px;">
+    <a href="/blog/show/@${blog._id}" style=" display:block; font-size:24px">${blog.Title}</a>
+    <div style=" font-size:0.88em; padding:5px;">
+        <a style="color:#666; " href="#">LEAVE A COMMENT</a>
+        <a style="color:#666;  float:right" >${blog.At}</a>
+    </div>
+    <div style="clear:both"></div>
+    <div style="height:3px;border:1px solid #ccc; background:#eee">  </div>
+    <div style="padding-top:10px;">
+        <a style="color:#666; " href="#">by ${blog.Author}</a>
+        <a style="color:#666;  float:right" href="/blog/edit/${blog._id}">EDIT</a>
+    </div>
+    <div style="font-size:0.88em">
+        {{html blog.Content}}
+    </div>
+</div>
+{{partial([]) "_comments"}}
+
+<form method="post" action="/blog/addComment?id=${blog._id}">
+    <textarea cols=80 rows=10 name="Content"> </textarea>
+    <p><input type="submit" value="留言" id="addComment"/></p>
+</form>
+
+<script>
+    $('#addComment').button();
+    $('#addComment').click(function () {
+        if (!$.trim($('[name=Content]').val())) return false;
+    });
+
+</script>

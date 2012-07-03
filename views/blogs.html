@@ -1,0 +1,21 @@
+﻿
+{{each blogs}}
+    <div style="border-bottom: 1px #ccc solid; min-height:200px; margin-bottom : 20px;">
+        <a href="/blog/show/${_id}" style=" display:block; font-size:24px">${Title}</a>
+        <div style=" font-size:0.88em; padding:5px;">
+            <a style="color:#666; " href="#">{{if CommentCount == 0}} "LEAVE A COMMENT" {{else}} ${CommentCount} Responses{{/if}}</a>
+            <a style="color:#666;  float:right" >${At}</a>
+        </div>
+        <div style="clear:both"></div>
+        <div style="height:3px;border:1px solid #ccc; background:#eee">  </div>
+        <div style="padding-top:10px;">
+            <a style="color:#666; " href="#">by ${Author}</a>
+            <a style="color:#666;  float:right" href="/blog/edit/${_id}">EDIT</a>
+        </div>
+        <div style="font-size:0.88em">
+            {{html Content.substring(0,1000)}}
+        </div>
+    </div>
+
+{{/each}}
+

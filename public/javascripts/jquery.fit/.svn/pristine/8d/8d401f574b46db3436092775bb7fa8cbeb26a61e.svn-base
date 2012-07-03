@@ -1,0 +1,374 @@
+﻿$.widget("ui.combobox", {
+    _create: function () {
+        var self = this,
+					select = this.element.hide(),
+					selected = select.children(":selected"),
+					value = selected.val() ? selected.text() : "";
+        var input = this.input = $("<input>")
+					.insertAfter(select)
+					.val(value)
+					.autocomplete({
+					    delay: 0,
+					    minLength: 0,
+					    source: function (request, response) {
+					        var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+					        response(select.children("option").map(function () {
+					            var text = $(this).text();
+					            if (this.value && (!request.term || matcher.test(text)))
+					                return {
+					                    label: text.replace(
+											new RegExp(
+												"(?![^&;]+;)(?!<[^<>]*)(" +
+												$.ui.autocomplete.escapeRegex(request.term) +
+												")(?![^<>]*>)(?![^&;]+;)", "gi"
+											), "<strong>$1</strong>"),
+					                    value: text,
+					                    option: this
+					                };
+					        }));
+					    },
+					    select: function (event, ui) {
+					        ui.item.option.selected = true;
+					        self._trigger("selected", event, {
+					            item: ui.item.option
+					        });
+					    },
+					    change: function (event, ui) {
+					        if (!ui.item) {
+					            var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val()) + "$", "i"),
+									valid = false;
+					            select.children("option").each(function () {
+					                if ($(this).text().match(matcher)) {
+					                    this.selected = valid = true;
+					                    return false;
+					                }
+					            });
+					            if (!valid) {
+					                // remove invalid value, as it didn't match anything
+					                $(this).val("");
+					                select.val("");
+					                input.data("autocomplete").term = "";
+					                return false;
+					            }
+					        }
+					    }
+					})
+					.addClass("ui-widget ui-widget-content ui-corner-left");
+
+        input.data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>")
+						.data("item.autocomplete", item)
+						.append("<a>" + item.label + "</a>")
+						.appendTo(ul);
+        };
+
+        this.button = $("<button type='button'>&nbsp;</button>")
+					.attr("tabIndex", -1)
+					.attr("title", "Show All Items")
+					.insertAfter(input)
+					.button({
+					    icons: {
+					        primary: "ui-icon-triangle-1-s"
+					    },
+					    text: false
+					})
+					.removeClass("ui-corner-all")
+					.addClass("ui-corner-right ui-button-icon")
+					.click(function () {
+					    // close if already visible
+					    if (input.autocomplete("widget").is(":visible")) {
+					        input.autocomplete("close");
+					        return;
+					    }
+
+					    // work around a bug (likely same cause as #5265)
+					    $(this).blur();
+
+					    // pass empty string as value to search for, displaying all results
+					    input.autocomplete("search", "");
+					    input.focus();
+					});
+    },
+
+    destroy: function () {
+        this.input.remove();
+        this.button.remove();
+        this.element.show();
+        $.Widget.prototype.destroy.call(this);
+    }
+});
+$.r = function (url) {
+    url = url + (url.indexOf('?') > 0 ? "&" : "?") + Date.parse(new Date());
+    return url;
+}
+
+$.fn.smartLoad = function (option) {
+    return this.each(function () {
+        if ($('#' + $(this).attr('indicator')).hasClass('indicator'))
+            return; //上一次还没有处理完就不要再次处理
+        
+        $(this).indicator({ remove: true }); //先移除上次的错误
+
+        if ((option.lookup) && (option.lookup == true))
+            $(this).indicator({ insert: true });
+        else if ((option.load) && (option.load == true))
+            $(this).indicator({});
+        else if ((option.post) && (option.post == true))
+            $(this).indicator({ insert: true, hide: true });
+        var t = this; 
+        $.ajax({ url: option.url, data: option.data, type: option.post ? 'POST' : 'GET',
+            success: function (data, textStatus, XMLHttpRequest) {
+                //if ((option.lookup) && (option.lookup == true)) 
+                $(t).indicator({ remove: true });
+
+                if ((option.load) && (option.load == true))
+                    $(t).html(data);
+                if (option.callback) option.callback(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $(t).indicator({ error: true, alt: XMLHttpRequest.responseText });
+            }
+        });
+    });
+}
+
+$.fn.indicator = function (option) {
+    return this.each(function () {
+        if ((option.remove) && (option.remove == true)) {
+            $('#' + $(this).attr('indicator')).remove();
+        } else if ((option.show) && (option.show == true)) {
+            $('#' + $(this).attr('indicator')).remove();
+            $(this).show();
+        } else if ((option.error) && (option.error == true)) {
+            $('#' + $(this).attr('indicator')).attr('src', 'images/warning.png')
+                .attr('alt', option.alt).attr('title', option.alt).removeClass('indicator');
+        } else {
+            var img = $('<div class=\'indicator\'/>')
+                .attr('id', 'indicator' + Math.round(Math.random() * 1000, 3))
+                .click(function () {
+                    if ($.fn.dialog) {
+                        $("<DIV>").html($(this).attr('alt')).dialog({width:960});
+                    }
+                    $(this).remove();
+                });
+            $(this).attr('indicator', img.attr('id'));
+            if ((option.insert) && (option.insert == true))
+                img.insertAfter(this);
+            else if ((option.hide) && (option.hide == true)) {
+                img.insertAfter(this);
+                $(this).hide();
+            }
+            else {
+                $(this).children().remove().end().append(img);
+
+            }
+        }
+    });
+}
+
+$.readOnly = function (ctrl) {
+    return ($(ctrl).attr('readonly'));
+}
+
+
+$.fn.setReadOnly = function (readonly) {
+    return this.each(function () {
+        if (readonly) $(this).attr('readonly', 'readonly');
+        else $(this).removeAttr('readonly');
+        if (this.tagName == "SELECT") {
+            if (readonly) {
+                $('<input >').attr('name', $(this).attr('name')).attr('relID', $(this).attr('id')).insertBefore(this)
+                    .val($(this).val()).attr('readonly', 'readonly').width($(this).width()).hide();
+                $(this).attr('disabled', 'disabled');
+            } else $(this).removeAttr('disabled');
+        } else if (($(this).attr('type') == "button") || ($(this).attr('type') == "checkbox")) {
+            if (readonly) $(this).attr('disabled', 'disabled');
+            else $(this).removeAttr('disabled');
+        } else if ($(this).hasClass('editGrid')) {
+            if (readonly) $(this).find('a.uf,a.newRow').hide();
+            else $(this).find('a.uf,a.newRow').show();
+        }
+    });
+}
+
+$.toggleReadOnly1 = function (editors) {
+    editors.toggle();
+}
+
+$.fn.toggleReadOnly = function (readonly) {
+    return this.each(function () {
+        if (!$(this).attr('rostate')) //设置初始状态
+            $(this).attr('rostate', $(this).attr('readonly') ? "true" : "false");
+
+        if ($(this).attr('rostate') == "true") {
+            if (this.tagName == "SELECT") {
+                if ($(this).parent().find('[relID]').size() == 0) {
+                    $(this).setReadOnly(true);  
+                }
+            }
+            ; //初始是只读的就一直只读，不用设置
+        }
+        else if (readonly != undefined) $(this).setReadOnly(readonly); //按参数设置
+        else $(this).setReadOnly(!$(this).attr('readonly')); //切换
+
+    });
+}
+
+$.autoHeightSetting = {};
+$.autoHeight = function (setting, init) {
+    for (var i in setting)
+        $.autoHeightSetting[i] = setting[i];
+    if (init) {
+        //alert(1);
+        $(window).resize(function () {
+           // alert(2);
+            $.resizeW();
+        });
+    }
+    $.resizeW();
+}
+
+$.resizeW = function () {
+    var h = document.documentElement.clientHeight;
+   
+    for (var i in $.autoHeightSetting) {
+        $(i).css('height', (h - $.autoHeightSetting[i]) + "px");
+        //alert(h - $.autoHeightSetting[i]);
+        //alert($(i).height());
+    }
+}
+
+$.createDialog = function (option, callback, loadCallback) {
+    option.buttons = { '确认': function () {
+        callback($(this));
+        $(this).dialog('close');
+    },
+        '取消': function () { $(this).dialog('close'); }
+    };
+    option.modal = true;
+    $('div.commonDialog').remove();
+    var dialog = $('<div ></div>').addClass('commonDialog').attr('title', option.title).appendTo('body').dialog(option);
+    if (option.url) dialog.smartLoad({ url: option.url, load: true, callback: function () {
+        if (loadCallback) loadCallback();
+    } 
+    });
+    return dialog;
+}
+
+$.fn.showJson = function(data){
+    for(var i in data)
+    {
+        alert(i);
+        alert(data[i]);
+    }
+}
+
+$.fn.QueryParams = function () {
+    return this.each(function () {
+        var g = $(this).find('input[name=ParamGroup]');
+        var gi = $(this).find('input[name=pgi]');
+        $(this).children().accordion({ active: gi.val()?parseInt( gi.val()):0, change: function (event, ui) {
+            gi.val(ui.options.active);
+            g.val($.trim(ui.newHeader.text()));
+        }
+        }).find('.ui-accordion-content').css('height', 'auto');
+        $(this).css('width', '300px').css('float', 'left');
+        var grid = $(this).next().css('margin-left', '310px');
+        $('<div style="clear:both"></div>').insertAfter(grid);
+    });
+}
+
+$.fn.DateEditor = function () {
+    return this.each(function () {
+        $(this).datepicker();
+    });
+}
+
+$.autoHeightSetting = {};
+$.autoHeight = function (setting, init) {
+    for (var i in setting) $.autoHeightSetting[i] = setting[i];
+    if (init)
+        $(window).resize(function () {
+            $.wResize();
+        });
+    $.wResize();
+}
+$.wResize = function () {
+    var h = document.documentElement.clientHeight;
+    for (var i in $.autoHeightSetting) $(i).css('height', (h - $.autoHeightSetting[i]) + "px");
+}
+
+//设置一个编辑框的值的变化，引起其它编辑框是否 readonly
+//例如 $(".Grid").find('[name$=".Type"]').Block("tr", {Size: ['0', '1'], Precision: ['1'], Scale: ['1']  });
+$.fn.Block = function (container, setting) {
+    return this.each(function () {
+        $(this).bind("change.block", function () {
+            var v = $(this).val();
+            for (var name in setting) {
+                var values = setting[name]; //alert($.inArray(v, values) );
+                var ctrl = $(this).closest(container).find('[name$=' + '"].' + name + '"]');
+                ctrl.toggleReadOnly($.inArray(v, values) == -1);
+            }
+        }).trigger('change.block');
+    });
+}
+
+
+//是否显示模板行
+$.Grid_displayTemp = function (grid, tmplRow) {
+    if (grid.find('tbody tr').size() > 1) tmplRow.hide();
+    else tmplRow.show();
+}
+
+$.fn.Grid_NewRow = function () {
+    var grid = this;
+    var defVal = {};
+    grid.find('thead th[defVal]').each(function () { //准备缺省值待用
+        defVal[$(this).attr('fn')] = $(this).attr('defVal');
+    });
+
+    var tmplRow = grid.find('tbody tr.tmpl');
+    var tr = grid.find('tr.tmpl').clone(true).insertAfter(grid.find('tbody tr:last')).show().removeClass('tmpl');
+    tr.find('[ctrlName]').each(function () {
+        var v = defVal[$(this).closest('td').attr('fn')]; //缺省值
+        //if ($(this)[0].tagName == "checkbox") if (!v) v = ""; 
+        $(this).val(v).attr("name", $(this).attr("ctrlName").replace("[-1]", "[" + ($(grid).children('tbody').children('tr').size() - 2) + "]"))
+                    .removeAttr('ctrlName').unbind("keydown.tmpl");
+        if (v) $(this).trigger('change');
+    });
+    $.Grid_displayTemp(grid, tmplRow);
+    return tr;
+}
+
+$.fn.Grid = function () {
+    return this.each(function () {
+        var grid = $(this);
+        $("<th ><a class='delRow' href='#'>×</a></th>").insertBefore(grid.find('th:first'));
+        $("<td ><a class='delRow' href='#'>×</a></td>").insertBefore(grid.find('tbody td:first-child'));
+
+        $("<tr ><td cols=" + grid.find('th').size() + "><a class='addRow' href='#'></a></td></tr>").appendTo(grid.find('tfoot'));
+        var tmplRow = grid.find('tbody tr.tmpl');
+        if (tmplRow.size() == 0) //tmplRow = grid.find('tbody tr:first').clone(true).appendTo(grid.find('tbody')).addClass('tmpl');
+            tmplRow = grid.find('tbody tr:last').addClass('tmpl'); //最后一行是模板行
+        tmplRow.find('[name]').each(function () {
+            $(this).val(null).attr('ctrlName', $(this).attr('name').replace(/\[(\d+)\]/i, "[-1]")).removeAttr('name').bind("keydown.tmpl", function () {
+                grid.find('a.addRow').click(); //模板行不能录入，只能显示，如果敲入字符就自动创建新行，并隐藏自己
+            });
+        });
+        $.Grid_displayTemp(grid, tmplRow);
+
+        grid.find('a.addRow').click(function () {
+            $(grid).Grid_NewRow();
+            return false;
+        });
+        grid.find('tbody a.delRow').click(function () {
+            if ($(this).closest('tr').hasClass('tmpl')) return false;
+            else if (confirm('确认要删除吗?')) {
+                $(this).closest('tr').remove();
+                $.Grid_displayTemp(grid, tmplRow);
+                return false;
+            }
+        });
+    });
+}
+

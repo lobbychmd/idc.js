@@ -1,0 +1,164 @@
+﻿
+$.r = function (url) {
+    url = url + (url.indexOf('?') > 0 ? "&" : "?") + Date.parse(new Date());
+    return url;
+}
+
+$.fn.smartLoad = function (option) {
+    return this.each(function () {
+        if ($('#' + $(this).attr('indicator')).hasClass('indicator'))
+            return; //上一次还没有处理完就不要再次处理
+        
+        $(this).indicator({ remove: true }); //先移除上次的错误
+
+        if ((option.lookup) && (option.lookup == true))
+            $(this).indicator({ insert: true });
+        else if ((option.load) && (option.load == true))
+            $(this).indicator({});
+        else if ((option.post) && (option.post == true))
+            $(this).indicator({ insert: true, hide: true });
+        var t = this; 
+        $.ajax({ url: option.url, data: option.data, type: option.post ? 'POST' : 'GET',
+            success: function (data, textStatus, XMLHttpRequest) {
+                //if ((option.lookup) && (option.lookup == true)) 
+                $(t).indicator({ remove: true });
+
+                if ((option.load) && (option.load == true))
+                    $(t).html(data);
+                if (option.callback) option.callback(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $(t).indicator({ error: true, alt: XMLHttpRequest.responseText });
+            }
+        });
+    });
+}
+
+$.fn.indicator = function (option) {
+    return this.each(function () {
+        if ((option.remove) && (option.remove == true)) {
+            $('#' + $(this).attr('indicator')).remove();
+        } else if ((option.show) && (option.show == true)) {
+            $('#' + $(this).attr('indicator')).remove();
+            $(this).show();
+        } else if ((option.error) && (option.error == true)) {
+            $('#' + $(this).attr('indicator')).attr('src', 'images/warning.png')
+                .attr('alt', option.alt).attr('title', option.alt).removeClass('indicator');
+        } else {
+            var img = $('<div class=\'indicator\'/>')
+                .attr('id', 'indicator' + Math.round(Math.random() * 1000, 3))
+                .click(function () {
+                    if ($.fn.dialog) {
+                        $("<DIV>").html($(this).attr('alt')).dialog({width:960});
+                    }
+                    $(this).remove();
+                });
+            $(this).attr('indicator', img.attr('id'));
+            if ((option.insert) && (option.insert == true))
+                img.insertAfter(this);
+            else if ((option.hide) && (option.hide == true)) {
+                img.insertAfter(this);
+                $(this).hide();
+            }
+            else {
+                $(this).children().remove().end().append(img);
+
+            }
+        }
+    });
+}
+
+$.readOnly = function (ctrl) {
+    return ($(ctrl).attr('readonly'));
+}
+
+
+$.fn.setReadOnly = function (readonly) {
+    return this.each(function () {
+        if (readonly) $(this).attr('readonly', 'readonly');
+        else $(this).removeAttr('readonly');
+        if (this.tagName == "SELECT") {
+            if (readonly) {
+                $('<input >').attr('name', $(this).attr('name')).attr('relID', $(this).attr('id')).insertBefore(this)
+                    .val($(this).val()).attr('readonly', 'readonly').width($(this).width()).hide();
+                $(this).attr('disabled', 'disabled');
+            } else $(this).removeAttr('disabled');
+        } else if (($(this).attr('type') == "button") || ($(this).attr('type') == "checkbox")) {
+            if (readonly) $(this).attr('disabled', 'disabled');
+            else $(this).removeAttr('disabled');
+        } else if ($(this).hasClass('editGrid')) {
+            if (readonly) $(this).find('a.uf,a.newRow').hide();
+            else $(this).find('a.uf,a.newRow').show();
+        }
+    });
+}
+
+$.toggleReadOnly1 = function (editors) {
+    editors.toggle();
+}
+
+$.fn.toggleReadOnly = function (readonly) {
+    return this.each(function () {
+        if (!$(this).attr('rostate')) //设置初始状态
+            $(this).attr('rostate', $(this).attr('readonly') ? "true" : "false");
+
+        if ($(this).attr('rostate') == "true") {
+            if (this.tagName == "SELECT") {
+                if ($(this).parent().find('[relID]').size() == 0) {
+                    $(this).setReadOnly(true);  
+                }
+            }
+            ; //初始是只读的就一直只读，不用设置
+        }
+        else if (readonly != undefined) $(this).setReadOnly(readonly); //按参数设置
+        else $(this).setReadOnly(!$(this).attr('readonly')); //切换
+
+    });
+}
+
+$.createDialog = function (option, callback, loadCallback) {
+    option.buttons = { '确认': function () {
+        callback($(this));
+        $(this).dialog('close');
+    },
+        '取消': function () { $(this).dialog('close'); }
+    };
+    option.modal = true;
+    $('div.commonDialog').remove();
+    var dialog = $('<div ></div>').addClass('commonDialog').attr('title', option.title).appendTo('body').dialog(option);
+    if (option.url) dialog.smartLoad({ url: option.url, load: true, callback: function () {
+        if (loadCallback) loadCallback();
+    } 
+    });
+    return dialog;
+}
+
+$.fn.showJson = function(data){
+    for(var i in data)
+    {
+        alert(i);
+        alert(data[i]);
+    }
+}
+
+$.fn.QueryParams = function () {
+    return this.each(function () {
+        var g = $(this).find('input[name=ParamGroup]');
+        var gi = $(this).find('input[name=pgi]');
+        $(this).children().accordion({ active: gi.val()?parseInt( gi.val()):0, change: function (event, ui) {
+            gi.val(ui.options.active);
+            g.val($.trim(ui.newHeader.text()));
+        }
+        }).find('.ui-accordion-content').css('height', 'auto');
+        $(this).css('width', '300px').css('float', 'left');
+        var grid = $(this).next().css('margin-left', '310px');
+        $('<div style="clear:both"></div>').insertAfter(grid);
+    });
+}
+
+$.fn.DateEditor = function () {
+    return this.each(function () {
+        $(this).datepicker();
+    });
+}
+

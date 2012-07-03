@@ -1,0 +1,110 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>注册帐号</title>
+
+    
+
+    <link href="/stylesheets/fit.css" rel="stylesheet" type="text/css" />
+
+    <script src="/javascripts/jqueryui-1.8.16/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+
+    <script src="/javascripts/jqueryui-1.8.16/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+
+    <link href="/javascripts/jqueryui-1.8.16/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+
+     <script src="/javascripts/jquery.fit/site.js")" type="text/javascript"></script>
+    <link href="/javascripts/jquery.fit/site.css")" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/jquery.fit/form.js")" type="text/javascript"></script>
+
+</head>
+
+
+
+<body>
+
+     
+
+    
+
+<style type="text/css">
+
+    .simpleLayout{margin-left:200px;margin-right:auto;margin-top:120px; }
+
+    .simpleLayout>h2{margin-left:-20px;}
+
+    #accordion{width:500px; }
+
+</style>
+
+<div class='simpleLayout'>
+
+    <img src="/images/register.jpeg"/>
+
+    <div id="accordion">
+	    <h3><a href="#">注册帐号</a></h3>
+        <div>
+            <form action="/register" method="post">
+                <table>
+                    <tr>
+                        <td>邮件帐号</td>
+                        <td><input id="UserNO" name="UserNO" type="text" value="${UserNO}" /> </td>
+                    </tr>
+
+                    <tr>
+
+                        <td>密   码</td>
+
+                        <td><input id="Password" name="Password" type="password"  /> </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>邀请码</td>
+
+                        <td><input id="InviteCode" name="InviteCode" type="text" value="" /> </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2><input type="submit" value="提交注册资料" href="/login" action="/register"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <p><a href="/signin">我已经有帐号了，现在去登录</a></p>
+
+</div>
+
+<script>
+
+    $("#accordion").accordion().find('[type=submit]').PageButton();
+
+    $(function () {
+
+        $("[name=UserNO]").focus().size();
+         
+        //        $.get("/Account/signin?" + Math.random(), function (data) {
+
+        //            alert(data);
+
+        //        });
+
+    });
+
+</script>
+
+ 
+
+
+
+</body>
+
+</html>
+

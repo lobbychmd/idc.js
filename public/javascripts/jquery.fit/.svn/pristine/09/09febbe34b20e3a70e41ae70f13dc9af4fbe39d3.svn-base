@@ -1,0 +1,38 @@
+﻿
+/********StdQuery *********************************/
+a.hidesq {border: 1px solid gray; padding: 3px; text-decoration: none; width: 100%; }
+span.caption, span.caption a {font-family: Verdana,Arial,sans-serif;font-size: 1.1em;font-weight: bold;margin: 0.6em 0;text-align: left;}
+/********StdQuery end *****************************/
+
+.Toolbar {padding: 10px 40px;width:100%;}
+.Toolbar input{width:auto}
+
+.DialogQueryParams fieldset { padding:10px;}
+
+tr.selected, tr.selected td{ background:#ccc}
+1tr.selected{ border: 2px solid gray}
+
+.formatError{background:url('./images/invalid_line.gif') repeat-x 100px bottom;}
+
+div.indicator{background:url('./images/indicator_s.gif');height:16px;width:16px;cursor:pointer;display:inline-block}
+
+table.Grid {border:1px solid #bbb} 
+table.Grid thead th{ background: #ccc; text-align:center;font-weight:bold;padding:5px;}
+table.Grid input{ border-width:0px 0px 1px 0px;border-color:#aaa;border-style:solid}
+ 
+table.Grid a.delRow{ text-decoration:none; font-size:1.2em; font-weight:bold;}
+table.Grid a.delRow{ text-decoration:none; font-size:1.2em; font-weight:bold;}
+table.Grid a.addRow {background:url('./images/add.png');height:16px;width:16px;cursor:pointer;display:inline-block}
+
+a.delContent{background:url('./images/delContent.png');height:16px;width:16px;cursor:pointer;display:inline-block}
+
+fieldset.ListEditor {padding:6px;margin-left:-1px;}
+fieldset.ListEditor a.add {background:url('./images/add.png');height:16px;width:16px;cursor:pointer;display:inline-block}
+
+table.Grid input.modalError, .modalError{border:1px solid red}
+table.Grid tr.changed, table.Grid tr.changed [name]{background:yellow}
+table.Grid tr.deleted td, table.Grid tr.deleted [name]{text-decoration:line-through;color:red}
+input.uf{border:1px solid;width:20px;}
+[readonly=readonly]{background: #ddd}
+
+.StatusBar input{ display:inline-block; float:right}

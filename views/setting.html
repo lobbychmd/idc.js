@@ -1,0 +1,63 @@
+{{partial "_header"}}
+<div style="margin:8px;">
+    <div id="header" style="height:40px;border-bottom:1px solid #ccc;padding:0px;">
+        <div id="vr-nav">
+        <div class="logo">
+            <span onmousedown="_SR_backToCalendar();return false;" id="mainlogo" title="Sparus">账户设置</span>
+        </div>
+        <div class="cmd">
+            <ul class="cmd">
+                <li><a id="btnSave" class="cmd " href="/account/setting" action="/account/savesetting" form="setting" role="button"><span class="ui-button-text"> 保存 </span></a> </li>
+            </ul>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    </div>
+    <div id="main" style="border-bottom:1px solid #ccc;clear:both">
+        <div id="leftBanner" style="float:left;border-right:1px solid #ccc;width:300px;min-height:600px;">
+            <div id="nav1" style="height: 423px;">
+            <div style="padding-left:30px;margin-top:0px;color:#DD4B39"><h3>设置</h3></div>
+            <ul class="nav">
+                <li class="sel"><a href="/Account/Setting" class="nav"> 账户设置 </a> </li>
+                <li class=""><a href="/Account/SetFriend" class="nav"> 好友设置 </a> </li>
+            </ul>
+        </div>
+        </div>
+        <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
+            <form id="setting">
+                <h3>设置您的项目</h3>
+                {{each projects}}
+                <table>
+                    <tbody>
+                        <tr><td>项目名称</td><td><input value="${ProjectName}" name="ProjectName" /></td></tr>
+                        <tr><td>项目代码</td><td><input value="${ProjectCode}" name="ProjectCode" /></td></tr>
+                        <tr><td>接口密码</td><td><input value="${SyncPassword}" name="SyncPassword" /></td></tr>
+                    </tbody>
+
+                </table>
+                
+                {{/each}}
+
+                <fieldset><legend>项目成员</legend>
+                    <table border="1">
+                        <tbody>
+                            {{each users}}
+                            <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
+                            {{/each}}
+                        </tbody>
+
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+        <div style=" clear:both"></div>
+    </div>
+</div>
+<span id="statestr" style="display:none"></span>
+
+<script>
+    $(function () {
+        $("#btnSave").PageButton();
+    });
+
+</script>

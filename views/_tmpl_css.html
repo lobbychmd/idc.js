@@ -1,0 +1,39 @@
+﻿<style>
+  {{each(i,t) types}}
+  .filetree li.expandable span.${t},.filetree span.leaf.${t} {background: url('/images/metaIcon/${t}.png') no-repeat scroll 0 0 transparent; padding-left:18px}
+  #tabs li[metatype=${t}]>a {background: url('/images/metaIcon/${t}.png') no-repeat left center  transparent; padding-left:18px}
+
+{{/each}}
+  .filetree li.expandable span.search {background: url("/images/metaIcon/search.png") no-repeat scroll 0 0 transparent; padding-left:18px}
+
+    .CodeMirror{ font-size: 16px; }
+
+  li.newNode a{background: url(/images/add.png); display:inline-block; width: 16px;height: 16px}
+
+  .metaObject hr {  border-color: #eee}
+  .metaObject fieldset{   border-color:#eee; padding:10px;}
+  .metaObject legend {   font-size:1.3em; font-weight:bold; color:Blue;}
+  .metaObject span.count {   color:#666; display:block;margin:10px;}
+  .metaObject a.delRow {background: url(/images/1312563518_delete.png); display:inline-block; width: 16px;height: 16px}
+  .metaObject div.zip.tmpl a.delRow {background: url(/images/new.png) no-repeat; display:inline-block; width: 42px;height: 16px}
+  .metaObject span.rowIndex {display: inline-block; width: 24px;height: 16px;}
+  .metaObject div.zip.tmpl span.rowIndex {display: none}
+  .metaObject label{width:180px;display:inline-block; text-align:right; margin-right:1px; margin-left:10px;}
+  .metaObject [identity],.metaObject [readonly] {background:#ccc;border:1px solid #666}
+
+  .metaObject .zip.deleted{  color: red; text-decoration:line-through}
+  .metaObject .zip.tmpl{  color: blue}
+  .metaObject .zip.inline>.prop{ display:inline-block; display:none}
+  .metaObject .zip.inline>.prop[lineshow]{ display:inline-block;}
+  .metaObject .zip.inline>.prop>label{ display:inline;}
+  .metaObject .zip textarea{  width:100%}
+  .metaObject .CodeMirror{border: 1px solid #ccc}
+
+  .metaObject [path="Scripts.ScriptIdx"] {width: 30px}
+  .metaObject [path="Params.ParamIdx"] {width: 30px}
+  .metaObject [path="Checks.CheckIdx"] {width: 30px}
+  .metaObject [path="Scripts.ProcIdx"] {width: 30px}
+  .metaObject [path="Path"] {width: 600px}
+  .metaObject [path="Checks.CheckSummary"] {width: 300px}
+  .metaObject [path="Scripts.ProcSummary"] {width: 300px}
+</style>

@@ -1,0 +1,40 @@
+{{partial "_header"}}
+<div style="margin:8px;">
+    <div id="header" style="height:40px;border-bottom:1px solid #ccc;padding:0px;">
+      
+      {{partial({types: tree_config}) "_tmpl_css"}}
+      {{partial "_tmpl.ejs"}}
+    </div>
+    <div id="main" style="border-bottom:1px solid #ccc;clear:both">
+        <div id="leftBanner" style="float:left;border-right:1px solid #ccc;width:300px;min-height:600px;">
+            <h3 style="color:#DD4B39">IDC 配置中心 - 对象树</h3>
+            <ul id="browser" class="filetree" style="overflow:auto;">
+                <li metatype="search">
+                    <span class="search folder">
+                        <a name="searchNode" onclick="javascript:$('#query').focus();">搜索</a>
+                    </span>
+                    <ul></ul>
+                </li>
+            </ul>
+        </div>
+        <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
+            <div id="tabs" style=" overflow:auto">
+                <ul></ul>
+            </div>
+
+        </div>
+        <div style=" clear:both"></div>
+    </div>
+</div>
+<span id="statestr" style="display:none"></span>
+
+<script>
+
+    var data = treeData( {{html tree_data}} , false);
+    $("#jt_tree_li").tmpl(data).appendTo('#browser');
+    
+    $("#tabs").smartTabs({a_selector: "#browser a", lastState: {{html lastState}} });
+
+    $("#browser").treeviewEx();//.treeviewA().parent().show();
+
+</script>
