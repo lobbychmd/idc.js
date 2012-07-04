@@ -161,7 +161,7 @@ $.lastState = {  //保存和恢复最后状态
 
 /********************************8   metaObject  8***************************************/
 
-$.codeMirrors = {};
+
 $.array2json = function (conf, a, type, prefix) {
     a.push({});//模板
     for(var j in a) {
@@ -203,30 +203,55 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow){
                 .find('legend>a').zipArray().end()
                 .tmplRowEditor(multi)
                 .selection()
-                .reference();
+                .reference().toggleEditor().initEditor();
                 //.scriptEditor(true);
         });
     }
 
-    $.fn.saveCodeMirror = function(){  //退出所有的 CodeMirror 编辑器以准备保存数据
-        return this.each(function(){
-            $(this).find('div.zip:not(.inline) a.zipRow').each(function () {
-                $(this).click();
-            })
-            //.end().scriptEditor(false);
+    $.fn.initEditor = function () {  //把根的代码编辑器自动设置为第一个
+        return this.each(function () {
+            $(this).children('div.prop').children('select.toggleEditor').each(function () {
+                $(this).val($(this).children().eq(1).val()).trigger('change');
+            });
         });
     }
+
+    $.fn.toggleEditor = function () {  
+        return this.each(function () {
+            $(this).find('select.toggleEditor').change(function () {
+                var t = $(this).val();
+                if (t == 'text') {
+                    eval("$(this).next().toggleEditor_" + $(this).attr('curr_editor') + "(false);");
+                    $(this).removeAttr('curr_editor');
+                }
+                else {
+                    eval("$(this).next().toggleEditor_" + t + "(true);");
+                    $(this).attr('curr_editor', t);
+                }
+            })
+        });
+    }
+
+    $.fn.resetAllEditor = function () {
+        return this.each(function () {
+            $(this).find('select.toggleEditor[curr_editor]').val('text').trigger('change').size();
+        });
+    }
+
+    
+
+ 
 
     $.fn.zip = function(){
         return this.each(function(){
             $(this).find('a.zipRow').click(function(){
                 var div = $(this).closest('div.zip').toggleClass('inline');
                 if ($(this).text() == "▲") {
-                    $(this).text('▼'); 
-                    div.scriptEditor(true);
+                    $(this).text('▼');
+                    div.initEditor();
                 }else {
-                    $(this).text('▲') ;
-                    div.scriptEditor(false);
+                    $(this).text('▲');
+                    div.resetAllEditor();
                 }
                 return false;
             });
@@ -290,25 +315,9 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow){
         });
     }
 
-    $.fn.scriptEditor = function(show){
-        return this.each(function(){
-            $(this).find('[scriptType]').each(function(){
-                if (show) $.codeMirrors[$(this).attr("name")] = CodeMirror.fromTextArea(this, {
-                    lineNumbers: true,
-                    matchBrackets: true,
-                    mode: $(this).attr('scriptType')//"text/x-plsql"
-                });
-                else {
-                    if ($.codeMirrors[$(this).attr("name")])
-                        $.codeMirrors[$(this).attr("name")].toTextArea();
-                    else alert("codemirror " + $(this).attr("name") + " not found.");
-                }
-            });
-        });
-    }
 
     $.fn.reference = function(){
-        return this.each(function(){
+        return this.each(function(){  
             $(this).find('fieldset[ref_join]').each(function(){
                 $(this).find('[path$=".' + $(this).attr('ref_join') +  '"]').autocomplete({source: "/project/reference/" + $(this).attr('ref_type') });
             });

@@ -15,6 +15,7 @@ var login = require('filter').login;
 var sync_auth = require('filter').sync_auth;
 var db = require('mongo');
 db.connect();
+db.connect();
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -27,9 +28,10 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.session({
       secret: "keyboard cat",
-      store: new MongoStore({
-          host:'222.73.240.112', username:'MIS', password:'MISSOLUTION', db: 'idc', collection: 'sessions', reapInterval: 60000 * 5 // 5 minute
-      })
+      //经常会 disconnect,需要重启服务
+      //store: new MongoStore({
+      //    host:'222.73.240.112', username:'MIS', password:'MISSOLUTION', db: 'idc', collection: 'sessions', reapInterval: 60000 * 5 // 5 minute
+      //})
   }));
   app.use(express.static(__dirname + '/public'));
   //app.use(require('filter').login);

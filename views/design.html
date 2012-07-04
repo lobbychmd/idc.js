@@ -2,7 +2,7 @@
 
 <form method="post" class="metaObject" id="metaObject-${id}">
     <input type="submit" value="保存" action="/save/${metaType}" href="#" />
-    <input type="button" value="脚本"  href="/script/${metaType}?_id=${_id}" />
+    <input type="button" value="脚本"  href="/script/${metaType}?_id=${_id}" class="script"/>
     <input type="button" {{if version_info.need_update }} value="存档" needUpdate="1" {{else}} value="存档(${version_info.last_version})" {{/if}}  class="addVersion" ="${hashcode}"/>
     <input type="button" value="删除" action="/remove/${metaType}" class="delMeta" href="#" confirm="确认要删除吗?"/>
     <hr />
@@ -14,7 +14,7 @@
 		.find('[type=submit]').PageButton().bind('onSucceed', function(r, returnValues){
 			mo.objRefresh ( ${newMeta} ,null, "${metaType}", "${parent_type}", "${parent_id}", returnValues);
 		}).bind('beforeAction', function(){  
-			mo.saveCodeMirror();
+		    mo.resetAllEditor();
         }).end().find('.delMeta').PageButton().bind('onSucceed', function(r, returnValues){
             mo.objRemove ( );
         });
