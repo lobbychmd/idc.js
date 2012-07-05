@@ -35,10 +35,15 @@ metaObjectConfig = {
             UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' },
             Queries: { caption: '所用查询', maxLength: 100, editor:'textarea' },
             PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json' },
+            PageFlows: { caption: '流程定义1', type: "FlowItem" },
             PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json' }
         },
+        FlowItem: {
+            ID: {caption:'流程ID', lineShow: true}, 
+            Summary: { caption: '流程名称', lineShow: true }
+        },
         ModuleFunc: {
-            FuncID: {caption:'权限ID', lineShow: true}, 
+            FuncID: { caption: '权限ID', lineShow: true },
             //FuncName: {caption:'权限名称', lineShow: true, reference: "FuncName"}
         },
         PageFlow: {

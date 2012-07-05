@@ -162,33 +162,35 @@ $.lastState = {  //保存和恢复最后状态
 /********************************8   metaObject  8***************************************/
 
 
-$.array2json = function (conf, a, type, prefix) {
+$.array2json = function (conf, a, type, prefix, path) {
     a.push({});//模板
     for(var j in a) {
-        a[j] = $.json2array(conf, type, a[j], true, prefix,j, j== a.length - 1 );//递归
+        a[j] = $.json2array(conf, type, a[j], true, prefix,j, j== a.length - 1, path );//递归
         a[j]["index"] =parseInt(j )+ 1; a[j]["tmplRow"] = j== a.length - 1;
     }
     return { name: prefix, value: a };
 }
-$.json2array = function(conf, type, d, leaf, parent, index, tmplRow){
+$.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
         var data = {prop: new Array(), array: new Array(), leaf: leaf, index: -1, tmplRow: tmplRow};
         var allConf = d["_id"] ? $.extend({ _id: { caption: "id", readonly: true }, Version: { caption: "版本", readonly: true }, ProjectName: { caption: "所属项目", readonly: true }, HashCode: { caption: "校验码", readonly: true }, LastUpdateTime: { caption: "最后修改时间", readonly: true } }
                                  ,conf[type]) :conf[type];
-        for (var i in allConf)
-            if(allConf[i].type){ //if (d[i] instanceof Array) {
+        for (var i in allConf) {
+            var name = parent + (index ? "[" + index + "]" : "") + (parent || index ? ("[" + i + "]") : i);
+            if (allConf[i].type) { //if (d[i] instanceof Array) {
                 if (!d[i]) d[i] = new Array();
-                var prefix = (parent ? parent + "." : "") + i;
-                data.array.push($.extend(allConf[i], $.array2json(conf, d[i], allConf[i].type, prefix)));
-            }else {
+                var prefix = name;
+                var path = (parent ? parent + "." : "") + i;
+                data.array.push($.extend(allConf[i], $.array2json(conf, d[i], allConf[i].type, prefix, path)));
+            } else {
                 var p = $.extend(
-                            $.extend({caption: null, lineShow: false, maxLength: -1, editor: null, scriptType: null, selection: null, identity: false, reference:null, readonly: false},allConf[i]),
-                            {tmplRow: tmplRow, name: parent + (index?"[" + index + "]":"" ) + (parent||index?("[" + i + "]"):i), path: (parent?(parent + "."):"") + i, value: d[i]== undefined?null: d[i]});
+                            $.extend({ caption: null, lineShow: false, maxLength: -1, editor: null, scriptType: null, selection: null, identity: false, reference: null, readonly: false }, allConf[i]),
+                            { tmplRow: tmplRow, name: name, path: (parent ? (parent + ".") : "") + i, value: d[i] == undefined ? null : d[i] });
                 //if (window.console ) console .log(p) ;
                 if (!p.editor) p.editor = "input";
                 p.isInput = (p.editor == "input") || (p.editor == "checkbox");
-                data.prop.push(p); 
+                data.prop.push(p);
             }
-        
+        }
         return data;
     }
 
