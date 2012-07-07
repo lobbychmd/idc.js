@@ -2,11 +2,15 @@
 
     $.fn.toggleEditor_code = function (show) {
         return this.each(function () {
-            if (show) $.codeMirrors[$(this).attr("name")] = CodeMirror.fromTextArea(this, {
-                lineNumbers: true,
-                matchBrackets: true,
-                mode: $(this).attr('scriptType')//"text/x-plsql"
-            });
+            if (show) {
+                var width = $(this).width();
+                $.codeMirrors[$(this).attr("name")] = CodeMirror.fromTextArea(this, {
+                    lineNumbers: true,
+                    matchBrackets: true,
+                    mode: $(this).attr('scriptType')//"text/x-plsql"
+                });
+                $(this).parent().find('.CodeMirror>.CodeMirror-scroll').width(width + "px");
+            }
             else {
                 if ($.codeMirrors[$(this).attr("name")])
                     $.codeMirrors[$(this).attr("name")].toTextArea();
@@ -15,3 +19,22 @@
         });
     }
     
+
+    $.fn.toggleEditor_JSON = function (show) {
+        this.each(function () {
+            if (show) {
+                try {
+                    var data = eval("(" + $(this).val() + ")");
+                } catch (e) {
+                    alert(e);
+                    return false;
+                };
+                console.log(data);
+                $("<div ></div>").metaObject("FlowItem", data, true).insertBefore(this);
+                $(this).hide();
+            }
+            else $(this).show();
+
+            return true;
+        });
+    }

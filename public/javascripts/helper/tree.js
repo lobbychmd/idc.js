@@ -222,13 +222,13 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
         return this.each(function () {
             $(this).find('select.toggleEditor').change(function () {
                 var t = $(this).val();
-                if (t == 'text') {
-                    eval("$(this).next().toggleEditor_" + $(this).attr('curr_editor') + "(false);");
-                    $(this).removeAttr('curr_editor');
-                }
+                var curr_editor = $(this).attr('curr_editor');
+                if (curr_editor) eval("$(this).next().toggleEditor_" + curr_editor + "(false);");
+
+                if (t == 'text') $(this).removeAttr('curr_editor');
                 else {
-                    eval("$(this).next().toggleEditor_" + t + "(true);");
                     $(this).attr('curr_editor', t);
+                    eval("$(this).next().toggleEditor_" + t + "(true);");
                 }
             })
         });
@@ -279,8 +279,10 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
 
                     var fieldset = row.closest('fieldset');
                     var rowCount = fieldset.children('div.zip').size();
-                    row.clone(true).unbind('change.tmpl').removeClass('tmpl').insertBefore(row).find('[fieldname]').each(function(){
+                    row.clone(true).unbind('change.tmpl').removeClass('tmpl').insertBefore(row).find('[fieldname]').each(function () {
                         $(this).attr('name', $(this).attr('fieldname').replace(/\[(\d+)\]/i, "[" + (rowCount - 1) + "]")).removeAttr('fieldname');
+                        //var re = new RegExp("\[(\\d+)\]", "ig"); var n = $(this).attr('fieldname'); var r = n.match(re);
+                        //$(this).attr('name', n.replace("[" + r[r.length - 1] + RegExp.rightContext, "[" + (rowCount - 1) + RegExp.rightContext)).removeAttr('fieldname');
                     }).end().find('span.rowIndex').text(rowCount  ).end().find('[identity]').val(rowCount).end().focus();
                     $(this).val('');
                 }
@@ -376,3 +378,6 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
             $tabs.tabs('remove', $tabs.find('li.ui-state-active').attr('index'));
     }
 /********************************8   metaObject end 8***************************************/
+
+
+

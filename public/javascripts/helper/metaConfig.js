@@ -34,13 +34,23 @@ metaObjectConfig = {
             //Params:{caption:'页面参数', lineShow: true},
             UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' },
             Queries: { caption: '所用查询', maxLength: 100, editor:'textarea' },
-            PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json' },
-            PageFlows: { caption: '流程定义1', type: "FlowItem" },
+            PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" },
             PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json' }
         },
         FlowItem: {
             ID: {caption:'流程ID', lineShow: true}, 
-            Summary: { caption: '流程名称', lineShow: true }
+            Summary: { caption: '流程名称', lineShow: true },
+            Description: { caption: '描述', editor: 'textarea' },
+            State: { caption: '状态', lineShow: true, editor: 'select', selection: [{ key: "fsNew", value: "新增" }, { key: "fsNormal", value: "普通" }, { key: "fsAuditing", value: "审核中" }, { key: "fsAudited", value: "审核完" }] },
+            Action: { caption: '操作', type: 'FlowItemAction' },
+            BlackList: { caption: '黑名单'},
+            WhiteList: { caption: '白名单'}
+        },
+        FlowItemAction: {
+            Summary: { caption: '名称', LineShow: true },
+            Biz: { caption: '业务逻辑', LineShow: true },
+            Description: { caption: '描述' }
+
         },
         ModuleFunc: {
             FuncID: { caption: '权限ID', lineShow: true },

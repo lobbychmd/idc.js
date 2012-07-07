@@ -85,6 +85,9 @@ app.get('/sync/export/:metaType', sync_auth, require('./routes/sync').Export);
 app.get('/script/:metaType', login, require('./routes/script').index);
 app.post('/scripts', login, require('./routes/script').scripts);
 
+app.get('/test', require('./routes/test').test);
+app.post('/test', require('./routes/test').test);
+
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
