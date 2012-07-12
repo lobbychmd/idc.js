@@ -22,11 +22,11 @@ exports.signin = function (req, res) {
             if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
             else if (!doc) res.json({ IsValid: false, Errors: [{ ErrorMessage: "无此用户", MemberNames: ["UserNO"] }] });
             else {
-                var hasher = require('crypto').createHash('md5');
+                var hasher = require('crypto').createHash('sha1');
                 hasher.update(req.body.UserNO + req.body.Password);
-                //if (doc.Password != hasher.digest('hex')) {
-                //    res.json({ IsValid: false, Errors: [{ ErrorMessage: "密码不正确", MemberNames: ["UserNO", "Password"] }] });
-                // } else
+                if (doc.Password != hasher.digest('hex')) {
+                    res.json({ IsValid: false, Errors: [{ ErrorMessage: "密码不正确", MemberNames: ["UserNO", "Password"] }] });
+                } else
                 {
                     req.session.user = doc;
                     require('account').getLastPosition(doc._id, function (err, position) {
