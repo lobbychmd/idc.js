@@ -78,8 +78,11 @@ app.post('/save/:metaType', require('./routes/save').index);
 app.post('/saves/:metaType', require('./routes/save').saves);
 app.post('/remove/:metaType', require('./routes/save').remove);
 
-app.get('/blog', require('./routes/blog').index);
-app.get('/blog/show/:_id', require('./routes/blog').blog);
+app.get('/blog', login, require('./routes/blog').index);
+app.get('/blog/edit/:_id', login, require('./routes/blog').edit);
+app.get('/blog/add', login, require('./routes/blog').add);
+app.get('/blog/show/:_id', login, require('./routes/blog').blog);
+app.post('/blog/save/:_id', login, require('./routes/blog').save);
 
 app.get('/sync/export/:metaType', sync_auth, require('./routes/sync').Export);
 app.get('/script/:metaType', login, require('./routes/script').index);

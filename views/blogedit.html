@@ -1,0 +1,31 @@
+﻿
+<form action="/blog/save/{{if blog._id}}${blog._id}{{else}}new{{/if}}" method="post" >
+    <span>标题：</span><input value="${blog.Title}" style="width: 200px" name="Title">
+    <hr />
+        
+    <textarea id="newBlog" style="width:auto;height:600px;" name="Content">
+        ${blog.Content}
+    </textarea>
+    <input type="submit" value="保存"/>
+    <input type="button" value="删除" id="delBlog"/>
+</form>  
+
+
+<script>
+    $(function () {
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('#newBlog', {
+                uploadJson: '/util/UploadImg_kind/blog',
+                fileManagerJson: '/util/file_manager_json_kind/blog',
+                allowFileManager: true
+            });
+        });
+        $('#delBlog').click(function () {
+            if (confirm('确认要删除吗?'))
+                $.post("/blog/del/@(Model._id.ToString())", function () {
+                    window.location = "/blog";
+                });
+        });
+    });
+</script>
