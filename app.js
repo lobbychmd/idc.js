@@ -57,7 +57,9 @@ app.post('/login', require('./routes/account').signin);
 app.get('/register', require('./routes/account').register);
 app.post('/register', require('./routes/account').reg);
 app.get('/account/setting', login, require('./routes/account').setting);
+app.get('/account/setting/:project_id', login, require('./routes/account').setting);
 app.post('/account/savesetting', login, require('./routes/account').savesetting);
+app.post('/account/newproj', login, require('./routes/account').newproj);
 
 app.post('/updateposition/:position', require('./routes/account').updateposition);
 

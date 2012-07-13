@@ -24,31 +24,51 @@
         </div>
         </div>
         <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
-            <form id="setting">
-                <h3>设置您的项目</h3>
-                {{each projects}}
-                <table>
-                    <tbody>
-                        <tr><td>项目名称</td><td><input value="${ProjectName}" name="ProjectName" /></td></tr>
-                        <tr><td>项目代码</td><td><input value="${ProjectCode}" name="ProjectCode" /></td></tr>
-                        <tr><td>接口密码</td><td><input value="${SyncPassword}" name="SyncPassword" /></td></tr>
-                    </tbody>
+                <div id="tabs">
+	                <ul>
+                        {{each projects}}
+                            {{if _id == project._id}}
+		                        <li><a href="#tabs-${_id}">${ProjectName}</a></li>
+                            {{else}}
+                                <li><a href="/account/setting/${_id}">${ProjectName}</a></li>
+                            {{/if}}
+                        {{/each}}
+                        <li><a href="#tabs-new">添加项目</a></li>
+	                </ul>
+	                <div id="tabs-${project.ProjectCode}">
+                        <form id="setting">
+                            <h3>设置您的项目</h3>
+                            <table>
+                                <tbody>
+                                    <tr><td>项目名称</td><td><input value="${ProjectName}" name="ProjectName" /></td></tr>
+                                    <tr><td>项目代码</td><td><input value="${ProjectCode}" name="ProjectCode" /></td></tr>
+                                    <tr><td>接口密码</td><td><input value="${SyncPassword}" name="SyncPassword" /></td></tr>
+                                </tbody>
 
-                </table>
+                            </table>
                 
-                {{/each}}
-
-                <fieldset><legend>项目成员</legend>
-                    <table border="1">
-                        <tbody>
-                            {{each users}}
-                            <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
-                            {{/each}}
-                        </tbody>
-
-                    </table>
-                </fieldset>
-            </form>
+                            <fieldset><legend>项目成员</legend>
+                                <table border="1">
+                                    <tbody>
+                                        {{each users}}
+                                        <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </form>
+	                </div>
+                    
+	                <div id="tabs-new">
+                        <form href="/account/setting" action="/account/newproj" >
+                            <table>
+                                <tr><td>项目代码</td><td><input name="newProjectCode"></td></tr>
+                                <tr><td>项目名称</td><td><input name="newProjectName"></td></tr>
+                            </table>
+                            <input type="button" value="提交" id="newProject"/>
+                        </form>
+	                </div>
+                </div>
         </div>
         <div style=" clear:both"></div>
     </div>
@@ -58,6 +78,10 @@
 <script>
     $(function () {
         $("#btnSave").PageButton();
+        $('#tabs').tabs();
+
+        $('#newProject').PageButton();
     });
 
 </script>
+

@@ -93,7 +93,15 @@ exports.setting = function (req, res) {
     //console.log(req.global_data);
     var m = mongoose.model("Project");
     m.find({ Account: req.session.user._id }, function (err, docs) {
-        var projects = [];
+        var project;  
+        if (req.params.project_id) {
+            for (var p in docs)
+                if (docs[p]._id == req.params.project_id) {
+                    project = docs[p];
+                }
+        }
+        else project = docs[0];
+
         var Account = mongoose.model("Account");
         Account.find({ Guest: false }, function (err, users) {
             var accs = [];
@@ -104,10 +112,11 @@ exports.setting = function (req, res) {
                 }
                 accs.push({user: users[u], chk:chk});
             }
-            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs });
+            console.log(project);
+            console.log(docs);
+            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project });
         });
     });
-    
 };
 
 exports.savesetting = function (req, res) {
@@ -123,3 +132,13 @@ exports.savesetting = function (req, res) {
     
 };
 
+exports.newproj = function (req, res) {
+    var m = mongoose.model("Project");
+    var proj = new m({ ProjectCode: req.body.newProjectCode, ProjectName: req.body.newProjectName,  Account: req.global_data.user._id});
+    //console.log(proj);
+    proj.save( function (err, rows) {
+        if (err) console.log(err);
+        res.json({ IsValid: true, Errors: [] });
+    });
+
+};
