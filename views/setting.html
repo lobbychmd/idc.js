@@ -27,40 +27,37 @@
                 <div id="tabs">
 	                <ul>
                         {{each projects}}
-                            {{if _id == project._id}}
-		                        <li><a href="#tabs-${_id}">${ProjectName}</a></li>
-                            {{else}}
-                                <li><a href="/account/setting/${_id}">${ProjectName}</a></li>
-                            {{/if}}
+                            <li><a href="#tabs-${_id}" url="/account/setting/${_id}">${ProjectName}</a></li>
                         {{/each}}
-                        <li><a href="#tabs-new">添加项目</a></li>
+                        <li class="new"><a href="#tabs-new">添加项目</a></li>
 	                </ul>
-	                <div id="tabs-${project.ProjectCode}">
-                        <form id="setting">
-                            <h3>设置您的项目</h3>
-                            <table>
-                                <tbody>
-                                    <tr><td>项目名称</td><td><input value="${ProjectName}" name="ProjectName" /></td></tr>
-                                    <tr><td>项目代码</td><td><input value="${ProjectCode}" name="ProjectCode" /></td></tr>
-                                    <tr><td>接口密码</td><td><input value="${SyncPassword}" name="SyncPassword" /></td></tr>
-                                </tbody>
-
-                            </table>
-                
-                            <fieldset><legend>项目成员</legend>
-                                <table border="1">
+	                    <div id="tabs-${project._id}">
+                            <form id="setting">
+                                <input type="hidden" name="_id" value="${project._id}" />
+                                <h3>设置您的项目</h3>
+                                <table>
                                     <tbody>
-                                        {{each users}}
-                                        <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
-                                        {{/each}}
+                                        <tr><td>项目名称</td><td><input value="${project.ProjectName}" name="ProjectName" /></td></tr>
+                                        <tr><td>项目代码</td><td><input value="${project.ProjectCode}" name="ProjectCode" /></td></tr>
+                                        <tr><td>接口密码</td><td><input value="${project.SyncPassword}" name="SyncPassword" /></td></tr>
                                     </tbody>
+
                                 </table>
-                            </fieldset>
-                        </form>
-	                </div>
+                
+                                <fieldset><legend>项目成员</legend>
+                                    <table border="1">
+                                        <tbody>
+                                            {{each users}}
+                                            <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </fieldset>
+                            </form>
+	                    </div>
                     
 	                <div id="tabs-new">
-                        <form href="/account/setting" action="/account/newproj" >
+                        <form action="/account/newproj" >
                             <table>
                                 <tr><td>项目代码</td><td><input name="newProjectCode"></td></tr>
                                 <tr><td>项目名称</td><td><input name="newProjectName"></td></tr>
@@ -78,7 +75,9 @@
 <script>
     $(function () {
         $("#btnSave").PageButton();
-        $('#tabs').tabs();
+        $('#tabs').tabs({selected: ${project_idx}}).find('li.ui-state-default:not(.new) a').unbind('click').each(function () {
+            $(this).attr('href', $(this).attr('url'));
+        });
 
         $('#newProject').PageButton();
     });

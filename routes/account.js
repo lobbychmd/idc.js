@@ -93,12 +93,14 @@ exports.setting = function (req, res) {
     //console.log(req.global_data);
     var m = mongoose.model("Project");
     m.find({ Account: req.session.user._id }, function (err, docs) {
-        var project;  
+        var project;
+        var project_idx = 0;
         if (req.params.project_id) {
             for (var p in docs)
                 if (docs[p]._id == req.params.project_id) {
                     project = docs[p];
-                }
+                    break;
+                } else project_idx++;
         }
         else project = docs[0];
 
@@ -107,14 +109,13 @@ exports.setting = function (req, res) {
             var accs = [];
             for (var u in users) {
                 var chk = false;
-                for (i = 0 ; i < docs[0].Users.length; i++) {
-                    if (docs[0].Users[i].toString() == users[u]._id.toString()) chk = true;
+                for (i = 0 ; i < project.Users.length; i++) {
+                    if (project.Users[i].toString() == users[u]._id.toString()) chk = true;
                 }
                 accs.push({user: users[u], chk:chk});
             }
-            console.log(project);
-            console.log(docs);
-            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project });
+            //console.log(project); //console.log(docs);
+            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
         });
     });
 };
@@ -124,8 +125,12 @@ exports.savesetting = function (req, res) {
     for (var i in req.body.Users)
         users.push(i);
     req.body.Users = users;
+    var id = req.body._id;
+    delete req.body._id;
+    //console.log(req.body);
     var m = mongoose.model("Project");
-    m.update({ Account: req.session.user._id }, req.body, function (err, rows) {
+    //m.update({ Account: req.session.user._id }, req.body, function (err, rows) {
+    m.update({ _id: id }, req.body, function (err, rows) {
         if(err) console.log(err);
         res.json({ IsValid: true , Errors:[]});
     });
