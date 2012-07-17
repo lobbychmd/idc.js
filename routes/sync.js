@@ -19,8 +19,8 @@ exports.Export = function (req, res) {
             if (metaKeys[i].nullable && (!getparamvalue(req, metaKeys[i].name))) {
                 var q1 = {}; q1[metaKeys[i].name] = '';
                 var q2 = {}; q2[metaKeys[i].name] = null;
-                query[metaKeys[i].name] = { "$or": [q1, q2] };
-                
+                //query[metaKeys[i].name] = { "$or": [q1, q2] };
+                query["$or"] = [q1, q2] ;
             }
             else 
 		query[metaKeys[i].name] = getparamvalue(req, metaKeys[i].name);
