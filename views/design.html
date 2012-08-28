@@ -2,7 +2,7 @@
 
 <form method="post" class="metaObject" id="metaObject-${id}">
     <input type="submit" value="保存" action="/save/${metaType}" href="#" />
-    <input type="button" value="脚本"  href="/script/${metaType}?_id=${_id}" class="script"/>
+    <input type="button"  value="脚本"  href="/script/${metaType}?_id=${_id}" class="script" id="script"/>
     <input type="button" {{if version_info.need_update }} value="存档" needUpdate="1" {{else}} value="存档(${version_info.last_version})" {{/if}}  class="addVersion" ="${hashcode}"/>
     <input type="button" value="删除" action="/remove/${metaType}" class="delMeta" href="#" confirm="确认要删除吗?"/>
     <hr />
@@ -19,7 +19,7 @@
             mo.objRemove ( );
         });
     
-    mo.find('input[type=button]').button().filter('[href]').click(function(){
+		mo.find('input#script').button().filter('[href]').click(function(){
         $.createDialog ({title:'生成脚本', url: $(this).attr('href')});
         
     });

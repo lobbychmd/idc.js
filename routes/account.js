@@ -58,9 +58,10 @@ exports.reg = function (req, res) {
             if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
             else if (doc)   res.json({ IsValid: false, Errors: [{ ErrorMessage:"用户已存在", MemberNames: ["UserNO"] }] });
             else {
-                var hasher = require('crypto').createHash('md5');
+                var hasher = require('crypto').createHash('sha1');
                 hasher.update(req.body.UserNO + req.body.Password);
                 req.body.Password = hasher.digest('hex');
+                req.body.Guest = false;
                 m.update(null, req.body, function (err, rows) {
                     if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
                     else res.json({ IsValid: true });
