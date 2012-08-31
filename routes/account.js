@@ -1,7 +1,4 @@
 ﻿
-/*
- * GET home page.
- */
 var mongoose = require('mongoose');
 
 exports.saveLastState = function (req, res) {
@@ -105,19 +102,22 @@ exports.setting = function (req, res) {
         }
         else project = docs[0];
 
-        var Account = mongoose.model("Account");
-        Account.find({ Guest: false }, function (err, users) {
-            var accs = [];
-            for (var u in users) {
-                var chk = false;
-                for (i = 0 ; i < project.Users.length; i++) {
-                    if (project.Users[i].toString() == users[u]._id.toString()) chk = true;
+        var accs = [];
+        if (project) {
+            var Account = mongoose.model("Account");
+            Account.find({ Guest: false }, function (err, users) {
+                for (var u in users) {
+                    var chk = false;
+                    for (i = 0 ; i < project.Users.length; i++) {
+                        if (project.Users[i].toString() == users[u]._id.toString()) chk = true;
+                    }
+                    accs.push({ user: users[u], chk: chk });
                 }
-                accs.push({user: users[u], chk:chk});
-            }
-            //console.log(project); //console.log(docs);
-            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
-        });
+                //console.log(project); //console.log(docs);
+                //res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
+            });
+        }
+        res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
     });
 };
 
@@ -147,4 +147,29 @@ exports.newproj = function (req, res) {
         res.json({ IsValid: true, Errors: [] });
     });
 
+};
+
+
+exports.changepwd = function (req, res) {
+    res.render("changepwd.html", { global_data: req.global_data });
+
+};
+
+
+exports.updatepwd = function (req, res) {
+    var Errors = [];
+    if (!req.body.password) Errors.push({ ErrorMessage: "密码不能为空", MemberNames:["password"] });
+    if (req.body.password != req.body.new_password) Errors.push({ ErrorMessage: "新密码两次输入不匹配", MemberNames: ["password", "new_password"] });
+
+    if (Errors.length == 0) res.json({ IsValid: false, Errors: Errors });
+    else {
+        var m = mongoose.model("Account");
+        
+        m.findOne({ _id: req.global_data.user._id }, function (err, doc) {
+            //  if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
+            console.log(doc.UserNO);
+            res.json({ IsValid: true, Errors: []});
+        });
+    }
+    
 };

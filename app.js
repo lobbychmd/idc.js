@@ -35,9 +35,7 @@ app.configure(function(){
   }));
   app.use(express.static(__dirname + '/public'));
   //app.use(require('filter').login);
-
   app.use(app.router); //这个貌似要放后面，否则action 取不到 session
-  
 });
 
 
@@ -57,9 +55,11 @@ app.post('/login', require('./routes/account').signin);
 app.get('/register', require('./routes/account').register);
 app.post('/register', require('./routes/account').reg);
 app.get('/account/setting', login, require('./routes/account').setting);
+app.get('/account/changepwd', login, require('./routes/account').changepwd);
 app.get('/account/setting/:project_id', login, require('./routes/account').setting);
 app.post('/account/savesetting', login, require('./routes/account').savesetting);
 app.post('/account/newproj', login, require('./routes/account').newproj);
+app.post('/account/updatepwd', login, require('./routes/account').updatepwd);
 
 app.post('/updateposition/:position', require('./routes/account').updateposition);
 
@@ -87,6 +87,8 @@ app.get('/blog/show/:_id', login, require('./routes/blog').blog);
 app.post('/blog/save/:_id', login, require('./routes/blog').save);
 
 app.get('/sync/export/:metaType', sync_auth, require('./routes/sync').Export);
+app.post('/sync/import/:metaType', sync_auth, require('./routes/sync').Import);
+
 app.get('/script/:metaType', login, require('./routes/script').index);
 app.post('/scripts', login, require('./routes/script').scripts);
 

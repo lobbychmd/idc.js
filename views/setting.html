@@ -14,15 +14,7 @@
     </div>
     </div>
     <div id="main" style="border-bottom:1px solid #ccc;clear:both">
-        <div id="leftBanner" style="float:left;border-right:1px solid #ccc;width:300px;min-height:600px;">
-            <div id="nav1" style="height: 423px;">
-            <div style="padding-left:30px;margin-top:0px;color:#DD4B39"><h3>设置</h3></div>
-            <ul class="nav">
-                <li class="sel"><a href="/Account/Setting" class="nav"> 账户设置 </a> </li>
-                <li class=""><a href="/Account/SetFriend" class="nav"> 好友设置 </a> </li>
-            </ul>
-        </div>
-        </div>
+        {{partial "setting_menu"}}
         <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
                 <div id="tabs">
 	                <ul>
@@ -31,6 +23,7 @@
                         {{/each}}
                         <li class="new"><a href="#tabs-new">添加项目</a></li>
 	                </ul>
+                        {{if project}}
 	                    <div id="tabs-${project._id}">
                             <form id="setting">
                                 <input type="hidden" name="_id" value="${project._id}" />
@@ -55,7 +48,7 @@
                                 </fieldset>
                             </form>
 	                    </div>
-                    
+                        {{/if}}
 	                <div id="tabs-new">
                         <form action="/account/newproj" >
                             <table>

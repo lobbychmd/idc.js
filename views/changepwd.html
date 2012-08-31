@@ -1,0 +1,41 @@
+{{partial "_header"}}
+<div style="margin:8px;">
+    <div id="header" style="height:40px;border-bottom:1px solid #ccc;padding:0px;">
+        <div id="vr-nav">
+        <div class="logo">
+            <span onmousedown="_SR_backToCalendar();return false;" id="mainlogo" title="Sparus">账户设置</span>
+        </div>
+        <div class="cmd">
+            <ul class="cmd">
+                <li><a id="btnSave" class="cmd" href="/account/changepwd" action="/account/updatepwd" form="changepwd" role="button"><span class="ui-button-text"> 更改 </span></a> </li>
+            </ul>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    </div>
+    <div id="main" style="border-bottom:1px solid #ccc;clear:both">
+        {{partial "setting_menu"}}
+        <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
+                <form method="post" id="changepwd">
+                    <fieldset><legend>更改密码</legend>
+                        <table>
+                            <tr><td>原密码</td><td><input name="old_password" /></td></tr>
+                            <tr><td>新密码</td><td><input name="password" /></td></tr>
+                            <tr><td>确认新密码</td><td><input name="new_password" /></td></tr>
+                        </table>
+
+                    </fieldset>
+                </form>
+        </div>
+        <div style=" clear:both"></div>
+    </div>
+</div>
+<span id="statestr" style="display:none"></span>
+
+<script>
+    $(function () {
+        $("#btnSave").PageButton();
+    });
+
+</script>
+
