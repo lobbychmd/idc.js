@@ -7,7 +7,7 @@
         </div>
         <div class="cmd">
             <ul class="cmd">
-                <li><a id="btnSave" class="cmd" href="/account/changepwd" action="/account/updatepwd" form="changepwd" role="button"><span class="ui-button-text"> 更改 </span></a> </li>
+                <li><a id="btnSave" class="cmd" href="/login" action="/account/updatepwd" form="changepwd" role="button"><span class="ui-button-text"> 更改 </span></a> </li>
             </ul>
         </div>
         <div style="clear:both;"></div>
@@ -19,9 +19,9 @@
                 <form method="post" id="changepwd">
                     <fieldset><legend>更改密码</legend>
                         <table>
-                            <tr><td>原密码</td><td><input name="old_password" /></td></tr>
-                            <tr><td>新密码</td><td><input name="password" /></td></tr>
-                            <tr><td>确认新密码</td><td><input name="new_password" /></td></tr>
+                            <tr><td>原密码</td><td><input name="old_password" type="password" /></td></tr>
+                            <tr><td>新密码</td><td><input name="password" type="password" /></td></tr>
+                            <tr><td>确认新密码</td><td><input name="new_password" type="password" /></td></tr>
                         </table>
 
                     </fieldset>

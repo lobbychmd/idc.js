@@ -161,14 +161,27 @@ exports.updatepwd = function (req, res) {
     if (!req.body.password) Errors.push({ ErrorMessage: "密码不能为空", MemberNames:["password"] });
     if (req.body.password != req.body.new_password) Errors.push({ ErrorMessage: "新密码两次输入不匹配", MemberNames: ["password", "new_password"] });
 
-    if (Errors.length == 0) res.json({ IsValid: false, Errors: Errors });
+    if (Errors.length != 0) res.json({ IsValid: false, Errors: Errors });
     else {
         var m = mongoose.model("Account");
         
         m.findOne({ _id: req.global_data.user._id }, function (err, doc) {
             //  if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
-            console.log(doc.UserNO);
-            res.json({ IsValid: true, Errors: []});
+            console.log("修改 " + doc.UserNO + " 密码");
+            var hasher = require('crypto').createHash('sha1');
+            hasher.update(doc.UserNO + req.body.old_password);
+            if (hasher.digest('hex') != doc.Password) {
+                Errors.push({ ErrorMessage: "旧密码错误", MemberNames: ["old_password"] });
+                res.json({ IsValid: false, Errors: Errors });
+            }
+            else {
+                hasher = require('crypto').createHash('sha1');
+                hasher.update(doc.UserNO + req.body.password);
+                m.update({ _id: doc._id }, { Password: hasher.digest('hex') }, function (err, numAffected) {
+                    if (err) r.Errors.push({ ErrorMessage: JSON.stringify(err) });
+                    res.json({ IsValid: Errors.length == 0, Errors: Errors });
+                });
+            }
         });
     }
     
