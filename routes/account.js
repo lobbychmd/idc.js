@@ -103,21 +103,24 @@ exports.setting = function (req, res) {
         else project = docs[0];
 
         var accs = [];
-        if (project) {
-            var Account = mongoose.model("Account");
-            Account.find({ Guest: false }, function (err, users) {
-                for (var u in users) {
-                    var chk = false;
-                    for (i = 0 ; i < project.Users.length; i++) {
-                        if (project.Users[i].toString() == users[u]._id.toString()) chk = true;
-                    }
-                    accs.push({ user: users[u], chk: chk });
+        var Account = mongoose.model("Account");
+        Account.find({ Guest: false }, function (err, users) {
+            for (var u in users) {
+                var chk = false;
+                for (i = 0 ; i < project.Users.length; i++) {
+                    if (project) 
+                        if (project.Users[i].toString() == users[u]._id.toString()) 
+                            chk = true;
                 }
-                //console.log(project); //console.log(docs);
-                //res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
-            });
-        }
-        res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
+                
+                accs.push({ user: users[u], chk: chk });
+            }
+            //console.log(accs);
+            //console.log(project); //console.log(docs);
+            res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
+        });
+        
+        //res.render("setting.html", { global_data: req.global_data, projects: docs, users: accs, project: project, project_idx: project_idx });
     });
 };
 
