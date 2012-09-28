@@ -14,7 +14,7 @@ var linq = require('linq');
 var login = require('filter').login;
 var sync_auth = require('filter').sync_auth;
 var db = require('mongo');
-db.connect();
+//db.connect();
 db.connect();
 
 app.configure(function(){
