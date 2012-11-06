@@ -135,10 +135,28 @@ exports.savesetting = function (req, res) {
     var m = mongoose.model("Project");
     //m.update({ Account: req.session.user._id }, req.body, function (err, rows) {
     m.update({ _id: id }, req.body, function (err, rows) {
-        if(err) console.log(err);
-        res.json({ IsValid: true , Errors:[]});
+        if (err) {
+            console.log(err);
+            res.json({ IsValid: false, Errors: err });
+        }
+        m = mongoose.model("Account");
+        m.findOne({ _id: req.global_data.user._id }, function (err2, doc) {
+            console.log(req.global_data.user._id);
+            console.log(req.body.UserName);
+            m.update({ _id: req.global_data.user._id }, { UserName: req.body.UserName }, function (err1, numAffected) {
+                if (err1) console.log(err1);
+                else {
+                    req.global_data.user.UserName = req.body.UserName;
+                    req.session.user = req.global_data.user;
+
+                }
+                res.json({ IsValid: !err, Errors: err1 });
+            });
+
+        });
+
     });
-    
+
 };
 
 exports.newproj = function (req, res) {
@@ -152,12 +170,10 @@ exports.newproj = function (req, res) {
 
 };
 
-
 exports.changepwd = function (req, res) {
     res.render("changepwd.html", { global_data: req.global_data });
 
 };
-
 
 exports.updatepwd = function (req, res) {
     var Errors = [];
@@ -170,7 +186,7 @@ exports.updatepwd = function (req, res) {
         
         m.findOne({ _id: req.global_data.user._id }, function (err, doc) {
             //  if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
-            console.log("修改 " + doc.UserNO + " 密码");
+           // console.log("修改 " + doc.UserNO + " 密码");
             var hasher = require('crypto').createHash('sha1');
             hasher.update(doc.UserNO + req.body.old_password);
             if (hasher.digest('hex') != doc.Password) {

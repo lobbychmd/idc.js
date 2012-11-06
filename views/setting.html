@@ -16,6 +16,10 @@
     <div id="main" style="border-bottom:1px solid #ccc;clear:both">
         {{partial "setting_menu"}}
         <div id="mainContent" style="margin-left:301px;min-height:600px;padding: 10px">
+          <form id="setting">
+            <fieldset ><legend>用户信息</legend>
+                <span>用户名（昵称）</span> <input name="UserName" value="${global_data.user.UserName}" />
+            </fieldset><br/>
                 <div id="tabs">
 	                <ul>
                         {{each projects}}
@@ -25,7 +29,7 @@
 	                </ul>
                         {{if project}}
 	                    <div id="tabs-${project._id}">
-                            <form id="setting">
+                            
                                 <input type="hidden" name="_id" value="${project._id}" />
                                 <h3>设置您的项目</h3>
                                 <table>
@@ -46,7 +50,7 @@
                                         </tbody>
                                     </table>
                                 </fieldset>
-                            </form>
+                            
 	                    </div>
                         {{/if}}
 	                <div id="tabs-new">
@@ -59,6 +63,7 @@
                         </form>
 	                </div>
                 </div>
+          </form>
         </div>
         <div style=" clear:both"></div>
     </div>

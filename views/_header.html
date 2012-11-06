@@ -32,7 +32,7 @@
         <ol>
             <li>
                 <span>
-                    {{if global_data.user}} ${global_data.user.UserNO} (<a href="/logout">退出</a>){{else}}(<a href="/login">登录</a>) {{/if}} 
+                    {{if global_data.user}} {{if global_data.user.UserName}} ${global_data.user.UserName} {{else}} ${global_data.user.UserNO} {{/if}}(<a href="/logout">退出</a>){{else}}(<a href="/login">登录</a>) {{/if}} 
                 </span>
             </li>
             <li>
