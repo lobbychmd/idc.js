@@ -34,11 +34,11 @@
     <style type="text/css">
         body{font-family: Verdana,helvetica,arial,sans-serif;font-size: 75%;}
         .ui-tabs .ui-tabs-nav{ height:33px;}
-        #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer;   }
+        #tabs li .ui-icon-close { float: left; margin: 0.4em 0.6em 0 0; cursor: pointer;   }
         #tabs .ui-widget-content{overflow:auto;}
         
         #mainlogo {-moz-transition: all 0.218s ease 0s;color: #DD4B39;cursor: pointer;font-size: 22px;vertical-align: middle; display:inline-block}
-        #vr-nav {border:0px solid red; border-bottom:1px solid #EBEBEB; padding:0px;}
+        #vr-nav {border:0px solid red; border-bottom:0px solid #EBEBEB; padding:0px;}
         #vr-nav .logo{float:left;width:200px;}
         
     </style>
@@ -55,7 +55,7 @@
     <script>
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
-            $.autoHeight({ "#main": 100, "#leftBanner": 115, "#mainContent": 125, '#browser': 160, '#tabs': 145, "#tabs .ui-widget-content":215 }, true);
+            
             $("#search-input").autocomplete({ source: "/suggest", minLength: 2 })
 			.data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li></li>").data("item.autocomplete", item).append("<a class='filetree'><span class='leaf " + item.type + "'>" + item.value + "</span></a>").appendTo(ul); };
