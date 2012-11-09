@@ -14,6 +14,10 @@ metaObjectConfig = {
             LayoutUI: { caption: "界面配置", editor: 'textarea', scriptType: 'application/json' },
             StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
         },
+        MetaConnection: {
+            Alias: { caption: "连接别名" },
+            Summary: { caption: "连接说明", editor: 'textarea'},
+        },
         MetaThemeStyle: {
             StyleSection: { caption: '控件', lineShow: true },
             StyleContent: { caption: '样式', editor: "textarea", scriptType: 'application/json' },
@@ -104,7 +108,7 @@ metaObjectConfig = {
         MetaQuery: {
             QueryName: {caption:'查询名称'},
             QueryType: {caption:'查询类型', editor:'select', selection: [{key: 0, value: "通用查询"},{key:1, value: "数据对象"}]},
-            ConnAlias: {caption:'数据连接'},
+            ConnAlias: {caption:'数据连接'}, 
             Scripts: {caption: '查询脚本', type: 'QueryScript'},
             Params: {caption: '查询参数', type: 'QueryParam'}
         },
