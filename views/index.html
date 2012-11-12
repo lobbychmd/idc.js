@@ -7,9 +7,11 @@
     #mainContent .ui-tabs{border-radius:0px; border: 0px;}
     #mainContent .ui-tabs { padding: 0px;}
     #mainContent .ui-tabs ul { border: 0px; padding: 0 0 0 6px;    }
-    #mainContent .ui-tabs .ui-widget-header {background: url("/images/nav_bj.gif?v=20120918") repeat-x scroll 0 0 transparent;border-top-left-radius:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:0px;    }
+    #mainContent .ui-tabs .ui-widget-header {background: url("/images/nav_bj.gif?v=20120918") repeat scroll 0 0 transparent;border-top-left-radius:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:0px;  }
+    #mainContent .ui-tabs .ui-tabs-nav{height:auto;}
+
     #mainContent .ui-tabs li.ui-state-default {
-        background:url("/") repeat-x scroll 50% 50%   ; border: 0px; height: 24px;    }
+        background:url("/") repeat-x scroll 50% 50%   ; border: 0px;    height: 30px;  }
         #mainContent .ui-tabs li.ui-state-active{ background: #ddd; border-radius: 0px; height: 30px; }
     .ui-tabs .ui-tabs-nav li a { padding-right: 0px;}
     #shad_h {position: absolute; background: url("/images/shad_h.png?v=20120917") repeat-x scroll 0 0 transparent;font-size: 0; height: 6px;left: 0;top: 0;width: 100%;}
@@ -49,7 +51,7 @@
     var data = treeData( {{html tree_data}} , false);
     $("#jt_tree_li").tmpl(data).appendTo('#browser');
     $.autoHeight({ "#main": 96, "#leftBanner": 96, "#mainContent": 96, '#browser': 149, '#tabs': 96, "#tabs .ui-widget-content":165 }, true);
-    $("#tabs").smartTabs({a_selector: "#browser a", lastState: {{html lastState}} });
+    $("#tabs").smartTabs({a_selector: "#browser a", lastState: {{html lastState}} }).children('ul').css('height', '');
 
     $("#browser").treeviewEx();//.treeviewA().parent().show();
 
