@@ -55,12 +55,18 @@
     <script>
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
-            
-            $("#search-input").autocomplete({ source: "/suggest", minLength: 2 })
-			.data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li></li>").data("item.autocomplete", item).append("<a class='filetree'><span class='leaf " + item.type + "'>" + item.value + "</span></a>").appendTo(ul); };
 
-			
+            $("#search-input").autocomplete({ source: "/suggest", minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () { $('#btnSearch').click(); }, 100);
+                    //return false;
+                }
+            })
+            .data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append("<a class='filetree'><span class='leaf " + item.type + "'>" + item.value + "</span></a>").appendTo(ul);
+            };
+
+
         });
     </script>
 </head>

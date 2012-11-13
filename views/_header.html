@@ -79,13 +79,18 @@
                 $("#browser").treeviewEx({
                     add: branches
                 });
-                ul.indicator({ remove: true }).focus();
+                ul.indicator({ remove: true });
+                if (branches.size() == 1) branches.find('a').click();
+                setTimeout(function () {
+                    
+                    $('#browser').scrollTop();
+                }, 1000);
             });
         }
     });
     $("#combobox").change(function () {
         $.post("/updateposition/" + $(this).val(), function (data) {
-            if (!data.IsValid) 
+            if (!data.IsValid)
                 alert(data.Errors[0].Message);
             window.location = window.location.toString();
         });
