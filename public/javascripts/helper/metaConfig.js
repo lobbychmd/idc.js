@@ -4,23 +4,31 @@ metaObjectConfig = {
             _id: {caption: "id", readonly: true},
             Version: {caption: "版本", readonly: true},
             ProjectName: {caption: "所属项目", readonly: true},
-            HashCode: {caption: "校验码", readonly: true},
+            HashCode: {caption: "校验码", readonly: true}
         },
         Project:{
             DBConnectionString: {caption: '数据库连接'}
         },
         MetaTheme: {
-            Theme: { caption: "主体名称" },
+            Theme: { caption: "主题名称" },
             LayoutUI: { caption: "界面配置", editor: 'textarea', scriptType: 'application/json' },
             StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
         },
+        MetaSrv: {
+            SrvCode : { caption: "接口代码" },
+            Name: { caption: "服务名称" },
+            SrvType: { caption: '服务类型', editor: "select", selection: [{ key: "Query", value: "数据服务" }, { key: "Biz", value: "业务逻辑服务" }] , lineShow: true},
+            BizID: {caption: "业务逻辑ID"},
+            QueryName: {caption:'查询名称'}
+            
+        },
         MetaConnection: {
             Alias: { caption: "连接别名" },
-            Summary: { caption: "连接说明", editor: 'textarea'},
+            Summary: { caption: "连接说明", editor: 'textarea'}
         },
         MetaThemeStyle: {
             StyleSection: { caption: '控件', lineShow: true },
-            StyleContent: { caption: '样式', editor: "textarea", scriptType: 'application/json' },
+            StyleContent: { caption: '样式', editor: "textarea", scriptType: 'application/json' }
         },
         MetaModule: {
             Caption: {caption: "模块名称"},
@@ -57,7 +65,7 @@ metaObjectConfig = {
 
         },
         ModuleFunc: {
-            FuncID: { caption: '权限ID', lineShow: true },
+            FuncID: { caption: '权限ID', lineShow: true }
             //FuncName: {caption:'权限名称', lineShow: true, reference: "FuncName"}
         },
         PageFlow: {
@@ -66,7 +74,7 @@ metaObjectConfig = {
         },
         MetaBiz: {
             BizID: {caption: "业务逻辑ID"},
-            ConnAlias: {caption: "数据连接"},
+            ConnAlias: {caption: "数据连接"}
         },
         MetaBiz: {
             BizID: {caption: "业务逻辑ID"},
