@@ -40,6 +40,11 @@ exports.Export = function (req, res) {
             res.send(JSON.stringify(docs));
         });
     }
+    else if (req.params.metaType == "Srv.All") {
+        mongoose.model("MetaSrv").find({ ProjectName: getparamvalue(req, "ProjectName")}, function (err, docs) {
+            res.send(JSON.stringify(docs));
+        });
+    }
     else {
        //console.log(query);
         mongoose.model(req.params.metaType).findOne(query, function (err, doc) {

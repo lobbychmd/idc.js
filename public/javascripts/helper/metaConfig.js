@@ -22,6 +22,18 @@ metaObjectConfig = {
             QueryName: {caption:'查询名称'}
             
         },
+        MetaSrvQueue: {
+            Name: {caption: "队列名称"},
+            Interval: {caption: "时间间隔（分钟）"},
+            SrvType: { caption: '输出类型', editor: "select", selection: [{ key: "File", value: "文件" }, { key: "WS", value: "Web Services" }] , lineShow: true},
+            SrvDataType: { caption: '输出格式', editor: "select", selection: [{ key: "XML", value: "XML" }, { key: "JSON", value: "JSON" }] , lineShow: true},
+            SrvAddress: { caption: '服务地址(目录或URL)'},
+            Items: {caption:"队列明细", type: "MetaSrvQueueItem"}
+        },
+        MetaSrvQueueItem: {
+            QueueIdx: {caption: "调用顺序", lineShow: true, identity: true, maxLength: 3},
+            SrvCode : { caption: "数据接口代码" , reference1:{type: "MetaSrv", join: "SrvCode"}, lineShow: true}
+        },
         MetaConnection: {
             Alias: { caption: "连接别名" },
             Summary: { caption: "连接说明", editor: 'textarea'}
