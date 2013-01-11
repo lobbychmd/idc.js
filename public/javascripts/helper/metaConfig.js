@@ -55,7 +55,7 @@ metaObjectConfig = {
         ModulePage: {
             PageID: { caption: '页面ID', lineShow: true },
             PageType: { caption: '页面类型', editor: "select", selection: [{ key: "0", value: "查询" }, { key: "1", value: "录入" }] , lineShow: true},
-            //Params:{caption:'页面参数', lineShow: true},
+            PageParams: {caption:'页面参数',  scriptType: 'application/json', editor:"textarea"},
             UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' },
             Queries: { caption: '所用查询', maxLength: 100, editor:'textarea' },
             PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" },
