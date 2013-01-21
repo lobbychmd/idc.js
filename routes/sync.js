@@ -4,7 +4,7 @@
  */
 
 var getparamvalue = function (req, key) {
-    return req.params[key] ? req.params[key] : ( req.query[key]? req.query[key] : req.body[key]);
+    return req.params[key] ? req.params[key].toString() : ( req.query[key]? req.query[key] : req.body[key]);
 }
 
 var getQuery = function (req) {
@@ -24,8 +24,6 @@ var getQuery = function (req) {
             }
             else
                 query[metaKeys[i].name] = getparamvalue(req, metaKeys[i].name);
-
-
         }
     }
     return query;
@@ -35,18 +33,16 @@ var getQuery = function (req) {
 exports.Export = function (req, res) {
     var mongoose = require('mongoose');
     var query = getQuery(req);
-    if (req.params.metaType == "MetaModule.All") {
-        mongoose.model("MetaModule").find({ ProjectName: getparamvalue(req, "ProjectName")}, function (err, docs) {
-            res.send(JSON.stringify(docs));
-        });
-    }
-    else if (req.params.metaType == "Srv.All") {
-        mongoose.model("MetaSrv").find({ ProjectName: getparamvalue(req, "ProjectName")}, function (err, docs) {
+    console.log(query);
+    if (req.params.metaType.match(".All$")) {
+        //  console.log(req.params.metaType.substring(0, req.params.metaType.length - 4));
+        var q = { ProjectName: getparamvalue(req, "ProjectName").toString() };
+        mongoose.model(req.params.metaType.substring(0, req.params.metaType.length - 4)).find(q, function (err, docs) {
+            console.log(docs.length);
             res.send(JSON.stringify(docs));
         });
     }
     else {
-       //console.log(query);
         mongoose.model(req.params.metaType).findOne(query, function (err, doc) {
             res.send(JSON.stringify(doc));
         });

@@ -15,35 +15,43 @@ metaObjectConfig = {
         StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
     },
     MetaQuerySrv: {
-        SrvCode: { caption: "接口代码" },
+        SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
         QueryName: { caption: '查询名称' },
-        Summary: {caption: "服务描述"}
+        //SrvType: {caption: '服务类型', editor:'select', selection: [{ key: "Query", value: "查询" }, { key: "Biz", value: "业务逻辑"}], show:false},
+        Summary: {caption: "服务描述", editor:"textarea", scriptType: 'application/json' }
     },
-    MetaSrv: {   
+    MetaBizSrv: {   
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
         BizID: { caption: "业务逻辑ID" },
-        Summary: {caption: "服务描述", editor:"textarea"}
+        Summary: {caption: "服务描述", editor:"textarea", scriptType: 'application/json' }
     },
-    MetaDataPublish: {
+    MetaDataPublishSrv: {
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
-        QuerySrvCode: { caption: "查询服务ID" },
-        IdField: {caption: "时间戳字段"}
-
+        QueryName: { caption: "查询名称" },
+        IdField: {caption: "数据流水字段"}
+    },
+    MetaExternalSrv:{
+        SrvCode: { caption: "服务ID" },
+        Name: { caption: "服务名称" },
+        SrvType: { caption: "服务类型", editor:'select', selection: [{ key: "NC", value: "用友财务接口" }, { key: "XS", value: "新生网络"}] },
+        URI: {caption: "服务地址"},
+        SrvParams: {caption: "其它参数", editor:"textarea", scriptType: 'application/json' }
     },
     MetaSrvQueue: {
-        Name: { caption: "队列名称" },
-        Interval: { caption: "时间间隔（分钟）" },
-        SrvType: { caption: '输出类型', editor: "select", selection: [{ key: "File", value: "文件" }, { key: "WS", value: "Web Services"}], lineShow: true },
-        SrvDataType: { caption: '输出格式', editor: "select", selection: [{ key: "XML", value: "XML" }, { key: "JSON", value: "JSON"}], lineShow: true },
-        SrvAddress: { caption: '服务地址(目录或URL)' },
+        Name: { caption: "订阅服务名称" },
+        SrvCode :{caption: "订阅服务代码"},
+        Interval: { caption: "时间间隔" },
+        IntervalUnit: { caption: "时间间隔单位", editor:'select', selection: [{ key: "mi", value: "分钟" }, { key: "hh", value: "小时"}, { key: "dd", value: "天"}, { key: "mm", value: "月"}, { key: "yy", value: "年"}]  },
+        
         Items: { caption: "队列明细", type: "MetaSrvQueueItem" }
     },
     MetaSrvQueueItem: {
         QueueIdx: { caption: "调用顺序", lineShow: true, identity: true, maxLength: 3 },
-        SrvCode: { caption: "数据接口代码", reference1: { type: "MetaSrv", join: "SrvCode" }, lineShow: true }
+        SourceSrv: { caption: "数据发布服务", reference1: { type: "MetaPublishSrv", join: "SrvCode" }, lineShow: true },
+        DestinationSrv: { caption: '接收方服务', lineShow: true }
     },
     MetaConnection: {
         Alias: { caption: "连接别名" },

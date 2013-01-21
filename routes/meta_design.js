@@ -17,7 +17,6 @@ exports.index = function (req, res) {
             doc.HashCode = HashCode;
             
             require('meta_version').version_info(tree_config[req.params.metaType].table, doc._id, hashcode, function (err, version_info) {
-	 
                 res.render('design.html', {
                     layout: false, _id: req.query._id, metaType: req.params.metaType,
                     model: docstr, id: req.query._id?req.query._id:Math.random().toString().substring(2),
