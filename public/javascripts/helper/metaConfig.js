@@ -40,18 +40,20 @@ metaObjectConfig = {
         URI: {caption: "服务地址"},
         SrvParams: {caption: "其它参数", editor:"textarea", scriptType: 'application/json' }
     },
-    MetaSrvQueue: {
+    MetaDataSubscribeSrv: {
         Name: { caption: "订阅服务名称" },
         SrvCode :{caption: "订阅服务代码"},
         Interval: { caption: "时间间隔" },
         IntervalUnit: { caption: "时间间隔单位", editor:'select', selection: [{ key: "mi", value: "分钟" }, { key: "hh", value: "小时"}, { key: "dd", value: "天"}, { key: "mm", value: "月"}, { key: "yy", value: "年"}]  },
         
-        Items: { caption: "队列明细", type: "MetaSrvQueueItem" }
+        Items: { caption: "队列明细", type: "MetaDataSubscribeSrvItem" }
     },
-    MetaSrvQueueItem: {
+    MetaDataSubscribeSrvItem: {
         QueueIdx: { caption: "调用顺序", lineShow: true, identity: true, maxLength: 3 },
+        Enabled: { caption: "启用", lineShow: true, editor: 'checkbox'},
         SourceSrv: { caption: "数据发布服务", reference1: { type: "MetaPublishSrv", join: "SrvCode" }, lineShow: true },
-        DestinationSrv: { caption: '接收方服务', lineShow: true }
+        DestinationSrv: { caption: '接收方服务', lineShow: true },
+        DestSrvParams: { caption: '接收方服务参数', editor:"textarea", scriptType: 'application/json'  }
     },
     MetaConnection: {
         Alias: { caption: "连接别名" },
