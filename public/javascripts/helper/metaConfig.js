@@ -12,7 +12,9 @@ metaObjectConfig = {
     MetaTheme: {
         Theme: { caption: "主题名称" },
         LayoutUI: { caption: "界面配置", editor: 'textarea', scriptType: 'application/json' },
+        LayoutQueries: { caption: "所用查询", editor: 'textarea'},
         StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
+        
     },
     MetaQuerySrv: {
         SrvCode: { caption: "服务ID" },
