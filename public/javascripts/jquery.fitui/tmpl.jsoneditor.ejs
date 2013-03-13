@@ -1,0 +1,146 @@
+﻿<script id="metaObject" type="text/x-jquery-tmpl">
+    <div class="prop {{if array}}array{{else}}value{{/if}} {{if data.hide}}hide{{/if}}" layout="h" caption="${data.caption}" {{if data.lineshow}}lineshow{{/if}}  path="${data.path}">
+        <div class="label" align="left" id="label_${data.path}" ><span>${data.caption}</span>
+
+        {{if data.designer || (array && data.editor)}}
+            {{each data.designer}}
+                <a  designer="${$value}" href="#" ></a>
+            {{/each}}
+            <a  designer="editor" href="#" style="display:none"></a>
+            <a class="fullscr" href="#" title ="${data.path}"></a>
+
+        {{/if}}</div>
+        {{if array}}
+            {{tmpl(data) "#metaPropArray"}}
+        {{/if}}
+        {{if data.editor}}
+            {{tmpl(data) "#editor"}}
+        {{/if}}        
+    </div>
+    
+
+</script>
+
+<script id="metaPropArray" type="text/x-jquery-tmpl">
+    <fieldset align="auto"  id="array_${path}" class="zip array" caption="${caption}" path="${path}"
+        {{if typeof(editor) =="string"}} style = "display:none" {{/if}}>
+        <legend><span >${caption111}</span> <a href="#" class="zip" style="text-decoration:none"></a> <a class="fullscr" href="#" title ="${path}"></a></legend>
+        <span class="count" style="display:none"></span>
+        {{each jsonvalue}}
+            <div  class="row zip unzip {{if tmplrow }}tmpl{{/if}} inline" caption="${$index}(${summary})" path ="${path}.${$index}" >
+                <a href="#" class="delRow"></a>
+                <span class="rowIndex">${$index}</span> 
+                <span >)</span>
+                
+                <a href="#" class="zip" style="text-decoration:none"></a>
+                <a class="fullscr" href="#" title ="${path}.${$index}"></a>
+
+                {{if typeof $value == "string"}} {{tmpl($value) "#editor"}}
+                {{else}} {{tmpl($value) "#metaObject"}} {{/if}}
+            </div>
+        {{/each}}
+        
+    </fieldset>
+</script>
+
+<script id="editor" type="text/x-jquery-tmpl">  
+    {{if input }}
+        <input type="${editor}" {{if editor == "checkbox" }}{{if value}}checked="checked" {{/if}}value="true"{{else}}value ="${value}"{{/if}} 
+    {{else}}
+        <${editor} 
+    {{/if}}
+    class="editor"
+    {{if tmplrow }}field{{/if}}name='${name}' 
+    id='editor_${path}' 
+    {{if identity }} identity {{/if}}
+    {{if (readonly) }} readonly {{/if}}
+    {{if (reference) }} reference={{if (reference.type) }} ${reference.type}{{else}}${reference.path}  {{/if}} {{/if}}
+    {{if editor == "textarea" }} align = 'auto' rows=5 {{/if}}
+    {{if size }} style="width:${size}px" {{/if}}
+    group = ${name.replace(/\[\d+\]/,'')}
+    {{if input}}
+        />
+    {{else}}
+        >
+        {{if editor == "select" }}
+            {{if selection}} {{tmpl({selection: selection, selValue: value}) "#select-option"}}{{/if}}
+        {{else}}
+            ${value}
+        {{/if}}
+        </${editor}>
+    {{/if}}
+
+</script>
+
+<script id="select-option" type="text/x-jquery-tmpl">  
+    {{each selection}}
+    <option value="${key}" {{if key == selValue}}selected="selected"{{/if}}>${value}</option>
+    {{/each}}
+    <option value="" {{if undefined==selValue}}selected="selected"{{/if}}></option>
+</script> 
+
+
+<script id="tpModuleUrl" type="text/x-jquery-tmpl">  
+    <ul>
+        <li><input name ="${name}" type="radio" value="stdreceipt" {{if type=="stdreceipt"}}checked=checked{{/if}}>通用单据模块</li>
+        <li><input name ="${name}" type="radio" value="stdquery" {{if type=="stdquery"}}checked=checked{{/if}}>通用查询模块, 查询名<input class="queryName" value="${value}"></li>
+        <li><input name ="${name}" type="radio" value="custom"  {{if type=="custom"}}checked=checked{{/if}}>特殊模块<input class="url" value="${url}" ></li>
+    </ul>
+</script> 
+
+<script id="tpUIDesigner" type="text/x-jquery-tmpl">  
+    <fieldset>
+        
+    </fieldset>
+</script> 
+
+<script id="tpuiitemArray" type="text/x-jquery-tmpl">  
+        {{if children}}
+                {{tmpl(children) "#tpuiitem"}}
+        {{/if}}
+        {{tmpl({tmpl: true}) "#tpuiitem"}}
+        
+</script> 
+
+<script id="tpuiitem" type="text/x-jquery-tmpl">
+    <div class="uiitem {{if tmpl}}tmpl{{/if}}" id="${itemid}"
+        {{each attrs}}
+            ${key}="${value}" 
+        {{/each}}
+    >
+        <div>
+            <div class="uiitem-label">Select a ui (type "j" for a start):</div>
+            <img class="uiitem-icon" src="${icon}" class="ui-state-default" alt="" />
+            <input class="ui" value="${ui}" {{if tmpl}}{{else}}readonly{{/if}}/>
+            <a href="#" class="deluiitem"></a>
+            <input type="hidden" class="uiitem-id" value="${id}"/>
+            <p class="uiitem-description">${description}</p>
+        </div>
+        {{if tmpl}}
+        {{else}}
+            <fieldset
+                {{if children.length>0 }}
+                    > {{tmpl(children) "#tpuiitem"}}
+                {{else}} class="empty" >
+                {{/if}}
+                {{tmpl({tmpl: true}) "#tpuiitem"}}
+            </fieldset>
+            
+        {{/if}}
+    </div>
+</script>
+
+
+<script id="tpuipropedit" type="text/x-jquery-tmpl">
+    <div class="uipropedit" title="属性设置" itemid="${itemid}" uitype="${uitype}">
+        <div>
+            {{each props}}
+            <div class="proprow">
+                <span class='key'>${key}</span>
+                <span class='value'><input key = "${key}" value="${value}" /></span>
+            </div>
+            {{/each}}
+            <p class="propdesc"></p>
+        </div>
+    </div>
+</script>

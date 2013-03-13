@@ -9,7 +9,7 @@ exports.saveLastState = function (req, res) {
 
 
 exports.login = function (req, res) {
-    res.render("login.html", {layout: false, rel: req.query.rel? req.url.substring(req.url.indexOf('rel=') + 4): "/"});
+    res.render("account/login.html", {layout: false, rel: req.query.rel? req.url.substring(req.url.indexOf('rel=') + 4): "/"});
 };
 
 exports.signin = function (req, res) {

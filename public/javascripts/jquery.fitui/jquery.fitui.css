@@ -1,0 +1,135 @@
+﻿/* 全局 */
+body { font-family: verdana,arial,helvetica,sans-serif; font-size: 12px;}
+a {text-decoration: none; }
+
+/* 布局 */
+footer, header {height: 32px; background: url("images/header_bg.png") repeat-x scroll right 0 transparent}
+body>header {background: repeat scroll 0 0 #2D2D2D; font-size: 1.2em; }
+header>* { display: inline-block; padding: 6px 8px; margin: 0px; vertical-align: middle; color: #d3d3d3 }
+header a { color: #d3d3d3 }
+nav {float: left}
+nav>header>h3 { color: #DD4B39}
+
+[align=spliter] { cursor: col-resize;width: 4px; float: left; background: #ddd}
+[layout=v]>[align=auto] { overflow: auto;}
+
+/* 编辑框 */
+[name].error{border: 1px solid red}
+
+/* 标签页(基于 jquery ui) */
+.headerTabs.ui-tabs{border-radius:0px; border: 0px; padding: 0px;}
+.headerTabs.ui-tabs ul { border-width: 0px; padding: 0 0 0 6px;   }
+.headerTabs.ui-tabs>.ui-widget-header {background: url("images/header_bg.png") repeat scroll 0 0 transparent;border-top-left-radius:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:0px;  }
+.headerTabs.ui-tabs .ui-tabs-nav{height:32px;}
+.headerTabs li .ui-icon-close {cursor: pointer; float: left; margin: 0.4em 0.6em 0 0;}
+
+.headerTabs.ui-tabs li.ui-state-default {
+    background:url("/") repeat-x scroll 50% 50%   ; border: 0px;    height: 31px;  }
+.headerTabs.ui-tabs li.ui-state-active{ background: #F3F3F3; border-radius: 0px; height: 30px; border-width: 0 1px; border-color: #ddd; border-style: solid; }
+.headerTabs.ui-tabs .ui-tabs-panel {background: #F3F3F3}
+
+/*  缩略图 */
+.thumbContainer { position: relative}
+.thumbnail {position:  absolute; border: 1px solid #000; height: 100px; width: 100px; margin: 5px; background: #fff; z-index: 999}
+.thumb {position:  absolute; border: 1px solid red;cursor: move}
+
+/*  工具条 */
+.toolbar { padding: 0 0 0 32px}
+.toolbar .ui-button {height: 29px;}
+.toolbar .ui-button-text-only .ui-button-text {padding: 0.2em 1.5em}
+
+/*  ajaxTree 树  */
+/*  由于节点类型是由数据(配置)决定的，因此下面的样式样例要按具体类型扩展，在项目中设置  */
+.filetree li > span {padding-left: 18px;}
+.filetree li.expandable span.tables, .filetree span.leaf.tables {background: url("images/ajaxtree/tables.png") no-repeat scroll 0 0 transparent}
+
+/*  通用meta对象编辑器  */
+.jsoneditor {padding-left:  5px;}
+.jsoneditor fieldset.array{ width: auto; display: block; padding:10px 10px 0 0; border-style: solid; border-width: 1px 0 0 1px; border-color: #999}
+.jsoneditor textarea.editor{ width: auto; display: block;  }
+.jsoneditor legend {   font-size:1.3em; font-weight:bold; color:Blue;}
+.jsoneditor span.count {   color:#666; display:block;margin:10px;}
+.jsoneditor a.delRow {background: url(images/delete.png); display:inline-block; width: 16px;height: 16px; vertical-align: middle;}
+.jsoneditor div.zip.tmpl a.delRow {background: url(images/new.png) no-repeat; display:inline-block; width: 42px;height: 16px}
+.jsoneditor div.row>span {display: inline-block; height: 16px; vertical-align: middle;  margin: 0px;}
+.jsoneditor span.rowIndex {width: 24px;  text-align: right }
+.jsoneditor div.zip.tmpl span.rowIndex {display: none}
+.jsoneditor .prop>.label{min-width:147px;display:block; text-align:left; margin-right:1px; margin-left:10px; }
+.jsoneditor .prop>.label>span{margin: 0px;vertical-align:  middle; display: inline-block; height: 16px; padding: 0 0 3px 0;}
+.jsoneditor [identity],.jsoneditor [readonly] {background:#ccc;border:1px solid #666}
+
+.jsoneditor .prop{ margin: 2px 0;}
+.jsoneditor .prop.hide{ display: none;}
+.jsoneditor .prop.array { margin-top: 20px;}
+.jsoneditor .prop.array>.label{ font-weight: bold;}
+.jsoneditor .prop.value:hover{ background: rgb(252,255,150)}
+.jsoneditor .row.zip.unzip>.prop.value:hover{ background: #f3f3f3}
+.jsoneditor .zip.deleted{  color: red; text-decoration:line-through}
+.jsoneditor .zip.tmpl{  color: blue}
+.jsoneditor .CodeMirror{border: 1px solid #ccc;width: 100%}
+
+.jsoneditor a.zip{ background: url(images/zip.png); display: inline-block; height: 16px; width: 16px; vertical-align: middle;}
+.jsoneditor .unzip a.zip{ background: url(images/unzip.png); display: inline-block; height: 16px; width: 16px;}
+.jsoneditor .unzip .row, .jsoneditor .unzip .prop, .jsoneditor .unzip .array{ display:  none}
+.jsoneditor .unzip .row, .jsoneditor .unzip .prop[lineshow]{ display:  inline-block}
+.jsoneditor .unzip>.row, .jsoneditor .unzip>.prop>.label{ display:  inline}
+
+.jsoneditor div.row{ border-style: solid; border-color:gray ; margin: 2px; padding: 5px;border-width: 1px 1px 1px 0;}
+.jsoneditor div.row>div.prop{ }
+.jsoneditor div.row.unzip{border-width: 0 0 1px 0;}
+.jsoneditor div.row.unzip:hover{ background: rgb(252,255,150)}
+
+.jsoneditor a.fullscr {background: url(images/fullscr.png); display: inline-block; height: 16px; width: 16px;vertical-align: middle;}
+.jsoneditor [zw]>.label>span, .jsoneditor [zw]>.label>a.fullscr, .jsoneditor [zw]>legend>a.fullscr {display:none;}
+.jsoneditor [zw]>a.fullscr {display: none}
+.jsoneditor .row[zw]>a.zip {display: none}
+.jsoneditor [zw]>.prop>.label{display:inline-block;}
+.jsoneditor .prop[zw]>.editor[align]{margin-left: 0px; display:block; }
+
+/*  通用meta对象属性设计器  */
+.jsoneditor a[designer] {display: inline-block; height: 16px; width: 16px; vertical-align: middle;}
+.jsoneditor a[designer=editor] {background: url(images/metadesigner/editor.png)}
+.jsoneditor a[designer=codemirror] {background: url(images/metadesigner/codemirror.png)}
+.jsoneditor a[designer=json] {background: url(images/metadesigner/json.png)}
+.jsoneditor a[designer=moduleurl] {background: url(images/metadesigner/moduleurl.png)}
+.jsoneditor a[designer=ui] {background: url(images/metadesigner/ui.png)}
+
+/*  自定义meta对象属性设计器  */
+.moduleurl {display: inline-block}
+.uidesigner {width: auto; min-height: 300px;}
+
+/*  通用meta对象导航  */
+.metaPath {border: 1px solid #DEDEDE; background: #fff} 
+.metaPath ul {display: block; height: 21px; margin: 0; padding: 0;}
+.metaPath ul li {background: url("images/Chevron.gif") no-repeat scroll 100% 0 transparent;
+    display: block; float: left;font-size: 0.9167em;height: 21px;line-height: 21px;margin: 0 6px 0 0;overflow: hidden;
+    padding: 0 10px 0 0;position: relative;
+}
+.metaPath ul li.last{background: #fff} 
+.metaPath ul li a {display: block;float: left;height: 21px;line-height: 21px;overflow: hidden;position: relative;color: #0E82C7;}
+.metaPath ul li.home a {height: 16px; width: 16px;background: url("images/home.gif") no-repeat scroll 100% 0 transparent;}
+.metaPath ul li.last a{cursor: default; color: #000}
+.metaPath {width: auto; background: #fff; height: 22px; padding: 4px 4px 2px 4px;}
+
+/*  UI 设计器  */
+div.uipropedit {width: 200px; min-height: 300px; background: #fff}
+div.uipropedit div.proprow {background: rgb(240,240, 240);padding: 1px}
+div.uipropedit div.proprow>span {display: block;height: 22px;}
+div.uipropedit span.key{width: 87px; float: left; background: rgb(240,240, 240); text-align: right; padding: 1px 3px; }
+div.uipropedit span.value{width: auto; margin-left: 100px; background: #fff; }
+div.uipropedit .propdesc {display: block; width: auto; min-height: 50px; border-top: 1px solid gray; padding: 3px;}
+    
+fieldset.uidesigner {width: auto;min-height: 300px; padding: 10px;position:  relative; }
+fieldset.uidesigner .uiitem {width: auto;border: 1px solid gray; padding: 10px 10px 6px 10px;margin: 3px 0;}
+fieldset.uidesigner .uiitem.focus { background: #E6E6E6 }
+fieldset.uidesigner .uiitem > div { height: 30px; }
+fieldset.uidesigner .uiitem > fieldset.empty{ margin: 10px 0; display: none;}
+fieldset.uidesigner .uiitem.focus > fieldset>.uiitem.tmpl{ display: block;}
+fieldset.uidesigner .uiitem.focus > fieldset.empty{ display: block;}
+fieldset.uidesigner .uiitem.tmpl, fieldset.uidesigner .uiitem.tmpl a.deluiitem {display: none;}
+fieldset.uidesigner .uiitem-label {display: none;font-weight: bold;margin-bottom: 1em}
+fieldset.uidesigner .uiitem-icon {float: left;height: 32px;width: 32px; margin: -5px 5px -5px 0;vertical-align: middle;}
+fieldset.uidesigner .uiitem.tmpl .uiitem-icon {border: 1px solid gray ;}
+fieldset.uidesigner input.ui { display: block; vertical-align: middle; float: left;}
+fieldset.uidesigner .uiitem-description {display: block; margin-left: 300px; margin: 0 0 0 270px;padding: 2px; width: auto; height: 32px;}
+fieldset.uidesigner a.deluiitem{float:left;background: url(images/delete.png); display:inline-block; width: 16px;height: 16px; vertical-align: middle;}

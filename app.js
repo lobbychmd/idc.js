@@ -52,6 +52,7 @@ app.configure('production', function(){
 app.get('/login', require('./routes/account').login);
 app.get('/logout', require('./routes/account').logout);
 app.post('/login', require('./routes/account').signin);
+app.post('/account/signin', require('./routes/account').signin);
 app.get('/register', require('./routes/account').register);
 app.post('/register', require('./routes/account').reg);
 app.get('/account/setting', login, require('./routes/account').setting);
