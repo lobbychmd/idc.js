@@ -54,6 +54,7 @@ metaObjectConfig = {
         QueueIdx: { caption: "调用顺序", lineShow: true, identity: true, maxLength: 3 },
         QueueName: { caption: "步骤名", lineShow: true },
         QueueSummary: { caption: "步骤说明"},
+        Direction: { caption: "方向", editor:'select', selection: [{ key: "in", value: "传入" }, { key: "out", value: "传出"}]  },
         BatchSize: { caption: "数据分段数量", maxLength: 3 },
         Enabled: { caption: "启用", lineShow: true, editor: 'checkbox'},
         SourceSrv: { caption: "数据发布服务", reference1: { type: "MetaPublishSrv", join: "SrvCode" }, lineShow: true },
