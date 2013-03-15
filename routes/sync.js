@@ -1,4 +1,4 @@
-﻿
+﻿var _ = require("underscore");
 /*
  * GET home page.
  */
@@ -32,17 +32,26 @@ var getQuery = function (req) {
 
 exports.Export = function (req, res) {
     var mongoose = require('mongoose');
-    var query = getQuery(req);
-    console.log(query);
-    if (req.params.metaType.match(".All$")) {
-        //  console.log(req.params.metaType.substring(0, req.params.metaType.length - 4));
+    console.log(req.url);
+    if (req.params.metaType.match(".[Aa]ll$")) {
         var q = { ProjectName: getparamvalue(req, "ProjectName").toString() };
         mongoose.model(req.params.metaType.substring(0, req.params.metaType.length - 4)).find(q, function (err, docs) {
             console.log(docs.length);
             res.send(JSON.stringify(docs));
         });
     }
+    else if (req.params.metaType.match(".category$")) {
+        var q = { ProjectName: getparamvalue(req, "ProjectName").toString() };
+        mongoose.model(req.params.metaType.substring(0, req.params.metaType.length - 9)).find(q,
+            _.map(require('tree_config').metaKeys[req.params.metaType.substring(0, req.params.metaType.length - 9)],
+                function (i) { return typeof i == "string" ? i : i.FieldName; }).join(" "),
+            function (err, docs) {
+                res.send(JSON.stringify(docs));
+            });
+    }
     else {
+        var query = getQuery(req);
+        console.log(query);
         mongoose.model(req.params.metaType).findOne(query, function (err, doc) {
             res.send(JSON.stringify(doc));
         });
