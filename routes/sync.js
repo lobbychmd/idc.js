@@ -94,3 +94,7 @@ exports.Import = function (req, res) {
     });
     
 }
+
+exports.metaDDL = function (req, res) {
+    res.send(require("schema").metaDDL());
+}

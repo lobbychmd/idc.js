@@ -64,7 +64,6 @@ app.post('/account/updatepwd', login, require('./routes/account').updatepwd);
 
 app.post('/updateposition/:position', require('./routes/account').updateposition);
 
-
 app.get('/', login, routes.index);
 
 app.get('/tree_config.js', function (req,res) {
@@ -89,6 +88,7 @@ app.post('/blog/save/:_id', login, require('./routes/blog').save);
 
 app.get('/sync/export/:metaType', sync_auth, require('./routes/sync').Export);
 app.post('/sync/import/:metaType', sync_auth, require('./routes/sync').Import);
+app.get('/sync/metaDDL', require('./routes/sync').metaDDL);
 
 app.get('/script/:metaType', login, require('./routes/script').index);
 app.post('/scripts', login, require('./routes/script').scripts);
