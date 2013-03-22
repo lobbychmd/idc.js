@@ -76,6 +76,6 @@
     {{each selection}}
     <option value="${key}" {{if key == selValue}}selected="selected"{{/if}}>${value}</option>
     {{/each}}
-    <option value="" {{if (!selValue)}}selected="selected"{{/if}}></option>
+    <option value="" {{if (selValue == null || selValue == undefined)}}selected="selected"{{/if}}></option>
 </script>
 

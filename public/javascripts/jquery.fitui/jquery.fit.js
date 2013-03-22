@@ -36,8 +36,13 @@ $.lastState = {
 $.fn.waitting = function (option) {
     option = $.extend({}, option);
     return this.each(function () {
-        if (option.show) $(this).show();
-        else $(this).hide();
+        if (option.show) {
+            $(this).show().next("a.waitting").remove();
+        }
+        else {
+            $(this).hide();
+            $("<a>").addClass("waitting").insertAfter(this);
+        }
     });
 }
 
@@ -119,8 +124,9 @@ seq_asyncArray.prototype = {
             if (arguments.length <= 1) data = data;
             else data = arguments;
 
-            if (index == obj.paramsArray.length - 1)
-                obj.callback(data);
+            if (index == obj.paramsArray.length - 1) {
+                if (obj.callback ) obj.callback(data);
+            }
             else obj.execOne(data, index + 1);
         })
     },

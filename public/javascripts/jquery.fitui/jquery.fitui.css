@@ -2,6 +2,9 @@
 body { font-family: verdana,arial,helvetica,sans-serif; font-size: 12px;}
 a {text-decoration: none; }
 
+/* 风火轮 */
+a.waitting { display:inline-block; height: 16px; width: 16px; border:0; background:url("images/waitting.gif")}
+
 /* 布局 */
 footer, header {height: 32px; background: url("images/header_bg.png") repeat-x scroll right 0 transparent}
 body>header {background: repeat scroll 0 0 #2D2D2D; font-size: 1.2em; }

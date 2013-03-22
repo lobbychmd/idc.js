@@ -12,58 +12,59 @@ metaObjectConfig = {
     MetaTheme: {
         Theme: { caption: "主题名称" },
         LayoutUI: { caption: "界面配置", editor: 'textarea', scriptType: 'application/json' },
-        LayoutQueries: { caption: "所用查询", editor: 'textarea'},
+        LayoutQueries: { caption: "所用查询", editor: 'textarea' },
         StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
-        
+
     },
     MetaQuerySrv: {
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
         QueryName: { caption: '查询名称' },
         //SrvType: {caption: '服务类型', editor:'select', selection: [{ key: "Query", value: "查询" }, { key: "Biz", value: "业务逻辑"}], show:false},
-        Summary: {caption: "服务描述", editor:"textarea", scriptType: 'application/json' }
+        Summary: { caption: "服务描述", editor: "textarea", scriptType: 'application/json' }
     },
-    MetaBizSrv: {   
+    MetaBizSrv: {
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
         BizID: { caption: "业务逻辑ID" },
-        Summary: {caption: "服务描述", editor:"textarea", scriptType: 'application/json' }
+        Summary: { caption: "服务描述", editor: "textarea", scriptType: 'application/json' }
     },
     MetaDataPublishSrv: {
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
         QueryName: { caption: "查询名称" },
-        IdField: {caption: "数据流水字段"}
+        IdField: { caption: "数据流水字段" }
     },
-    MetaExternalSrv:{
+    MetaExternalSrv: {
         SrvCode: { caption: "服务ID" },
         Name: { caption: "服务名称" },
-        SrvType: { caption: "服务类型", editor:'select', selection: [{ key: "NC", value: "用友财务接口" }, { key: "XS", value: "新生网络"}] },
-        URI: {caption: "服务地址"},
-        SrvParams: {caption: "其它参数", editor:"textarea", scriptType: 'application/json' }
+        SrvType: { caption: "服务类型", editor: 'select', selection: [{ key: "NC", value: "用友财务接口" }, { key: "XS", value: "新生网络"}] },
+        URI: { caption: "服务地址" },
+        SrvParams: { caption: "其它参数", editor: "textarea", scriptType: 'application/json' }
     },
     MetaDataSubscribeSrv: {
         Name: { caption: "订阅服务名称" },
-        SrvCode :{caption: "订阅服务代码"},
+        SrvCode: { caption: "订阅服务代码" },
         Interval: { caption: "时间间隔" },
-        IntervalUnit: { caption: "时间间隔单位", editor:'select', selection: [{ key: "mi", value: "分钟" }, { key: "hh", value: "小时"}, { key: "dd", value: "天"}, { key: "mm", value: "月"}, { key: "yy", value: "年"}]  },
-        
+        IntervalUnit: { caption: "时间间隔单位", editor: 'select', selection: [{ key: "mi", value: "分钟" }, { key: "hh", value: "小时" }, { key: "dd", value: "天" }, { key: "mm", value: "月" }, { key: "yy", value: "年"}] },
+
         Items: { caption: "队列明细", type: "MetaDataSubscribeSrvItem" }
     },
     MetaDataSubscribeSrvItem: {
         QueueIdx: { caption: "调用顺序", lineShow: true, identity: true, maxLength: 3 },
         QueueName: { caption: "步骤名", lineShow: true },
-        QueueSummary: { caption: "步骤说明"},
-        Direction: { caption: "方向", editor:'select', selection: [{ key: "in", value: "传入" }, { key: "out", value: "传出"}]  },
+        QueueSummary: { caption: "步骤说明" },
+        Direction: { caption: "方向", editor: 'select', selection: [{ key: "in", value: "传入" }, { key: "out", value: "传出"}] },
         BatchSize: { caption: "数据分段数量", maxLength: 3 },
-        Enabled: { caption: "启用", lineShow: true, editor: 'checkbox'},
+        Enabled: { caption: "启用", lineShow: true, editor: 'checkbox' },
         SourceSrv: { caption: "数据发布服务", reference1: { type: "MetaPublishSrv", join: "SrvCode" }, lineShow: true },
         DestinationSrv: { caption: '接收方服务', lineShow: true },
-        DestSrvParams: { caption: '接收方服务参数', editor:"textarea", scriptType: 'application/json'  }
+        DestSrvParams: { caption: '接收方服务参数', editor: "textarea", scriptType: 'application/json' }
     },
     MetaConnection: {
         Alias: { caption: "连接别名" },
-        Summary: { caption: "连接说明", editor: 'textarea' }
+        Summary: { caption: "连接说明", editor: 'textarea' },
+        ConnectionString: {caption: "连接字符串(只在idc.net 有效)", editor: 'textarea'}
     },
     MetaThemeStyle: {
         StyleSection: { caption: '控件', lineShow: true },
