@@ -1,13 +1,13 @@
 ﻿$.codeMirrors = {};
 
-        $.fn.toggleEditor_code = function (show) {
+        $.fn.toggleEditor_code = function (show, params) {
             return this.each(function () {
                 if (show) {
                     var width = $(this).width();
                     $.codeMirrors[$(this).attr("name")] = CodeMirror.fromTextArea(this, {
                         lineNumbers: true,
                         matchBrackets: true,
-                        mode: $(this).attr('scriptType')//"text/x-plsql"
+                        mode:params? params : $(this).attr('scriptType')//"text/x-plsql"
                     });
                     $(this).parent().find('.CodeMirror>.CodeMirror-scroll').width(width + "px");
                 }
@@ -20,7 +20,7 @@
         }
     
 
-    $.fn.toggleEditor_JSON = function (show) {
+    $.fn.toggleEditor_JSON = function (show, params) {
         this.each(function () {
             if (show) {
                 try {
@@ -39,7 +39,7 @@
         });
     }
 
-    $.fn.toggleEditor_visual = function (show) {
+    $.fn.toggleEditor_visual = function (show, params) {
         return this.each(function () {
             if (show) {
                 $('#tp_visual_uidesigner').tmpl({}).insertBefore(this);
@@ -48,5 +48,15 @@
             else {
                 alert(1);
             }
+        });
+    }
+
+    $.fn.toggleEditor_sql = function (show, params) {
+        return this.each(function () {
+            $("<div class='designer'>").appendTo('body').dialog({
+                width: $(window).width() * 0.75,
+                height: $(window).height() * 0.75,
+                modal: true
+            }).load("/sqlbuilder");
         });
     }

@@ -77,7 +77,7 @@ $.fn.treeviewEx = function (option) {
 $.fn.smartTabs = function (options) {
     return this.each(function () {
         options = $.extend({ maxOpen: 5 }, options);
-        $.smartTab.setup($(this), options.lastState);
+        $.smartTab.setup($(this), options.lastState, options.select);
 
         $(options.a_selector).die("click.withTab").live("click.withTab", function () {
             var url = $(this).attr('href');
@@ -91,7 +91,7 @@ $.fn.smartTabs = function (options) {
 }
 
 $.smartTab = {
-    setup: function (tabs, lastState) {
+    setup: function (tabs, lastState, select) {
         $tabs = tabs.tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
         });
@@ -100,9 +100,14 @@ $.smartTab = {
         $tabs.tabs({ select: function (event, ui) { 
             $.smartTab.tabCheckLoad(ui.index);
             $.lastState.save(ui.index); 
+            if (select) select(event, ui);
         } });
-
-        if ($('#tabs').attr("idx")) $tabs.tabs("select", parseInt( $('#tabs').attr("idx")));
+        if (select) select(null, {index: lastState.LastIndex});
+        //if ($('#tabs').attr("idx")) {
+            //var idx = parseInt( $('#tabs').attr("idx"));
+            //$tabs.tabs("select", idx);
+            //if (select) select(null, {index: idx});
+        //}
         tabs.find("span.ui-icon-close").live("click", function () {
             var index = $("li", $tabs).index($(this).parent());
             $tabs.tabs("remove", index);
@@ -212,23 +217,28 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
 
     $.fn.initEditor = function () {  //把根的代码编辑器自动设置为第一个
         return this.each(function () {
-            $(this).children('div.prop').children('select.toggleEditor').each(function () {
-                $(this).val($(this).children().eq(1).val()).trigger('change');
+            $(this).find('a.designer').button({ })
+            .end().children('div.prop').each(function(){
+                $(this).children('a.designer:first').click();
             });
+       
         });
     }
 
     $.fn.toggleEditor = function () {  
         return this.each(function () {
-            $(this).find('select.toggleEditor').change(function () {
-                var t = $(this).val();
-                var curr_editor = $(this).attr('curr_editor');
-                if (curr_editor) eval("$(this).next().toggleEditor_" + curr_editor + "(false);");
+            $(this).find('a.designer').click(function () {
+                var t = $(this).attr('designer');
+                var memo = $(this).closest('.prop').find('[path]');
+                var curr_editor = memo.attr('curr_editor');
+                if (!curr_editor) curr_editor= "text";
 
-                if (t == 'text') $(this).removeAttr('curr_editor');
-                else {
-                    $(this).attr('curr_editor', t);
-                    eval("$(this).next().toggleEditor_" + t + "(true);");
+                if (curr_editor != t){ 
+                    memo.attr('curr_editor', t);
+                    if (curr_editor != "text") 
+                        eval("memo.toggleEditor_" + curr_editor + "(false);");
+                    if (t != "text") 
+                        eval("memo.toggleEditor_" + t + "(true, '" + $(this).attr("params") + "');");
                 }
             })
         });
@@ -236,13 +246,9 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
 
     $.fn.resetAllEditor = function () {
         return this.each(function () {
-            $(this).find('select.toggleEditor[curr_editor]').val('text').trigger('change').size();
+            $(this).find('a.designer[designer=text]').click();
         });
     }
-
-    
-
- 
 
     $.fn.zip = function(){
         return this.each(function(){

@@ -76,6 +76,7 @@ app.get('/designs/:metaType', require('./routes/meta_design').designs);
 app.post('/addversion/:metaType', require('./routes/meta_design').AddVersion);
 app.get('/suggest', require('./routes/suggest').index);
 app.post('/search/:term', require('./routes/search').index);
+app.post('/searchbyid/:type/:id', require('./routes/search').byid);
 app.post('/save/:metaType', require('./routes/save').index);
 app.post('/saves/:metaType', require('./routes/save').saves);
 app.post('/remove/:metaType', require('./routes/save').remove);
@@ -95,6 +96,9 @@ app.post('/scripts', login, require('./routes/script').scripts);
 
 app.get('/test', require('./routes/test').test);
 app.post('/test', require('./routes/test').test);
+
+app.get('/sqlbuilder', require('./routes/designers').sqlbuilder);
+app.post('/tablefields/:table', require('./routes/designers').tablefields);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

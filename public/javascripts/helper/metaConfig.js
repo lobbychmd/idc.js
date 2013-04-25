@@ -64,19 +64,20 @@ metaObjectConfig = {
     MetaConnection: {
         Alias: { caption: "连接别名" },
         Summary: { caption: "连接说明", editor: 'textarea' },
-        ConnectionString: {caption: "连接字符串(只在idc.net 有效)", editor: 'textarea'}
+        ConnectionString: { caption: "连接字符串(只在idc.net 有效)", editor: 'textarea' }
     },
     MetaThemeStyle: {
         StyleSection: { caption: '控件', lineShow: true },
         StyleContent: { caption: '样式', editor: "textarea", scriptType: 'application/json' }
     },
     MetaModule: {
+        Type: { caption: "类型", editor: 'select', selection: [{ key: "menu", value: "菜单" }, { key: "module", value: "模块"}] },
         Caption: { caption: "模块名称" },
         ModuleID: { caption: "模块编号" },
         ParentID: { caption: "上层模块编号" },
         Path: { caption: "模块路径(Url)" },
-        Queryies: { caption: "所用查询" },
-        Bizes: { caption: "所用业务逻辑" },
+        // Queryies: { caption: "所用查询" },
+        // Bizes: { caption: "所用业务逻辑" },
         ModulePages: { caption: "页面", type: "ModulePage" },
         Functions: { caption: "权限", type: "ModuleFunc", reference: { type: "MetaFunction", join: "FuncID"} }
     },
@@ -174,7 +175,7 @@ metaObjectConfig = {
         ScriptIdx: { caption: '序号', identity: true, lineShow: true },
         ScriptType: { caption: '脚本类型', lineShow: true, editor: 'select', selection: [{ key: 0, value: "SQL" }, { key: 1, value: "C#"}] },
         MetaColumn: { caption: '字段元数据', readonly: true },
-        Script: { caption: '脚本', editor: "textarea", scriptType: 'text/x-plsql' }
+        Script: { caption: '脚本', editor: "textarea", designer:[{type:"code", params: 'text/x-plsql'},{type:"text"},  {type:"sql"}]  }
     },
     MetaField: {
         FieldName: { caption: '字段名', lineShow: true },
@@ -184,12 +185,37 @@ metaObjectConfig = {
         Inherited: { caption: '继承自' },
         CharLength: { caption: '字符长度' },
         Selection: { caption: '下拉选择' },
-        EditorType: { caption: '编辑框类型', editor: 'select', selection: [{ key: 'STRING', value: '字符' }, { key: 'NUMBER', value: '数字' }, { key: 'DROPDOWNLIST', value: '下拉' }, { key: 'DATETIME', value: '时间' }, { key: 'DATE', value: '日期' }, { key: 'LIST', value: '列表' }, { key: 'BOOLEAN', value: '勾选' }, { key: 'TEXTAREA', value: '多行文本'}] },
+        EditorType: { caption: '编辑框类型', editor: 'select', selection: [{ key: 'STRING', value: '字符' }, { key: 'NUMBER', value: '数字' }, { key: 'DROPDOWNLIST', value: '下拉' }, { key: 'DATETIME', value: '时间' }, { key: 'DATE', value: '日期' }, { key: 'LIST', value: '列表' }, { key: 'BOOLEAN', value: '勾选' }, { key: 'TEXTAREA', value: '多行文本' }, { key: 'PASSWORD', value: '密码'}] },
         DicNO: { caption: '共通资料ID' }
     },
     MetaFunction: {
         FuncID: { caption: '权限ID', lineShow: true },
         FuncName: { caption: '权限说明', lineShow: true }
+    },
+    MetaTable: {
+        TableName: {caption: '表名'},
+        TableSummary: {caption: '表摘要说明'},
+        Columns: { caption: '字段', type: 'MetaTableField' },
+        Indexes: { caption: '字段', type: 'MetaTableIndex' }
+    },
+    MetaTableField: {
+        ColumnName: {caption: '字段名', lineShow: true},
+        Caption: {caption: '字段显示', lineShow: true},
+        Summary: {caption: '字段说明', lineShow: false},
+        Type: {caption: '字段类型', lineShow: true, editor: 'select', 
+            selection: [{ key: 'STRING', value: '字符' }, { key: 'NUMBER', value: '数字' }, { key: 'BINARY', value: '二进制' }, { key: 'DATETIME', value: '时间' }, { key: 'BOOLEAN', value: '逻辑' }, { key: 'UNDEFINED', value: '未知' }] },
+        Size: {caption: '字符长度', lineShow: false},
+        Precision: {caption: '精度(位)', lineShow: false},
+        Scale: {caption: '小数位', lineShow: false},
+        AllowNull: {caption: '允许空', lineShow: false, editor: "checkbox" },
+        IsIdentity: {caption: '自增', lineShow: false, editor: "checkbox" },
+        Selection: {caption: '可选值', lineShow: false, editor: "textarea" }
+    },
+    MetaTableIndex: {
+        IndexName: {caption: '索引名', lineShow: true},
+        PrimaryKey: {caption: '是否主键', lineShow: true, editor: "checkbox"},
+        IsUnique: {caption: '是否唯一', lineShow: true, editor: "checkbox" },
+        Columns : {caption: '字段', lineShow: false }
     }
 }
 

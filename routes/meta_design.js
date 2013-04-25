@@ -7,7 +7,7 @@ exports.index = function (req, res) {
     var db = require('mongo');
     mongoose.model(tree_config[req.params.metaType].table).findById(req.query._id, function (err, doc1) {
         var newMeta = !doc1;
-        //console.log(doc1);
+        console.log(req.query);
         require('meta_tree').inherite(req.query, doc1, function (doc) {
             var HashCode = doc.HashCode;
             doc.HashCode = null;

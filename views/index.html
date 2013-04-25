@@ -34,6 +34,12 @@
                     </span> 
                     <ul></ul>
                 </li>
+                 <li metatype="working">
+                    <span class="working folder">
+                        <a name="workingNode">正在编辑</a>
+                    </span> 
+                    <ul></ul>
+                </li>
             </ul>
         </div>
         <div id="mainContent" style="margin-left:300px;min-height:300px;padding: 0px;overflow: auto; position: relative;">
@@ -53,8 +59,27 @@
     var data = treeData( {{html tree_data}} , false);
     $("#jt_tree_li").tmpl(data).appendTo('#browser');
     $.autoHeight({ "#main": 96, "#leftBanner": 96, "#mainContent": 96, '#browser': 149, '#tabs': 96, "#tabs .ui-widget-content":165 }, true);
-    $("#tabs").smartTabs({a_selector: "#browser a", lastState: {{html lastState}} }).children('ul').css('height', '');
-
+    $("#tabs").smartTabs({
+        a_selector: "#browser a", 
+        lastState: {{html lastState}} ,
+        select : function(event, ui){
+            
+            var li = $("#tabs>ul>li:nth-child(" + (ui.index+1 ) + ")");
+            if ( li.attr("url")){ 
+                var _id = li.attr("url").split('?')[1].split('=')[1];
+                if ($("#browser>li[metaType=working]>ul>li>span>a[href$='" + _id + "']").size() == 0)
+                    $.post("/searchbyid/" + li.attr("metatype") +  "/" + _id , function(d){
+                        var data = treeData(d);
+                        var ul = $("#browser>li[metaType=working]>ul");
+                        var branches = $('#jt_tree_li').tmpl(data).appendTo(ul);
+                        $("#browser").treeviewEx({
+                            add: branches
+                        });
+ 
+                     });
+            }
+        }
+        }).children('ul').css('height', '');
     $("#browser").treeviewEx();//.treeviewA().parent().show();
 
 </script>

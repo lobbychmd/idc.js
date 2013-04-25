@@ -32,11 +32,11 @@ var getQuery = function (req) {
 
 exports.Export = function (req, res) {
     var mongoose = require('mongoose');
-    console.log(req.url);
+    //console.log(req.url);
     if (req.params.metaType.match(".[Aa]ll$")) {
         var q = { ProjectName: getparamvalue(req, "ProjectName").toString() };
         mongoose.model(req.params.metaType.substring(0, req.params.metaType.length - 4)).find(q, function (err, docs) {
-            console.log(docs.length);
+            //console.log(docs.length);
             res.send(JSON.stringify(docs));
         });
     }
@@ -51,48 +51,53 @@ exports.Export = function (req, res) {
     }
     else {
         var query = getQuery(req);
-        console.log(query);
+        //console.log(query);
         mongoose.model(req.params.metaType).findOne(query, function (err, doc) {
             res.send(JSON.stringify(doc));
         });
     }
 };
 
-exports.Import = function (req, res) {
-    console.log(req.body);
+var body2str = function (body) {
     var str = "";
-    for (var i in req.body) {
-        str = str + i + "=" + req.body[i];
+    for (var i in body) {
         //console.log(i);
-        //console.log('-------------');
-        //console.log(req.body[i]);
+        var v = ((typeof body[i]) == "string" ? body[i] :("[" + body2str(body[i])));
+        str = str + i + (i[i.length-1] ==":" || !v? "": ":") + v;
     }
+    return str;
+}
+exports.Import = function (req, res) {
+    //console.log(req.body);
+    //console.log(JSON.stringify( req.body));
+    var str =body2str(req.body);
+    if (str[str.length - 1] == "=") str = str.substring(0, str.length - 1);
     //console.log(str);
-    req.body = JSON.parse(str);
-    
-
+    req.body = JSON.parse(str +"}");
+  
     var mongoose = require('mongoose');
     var query = getQuery(req);
-    //console.log(query);
+    console.log(query);
     var m = mongoose.model(req.params.metaType);
     m.findOne(query, function (err, doc) {
         if (doc) {
-            //console.log(doc._id);
             m.update({ _id: doc._id }, req.body, function (err, numAffected) {
                 if (err) res.send(err);
                 res.send('');
             });
         } else {
-            doc._id = require('mongodb').BSONPure.ObjectID();
+            req.body._id = require('mongodb').BSONPure.ObjectID();
+            doc = new m(req.body);
+            
             doc.ProjectName = req.params.ProjectName; //是从 filter 里面取得的
-            doc = new m(doc);
+            console.log(doc);
             doc.save(function (err, numAffected) {
                 if (err) res.send(err);
                 res.send('');
             });
         }
     });
-    
+
 }
 
 exports.metaDDL = function (req, res) {

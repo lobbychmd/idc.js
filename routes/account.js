@@ -16,15 +16,16 @@ exports.signin = function (req, res) {
     var m = mongoose.model("Account");
     if (req.body.UserNO) {
         m.findOne({ UserNO: req.body.UserNO }, function (err, doc) {
-            if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err }] });
-            else if (!doc) res.json({ IsValid: false, Errors: [{ ErrorMessage: "无此用户", MemberNames: ["UserNO"] }] });
+            if (err) res.json({ IsValid: false, Errors: [{ ErrorMessage: err}] });
+            else if (!doc) res.json({ IsValid: false, Errors: [{ ErrorMessage: "无此用户", MemberNames: ["UserNO"]}] });
             else {
                 var hasher = require('crypto').createHash('sha1');
                 hasher.update(req.body.UserNO + req.body.Password);
-                if (doc.Password != hasher.digest('hex')) {
-                    res.json({ IsValid: false, Errors: [{ ErrorMessage: "密码不正确", MemberNames: ["UserNO", "Password"] }] });
-                } else
-                {
+                var p = hasher.digest('hex');
+                if (doc.Password != p) {
+                    console.log("密码：" + p);
+                    res.json({ IsValid: false, Errors: [{ ErrorMessage: "密码不正确", MemberNames: ["UserNO", "Password"]}] });
+                } else {
                     req.session.user = doc;
                     require('account').getLastPosition(doc._id, function (err, position) {
                         if (!err) req.session.project = position;
@@ -33,8 +34,8 @@ exports.signin = function (req, res) {
                 }
             }
         });
-       
-    } else res.json({ IsValid: false, Errors: [{ ErrorMessage: "用户名不能为空", MemberNames: ["UserNO"] }] });
+
+    } else res.json({ IsValid: false, Errors: [{ ErrorMessage: "用户名不能为空", MemberNames: ["UserNO"]}] });
 };
 
 
