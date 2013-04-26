@@ -9,6 +9,7 @@ var js_utils = require('js_utils').utils;
 var getScript = function (metaType, _id, callback) {
     var options = {host: 'last.dbshub.com',port: 80,path: '/project/getscript?type=' + metaType + "&_id=" + _id, method: 'GET'};
     var req1 = http.request(options, function (res1) {
+        
         res1.on('data', function (chunk) {
             callback(chunk);
         });

@@ -1,0 +1,53 @@
+ 
+<select class="table" >
+    {{each tables}}
+        <option>${TableName}</option>
+    {{/each}}
+</select>
+<hr />
+<div  >
+    <select class="columns" multiple=multiple size=15 style="float: left; display: block;width: 200px;">
+        
+    </select>
+    <div style=" margin-left: 204px">
+        <input type="button" value="生成" class="createSQL"/>
+        <select class="createSQLType">
+            <option value="select">select</option>    
+            <option value="insert">insert</option>    
+            <option value="update">update</option>    
+            <option value="delete">delete</option>    
+        </select>
+        <span>语句</span>
+        <hr>
+        <textarea style="width: 100%">
+        
+        </textarea>
+    </div>
+    <div style="clear: both"></div>
+</div>
+
+<script>
+    $(".ui-dialog select.columns").attr("size", Math.round( ($(window).height() * 0.75 - 200) /11));
+    $(".ui-dialog textarea").attr("rows", Math.round( ($(window).height() * 0.75 - 250) /11));
+    $(".ui-dialog select.table").change(function () {
+        $.post("/tablefields/" + $(this).val(), null, function (data) {
+            var list = $(".ui-dialog select.columns");
+            list.children().remove();
+            for (var i in data.Columns)
+                $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption).appendTo(list);
+        });
+
+    }).change();
+    $(".ui-dialog input.createSQL").button().click(function () {
+        var t = $(".ui-dialog select.createSQLType").val();
+        if (t == "select") {
+            $(".ui-dialog textarea").val(
+                "select " +
+                $.map($(".ui-dialog select.columns option").filter(function () {
+                    return $(this).attr("selected");
+                }).toArray(), function (value, index) { return $(value).val(); }).join(",")
+                + " from " + $(".ui-dialog select.table").val()
+            );
+        }
+    });
+</script>

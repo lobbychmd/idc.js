@@ -1,4 +1,4 @@
-﻿metaTypes = ["MetaProject", "MetaModule", "MetaBiz", "MetaQuery"];
+﻿//metaTypes = ["MetaProject", "MetaModule", "MetaBiz", "MetaQuery"];
 metaObjectConfig = {
     _base: {
         _id: { caption: "id", readonly: true },
@@ -7,7 +7,8 @@ metaObjectConfig = {
         HashCode: { caption: "校验码", readonly: true }
     },
     Project: {
-        DBConnectionString: { caption: '数据库连接' }
+        DBConnectionString: { caption: '数据库连接' },
+        SimulateCode: {caption: '模拟器'}
     },
     MetaTheme: {
         Theme: { caption: "主题名称" },
