@@ -60,3 +60,40 @@
             }).load("/sqlbuilder");
         });
     }
+
+    $.designTools = {
+        "autoParams": function (ctrl) {
+            var frm = $(ctrl).closest('form.metaObject');
+            var fields = [];
+            frm.find('textarea[path="Scripts.Script"]').each(function () {
+                var script = $(this).val().split('\n').join(" ");
+                var reg = /:([_a-zA-Z][_a-zA-Z0-9]*)/ig;
+                var matches = reg.exec(script);
+                while (matches) {
+                    if (_.indexOf(fields, matches[1]) < 0)
+                        fields.push(matches[1]);
+                    matches = reg.exec(script);
+                }
+
+            });
+            var container = $(ctrl).closest('fieldset');
+            for (var i in fields) {
+                if (container.find("[name$='[ParamName]']").filter(function () {
+                    return $(this).val() == fields[i];
+                }).size() == 0) {
+                    alert("添加参数：" + fields[i]);
+                    frm.tmplRowEditor(null, { newRow: true, container: container, values: { ParamName: fields[i]} });
+                }
+            }
+
+        }
+
+    }
+
+    $.fn.designTools = function () { 
+        return this.each(function(){
+            $(this).button().click(function () {
+                $.designTools[$(this).attr("designer")](this);
+            });
+        });
+    }

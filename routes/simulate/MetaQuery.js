@@ -12,7 +12,7 @@ exports.index = function (req, res) {
             res1.setEncoding('utf8');
             res1.on('data', function (chunk) {
                 console.log(chunk);
-                res.json({ IsValid: false, Errors: [{ ErrorMessage: chunk}] });
+                res.json(chunk);
             });
         });
         req1.on('error', function (e) {

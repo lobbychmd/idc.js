@@ -160,7 +160,7 @@ metaObjectConfig = {
         QueryType: { caption: '查询类型', editor: 'select', selection: [{ key: 0, value: "通用查询" }, { key: 1, value: "数据对象"}] },
         ConnAlias: { caption: '数据连接' },
         Scripts: { caption: '查询脚本', type: 'QueryScript' },
-        Params: { caption: '查询参数', type: 'QueryParam' }
+        Params: { caption: '查询参数', type: 'QueryParam', designer:[{type: "autoParams", title:"自动生成参数"}] }
     },
     QueryParam: {
         ParamIdx: { caption: '参数序号', identity: true, lineShow: true },

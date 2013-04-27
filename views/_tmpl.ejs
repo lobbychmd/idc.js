@@ -49,7 +49,12 @@
 
 <script id="metaPropArray" type="text/x-jquery-tmpl">
     <fieldset prefix=${name} {{if reference}}ref_type=${reference.type} ref_join=${reference.join} {{/if}}>
-        <legend><span >${caption}</span> <a href="#" style="text-decoration:none">▲</a> </legend>
+        <legend><span >${caption}</span> <a class="zip" href="#" style="text-decoration:none">▲</a> 
+            {{if designer}}{{each designer}}
+                <a class="designer ${type}" designer="${type}" params="${params}"  title="${title}"> </a>
+                {{/each}}
+            {{/if}} 
+        </legend>
         <span class="count" style="display:none"></span>
         {{tmpl(value) "#metaObject"}}
     </fieldset>

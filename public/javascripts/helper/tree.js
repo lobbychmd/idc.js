@@ -207,7 +207,8 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
 
             $(this).append($(multi ? '#metaPropArray' : '#metaObject').tmpl(data))
                 .find('div.zip').zip().end()
-                .find('legend>a').zipArray().end()
+                .find('legend>a.zip').zipArray().end()
+                .find('legend>a.designer').designTools().end()
                 .tmplRowEditor(multi)
                 .selection()
                 .reference().toggleEditor().initEditor();
@@ -277,19 +278,24 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
         });
     }
 
-    $.fn.tmplRowEditor = function(multi){
-        return this.each(function(){ 
+    $.fn.tmplRowEditor = function(multi, option){
+        if (option && option.newRow){
+            var row = option.container.children('div.zip.tmpl');
+            var fieldset = row.closest('fieldset');
+            var rowCount = fieldset.children('div.zip').size();
+            row.clone(true).unbind('change.tmpl').removeClass('tmpl').insertBefore(row).find('[fieldname]').each(function () {
+                var input = $(this).attr('name', $(this).attr('fieldname').replace(/\[(\d+)\]/i, "[" + (rowCount - 1) + "]")).removeAttr('fieldname');
+                var fieldName = _.last(input.attr('path').split('.'));
+                if(option.values && option.values[fieldName] != undefined)
+                    input.val(option.values[fieldName]);
+                //var re = new RegExp("\[(\\d+)\]", "ig"); var n = $(this).attr('fieldname'); var r = n.match(re);
+                //$(this).attr('name', n.replace("[" + r[r.length - 1] + RegExp.rightContext, "[" + (rowCount - 1) + RegExp.rightContext)).removeAttr('fieldname');
+            }).end().find('span.rowIndex').text(rowCount  ).end().find('[identity]').val(rowCount).end().focus();
+        }
+        else return this.each(function(){ 
             $(this).find("[fieldname]").live('change.tmpl', function(){ //新增行 
                 if ($(this).val()){ //不加这个会触发2次,因为后面 val('')
-                    var row = $(this).closest('div.zip');
-
-                    var fieldset = row.closest('fieldset');
-                    var rowCount = fieldset.children('div.zip').size();
-                    row.clone(true).unbind('change.tmpl').removeClass('tmpl').insertBefore(row).find('[fieldname]').each(function () {
-                        $(this).attr('name', $(this).attr('fieldname').replace(/\[(\d+)\]/i, "[" + (rowCount - 1) + "]")).removeAttr('fieldname');
-                        //var re = new RegExp("\[(\\d+)\]", "ig"); var n = $(this).attr('fieldname'); var r = n.match(re);
-                        //$(this).attr('name', n.replace("[" + r[r.length - 1] + RegExp.rightContext, "[" + (rowCount - 1) + RegExp.rightContext)).removeAttr('fieldname');
-                    }).end().find('span.rowIndex').text(rowCount  ).end().find('[identity]').val(rowCount).end().focus();
+                    $(this).closest('.metaObject').tmplRowEditor(null, {newRow: true, container: $(this).closest('div.zip').closest('fieldset')});
                     $(this).val('');
                 }
                 //fieldset.trigger('change');
