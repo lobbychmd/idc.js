@@ -74,6 +74,7 @@ app.get('/tree', require('./routes/tree_expand').tree_expand);
 app.get('/design/:metaType', require('./routes/meta_design').index);
 app.get('/designs/:metaType', require('./routes/meta_design').designs);
 app.post('/addversion/:metaType', require('./routes/meta_design').AddVersion);
+app.get('/suggest/:metaType', require('./routes/suggest').index);
 app.get('/suggest', require('./routes/suggest').index);
 app.post('/search/:term', require('./routes/search').index);
 app.post('/searchbyid/:type/:id', require('./routes/search').byid);
@@ -98,6 +99,8 @@ app.get('/test', require('./routes/test').test);
 app.post('/test', require('./routes/test').test);
 
 app.get('/sqlbuilder', require('./routes/designers').sqlbuilder);
+app.get('/queryFields/:queryName', require('./routes/designers').queryFields);
+
 app.post('/tablefields/:table', require('./routes/designers').tablefields);
 
 app.post('/simulate/:metaType', require('./routes/simulate').index);

@@ -208,7 +208,7 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
             $(this).append($(multi ? '#metaPropArray' : '#metaObject').tmpl(data))
                 .find('div.zip').zip().end()
                 .find('legend>a.zip').zipArray().end()
-                .find('legend>a.designer').designTools().end()
+                .find('a.designer[helper]').designTools().end()
                 .tmplRowEditor(multi)
                 .selection()
                 .reference().toggleEditor().initEditor();
@@ -228,7 +228,7 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
 
     $.fn.toggleEditor = function () {  
         return this.each(function () {
-            $(this).find('a.designer').click(function () {
+            $(this).find('a.designer:not([helper])').click(function () {
                 var t = $(this).attr('designer');
                 var memo = $(this).closest('.prop').find('[path]');
                 var curr_editor = memo.attr('curr_editor');

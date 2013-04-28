@@ -1,0 +1,65 @@
+ 
+<input class="query" value="${queryName}"/>
+    
+<hr />
+<div  >
+    <select class="columns" multiple=multiple size=15 style="float: left; display: block;width: 200px;">
+        
+    </select>
+    <div style=" margin-left: 204px">
+        <input type="button" value="生成" class="createSQL"/>
+        <select class="createSQLType">
+            <option value="likeArray">类数组(';'分隔)</option>    
+            <option value="array">数组</option>    
+        </select>
+        <span>语句</span>
+        <hr>
+        <textarea style="width: 100%">
+        
+        </textarea>
+    </div>
+    <div style="clear: both"></div>
+</div>
+
+<script>
+    $(".ui-dialog select.columns").attr("size", Math.round(($(window).height() * 0.75 - 200) / 11));
+    $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 250) / 11));
+    $(".ui-dialog input.query").change(function () {
+        $.post("/simulate/MetaQuery", { QueryName: $(this).val() }, function (data) {
+            var list = $(".ui-dialog select.columns");
+            list.children().remove();
+            data = JSON.parse(data);
+            for (var i in data.Schema) {
+                console.log(data.Schema[i]);
+                for (var j in data.Schema[i])
+                    $("<option>").val(data.Schema[i][j].ColumnName).text(data.Schema[i][j].Caption).appendTo(list);
+            }
+        });
+
+    }).change().autocomplete({ source: "/suggest/MetaQuery", minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () { $('#btnSearch').click(); }, 100);
+                    //return false;
+                }
+            })
+            .data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append("<a class='filetree'><span class='leaf " + item.type + "'>" + item.value + "</span></a>").appendTo(ul);
+            };
+    $(".ui-dialog input.createSQL").button().click(function () {
+        var t = $(".ui-dialog select.createSQLType").val();
+        if (t == "likeArray") {
+            $(".ui-dialog textarea").val(
+                $.map($(".ui-dialog select.columns option").filter(function () {
+                    return $(this).attr("selected");
+                }).toArray(), function (value, index) { return $(value).val(); }).join(";")
+            );
+        }
+        else if (t == "array") {
+            $(".ui-dialog textarea").val(
+                $.map($(".ui-dialog select.columns option").filter(function () {
+                    return $(this).attr("selected");
+                }).toArray(), function (value, index) { return "['" + $(value).val() + "']"; }).join(", ")
+            );
+        }
+    });
+</script>

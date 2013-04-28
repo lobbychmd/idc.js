@@ -28,7 +28,7 @@
                 <a class="designer text" designer="text" > </a>
             {{/if}} 
             {{if designer}}{{each designer}}
-                <a class="designer ${type}" designer="${type}" params="${params}" > </a>
+                <a class="designer ${type}" designer="${type}" params="${params}" {{if helper}}helper{{/if}}  title="${title}"> </a>
                 {{/each}}
             {{/if}} 
             {{tmpl($value) "#editor"}}
@@ -51,7 +51,7 @@
     <fieldset prefix=${name} {{if reference}}ref_type=${reference.type} ref_join=${reference.join} {{/if}}>
         <legend><span >${caption}</span> <a class="zip" href="#" style="text-decoration:none">▲</a> 
             {{if designer}}{{each designer}}
-                <a class="designer ${type}" designer="${type}" params="${params}"  title="${title}"> </a>
+                <a class="designer ${type}" designer="${type}" params="${params}"{{if helper}}helper{{/if}}  title="${title}"> </a>
                 {{/each}}
             {{/if}} 
         </legend>

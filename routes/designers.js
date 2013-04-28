@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
 /*
  * GET home page.
  */
@@ -21,5 +22,20 @@ exports.tablefields = function (req, res) {
     });
 
     
+
+};
+
+
+exports.queryFields = function (req, res) {
+    //var m = mongoose.model("MetaQuery");
+    //m.find({ ProjectName: req.session.project }).limit(100).exec(function (err, docs) {
+        res.render("designer/queryFields.html", {
+            layout: null, queryName: req.params.queryName
+           // queries: _.map(docs, function (d) {
+            //    return d.QueryName;  })
+        });
+   // });
+
+
 
 };

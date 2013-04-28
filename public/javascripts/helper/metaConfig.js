@@ -85,11 +85,11 @@ metaObjectConfig = {
     ModulePage: {
         PageID: { caption: '页面ID', lineShow: true },
         PageType: { caption: '页面类型', editor: "select", selection: [{ key: "0", value: "查询" }, { key: "1", value: "录入"}], lineShow: true },
-        PageParams: { caption: '页面参数', scriptType: 'application/json', editor: "textarea" },
-        UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' },
+        UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' , designer:[{type:"queryFields", title:"选择查询的字段", helper:true}]},
         Queries: { caption: '所用查询', maxLength: 100, editor: 'textarea' },
-        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" },
-        PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json' }
+        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" , designer:[{type:"queryFields", title:"选择查询的字段", helper:true} ]},
+        PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json', designer:[{type:"queryFields", title:"选择查询的字段", helper:true}] },
+        PageParams: { caption: '页面参数', scriptType: 'application/json', editor: "textarea" },
     },
     FlowItem: {
         ID: { caption: '流程ID', lineShow: true },
@@ -123,7 +123,7 @@ metaObjectConfig = {
         ConnAlias: { caption: "数据连接" },
         Checks: { caption: "业务检查", type: 'BizCheck' },
         Scripts: { caption: "业务过程", type: 'BizScript' },
-        Params: { caption: "业务参数", type: 'BizParam' }
+        Params: { caption: "业务参数", type: 'BizParam', designer:[{type: "autoParams", params:"Scripts.ProcSQL", title:"自动生成参数", helper: true}] }
     },
     BizCheck: {
         CheckIdx: { caption: '序号', lineShow: true, identity: true, maxLength: 3 },
@@ -160,7 +160,7 @@ metaObjectConfig = {
         QueryType: { caption: '查询类型', editor: 'select', selection: [{ key: 0, value: "通用查询" }, { key: 1, value: "数据对象"}] },
         ConnAlias: { caption: '数据连接' },
         Scripts: { caption: '查询脚本', type: 'QueryScript' },
-        Params: { caption: '查询参数', type: 'QueryParam', designer:[{type: "autoParams", title:"自动生成参数"}] }
+        Params: { caption: '查询参数', type: 'QueryParam', designer:[{type: "autoParams", params:"Scripts.Script", title:"自动生成参数", helper: true}] }
     },
     QueryParam: {
         ParamIdx: { caption: '参数序号', identity: true, lineShow: true },
@@ -176,7 +176,7 @@ metaObjectConfig = {
         ScriptIdx: { caption: '序号', identity: true, lineShow: true },
         ScriptType: { caption: '脚本类型', lineShow: true, editor: 'select', selection: [{ key: 0, value: "SQL" }, { key: 1, value: "C#"}] },
         MetaColumn: { caption: '字段元数据', readonly: true },
-        Script: { caption: '脚本', editor: "textarea", designer:[{type:"code", params: 'text/x-plsql'},{type:"text"},  {type:"sql"}]  }
+        Script: { caption: '脚本', editor: "textarea", designer:[{type:"code", params: 'text/x-plsql'},{type:"text"},  {type:"sql", helper:true, title:"sql 生成器"}]  }
     },
     MetaField: {
         FieldName: { caption: '字段名', lineShow: true },
@@ -197,14 +197,14 @@ metaObjectConfig = {
         TableName: {caption: '表名'},
         TableSummary: {caption: '表摘要说明'},
         Columns: { caption: '字段', type: 'MetaTableField' },
-        Indexes: { caption: '字段', type: 'MetaTableIndex' }
+        Indexes: { caption: '索引', type: 'MetaTableIndex' }
     },
     MetaTableField: {
         ColumnName: {caption: '字段名', lineShow: true},
         Caption: {caption: '字段显示', lineShow: true},
         Summary: {caption: '字段说明', lineShow: false},
         Type: {caption: '字段类型', lineShow: true, editor: 'select', 
-            selection: [{ key: 'STRING', value: '字符' }, { key: 'NUMBER', value: '数字' }, { key: 'BINARY', value: '二进制' }, { key: 'DATETIME', value: '时间' }, { key: 'BOOLEAN', value: '逻辑' }, { key: 'UNDEFINED', value: '未知' }] },
+            selection: [{ key: '0', value: '字符' }, { key: '1', value: '数字' }, { key: '2', value: '二进制' }, { key: '3', value: '时间' }, { key: '4', value: '逻辑' }, { key: '5', value: '未知' }] },
         Size: {caption: '字符长度', lineShow: false},
         Precision: {caption: '精度(位)', lineShow: false},
         Scale: {caption: '小数位', lineShow: false},
@@ -216,7 +216,7 @@ metaObjectConfig = {
         IndexName: {caption: '索引名', lineShow: true},
         PrimaryKey: {caption: '是否主键', lineShow: true, editor: "checkbox"},
         IsUnique: {caption: '是否唯一', lineShow: true, editor: "checkbox" },
-        Columns : {caption: '字段', lineShow: false }
+        Columns : {caption: '字段', editor: 'textarea', lineShow: false, designer:[{type:"columns", title:"选择字段"}, {type:"text", title:"自由录入"}] }
     }
 }
 

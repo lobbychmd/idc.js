@@ -13,6 +13,7 @@ exports.index = function (req, res) {
             res1.on('data', function (chunk) {
                 console.log(chunk);
                 res.json(chunk);
+                return;
             });
         });
         req1.on('error', function (e) {
