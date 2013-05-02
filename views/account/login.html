@@ -26,9 +26,9 @@
     .simpleLayout #accordion{margin:auto; position: relative; top: 40%}
     .simpleLayout>h2{margin-left:-20px;}
     #accordion{width:400px; }
+    #accordion .ui-widget-content a{color: blue}
 </style>
 <div class='simpleLayout' align="auto" id="main">
-    <img src="/images/login.png" style="display: none"/>
     <div id="accordion">
 	    <h3><a href="#">登录</a></h3>
 	    <div>
@@ -44,19 +44,21 @@
                         <td><input name="Password" type="password" value=""/></td>
                     </tr>
                     <tr>
-                        <td colspan=2><input type="submit" value="提交" href="${rel}" action="/account/signin"/></td>
+                        <td colspan=2><input type="submit" value="提交" rel="${rel}" action="/account/signin"/></td>
                     </tr>
                 </table>
+                <hr/>
+                <p><a href="/register" >注册新帐号</a></p>
             </form>
         </div>
     </div>
 
-    <p><a href="/register" style="display: none">注册新帐号</a></p>
+    
 </div>
 
 <script>
     $.initLayout();
-    $("#accordion").find('[type=submit]').button().ajaxpost().end().accordion();
+    $("#accordion").find('[type=submit]').button().getpost({ajax:true}).end().accordion();
     if ($("#UserNO").val()) $("[name=Password]").focus(); else $("#UserNO").focus();
 </script>
  

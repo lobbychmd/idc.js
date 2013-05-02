@@ -101,8 +101,8 @@ $.smartTab = {
             $.smartTab.tabCheckLoad(ui.index);
             $.lastState.save(ui.index); 
             if (select) select(event, ui);
-        } });
-        if (select) select(null, {index: lastState.LastIndex});
+        } });  
+        if (select && lastState) select(null, {index: lastState.LastIndex});
         //if ($('#tabs').attr("idx")) {
             //var idx = parseInt( $('#tabs').attr("idx"));
             //$tabs.tabs("select", idx);

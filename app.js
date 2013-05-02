@@ -59,7 +59,7 @@ app.get('/account/setting', login, require('./routes/account').setting);
 app.get('/account/changepwd', login, require('./routes/account').changepwd);
 app.get('/account/setting/:project_id', login, require('./routes/account').setting);
 app.post('/account/savesetting', login, require('./routes/account').savesetting);
-app.post('/account/newproj', login, require('./routes/account').newproj);
+app.post('/account/findUser/:UserNO', login, require('./routes/account').findUser);
 app.post('/account/updatepwd', login, require('./routes/account').updatepwd);
 
 app.post('/updateposition/:position', require('./routes/account').updateposition);

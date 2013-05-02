@@ -20,27 +20,36 @@ $.ajaxTabs1 = {
         $tabs.attr('index', index);
         var tabStr = "#ui-tabs-" + index;
 
+        //var li = $("<li><a href='" + tabStr + "'>" + text + "</a></li>").appendTo(ul);
+        //$tabs.tabs("refresh");
         $tabs.tabs("add", tabStr, text);
         var idx = ul.children('li').size() - 1;
-        $tabs.tabs("select", idx).find('li.ui-tabs-active').attr('url', url).attr('icon', icon);
+        //$tabs.tabs("option", "active", idx)
+        $tabs.tabs("select", idx)
+            .find('li.ui-state-active').attr('url', url).attr('icon', icon);
         var tab = $(tabStr);
         if (option && option.create) option.create(tab);
-        if (loadNow) $.ajaxTabs1.tabCheckLoad($tabs, tab, ul.children().eq(idx));
+        if (loadNow) $.ajaxTabs1.tabCheckLoad($tabs, tab, ul.children().eq(idx), option);
+
     },
-    tabCheckLoad: function ($tabs, tab, li) {
-        if (!tab.attr('load')) {
-            tab.indicator({}).load(li.attr('url'), function () {
-                tab.attr('load', '1');
+    tabCheckLoad: function ($tabs, tab, li, option) {
+        if (!tab.attr('load') && li.attr('url')) {
+            tab.attr('loading', '1').waitting({ insert: true }).load(li.attr('url'), function (data) {
+                if (data) {
+                    tab.attr('load', '1').removeAttr('loading');
+                    if (option && option.load) option.load(tab);
+                }
             });
         }
     },
-    tabCheckLoadIdx: function ($tabs, ul, idx) {
-        $.ajaxTabs1.tabCheckLoad($tabs, $tabs.children('.ui-tabs-panel').eq(idx), ul.children().eq(idx));
+    tabCheckLoadIdx: function ($tabs, ul, idx, option) {
+        $.ajaxTabs1.tabCheckLoad($tabs, $tabs.children('.ui-tabs-panel').eq(idx), ul.children().eq(idx), option);
     }
 };
+
 $.fn.ajaxTabs1 = function (option) {
     return this.each(function () {
-        var $tabs = $(this).tabs({ tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>" });
+        var $tabs = $(this).headerTabs({ tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>" });
         var ul = $tabs.children('ul');
 
         if (option.stateSetting) {
@@ -48,9 +57,9 @@ $.fn.ajaxTabs1 = function (option) {
             if (lastState) { //状态的恢复必须放在 状态机注册之前
                 for (var i in lastState.OpenTabs) {
                     var t = lastState.OpenTabs[i];
-                    $.ajaxTabs1.addTab($tabs, t.text, t.icon, t.url, i==lastState.LastIndex, option);
+                    $.ajaxTabs1.addTab($tabs, t.text, t.icon, t.url, i == lastState.LastIndex, option);
                 }
-                $tabs.tabs( "option", "active", lastState.LastIndex );
+                $tabs.tabs("option", "active", lastState.LastIndex);
             }
 
             $tabs.attr('stateId', option.stateSetting.stateId);
@@ -64,13 +73,13 @@ $.fn.ajaxTabs1 = function (option) {
                     state.LastIndex = $tabs.tabs("option", "active");
                     return state;
                 }, option.stateSetting.saveState);
-            
+
             //状态的恢复完成触发一次 change。因为状态可能与其它控件共用一组
-            if ($tabs.attr('stateId') && option.stateSetting.lastState) $.lastState.change(option.stateSetting.stateId); 
+            if ($tabs.attr('stateId') && option.stateSetting.lastState) $.lastState.change(option.stateSetting.stateId);
         }
 
         $tabs.tabs({ select: function (event, ui) {
-            $.ajaxTabs1.tabCheckLoadIdx($tabs, ul, ui.index);
+            $.ajaxTabs1.tabCheckLoadIdx($tabs, ul, ui.index, option);
             var li = ul.children().eq(ui.index);
             //所有切换或者删除tab 都会触发这个事件，因此把状态改变事件放这里，但是这个事件发生的时机提前了，所以延时100 毫秒
             setTimeout(function () { if ($tabs.attr('stateId')) $.lastState.change(option.stateSetting.stateId); }, 100);
@@ -100,6 +109,7 @@ $.fn.ajaxTabs1 = function (option) {
                     $.ajaxTabs1.addTab($tabs, text, icon, url, true, option);
                 }
             }
+
             return false;
         });
     });
@@ -107,7 +117,7 @@ $.fn.ajaxTabs1 = function (option) {
 
 
 /**********   树    **************/
-$.fitui.tmpl_tree_li = function () {$.template('tmpl_tree_li', '<li><span><a></a></span><ul></ul></li>');}
+$.fitui.tmpl_tree_li = function () { $.template('tmpl_tree_li', '<li><span><a></a></span><ul></ul></li>'); }
 $.fitui.tmpl_tree_li();
 $.fitui.render_li = function (parent, data, href) {
     for (var i in data) {
@@ -136,27 +146,27 @@ $.fn.ajaxtree = function (option) {
         if (!option) option = {};
         option.collapsed = true;
         var tree = $(this).addClass('filetree');
-        var id = option.rootid?option.rootid: this.id;
+        var id = option.rootid ? option.rootid : this.id;
         if (!option.rootid) $.lastState.register(option.stateId, option.stateGroup, function () {
-            return   tree.find('li.collapsable').map(function(){return $(this).attr('id');}).get();
+            return tree.find('li.collapsable').map(function () { return $(this).attr('id'); }).get();
         }, option.saveState);
 
         //treeview 插件自带文件夹的图标
-        
+
         option.toggle = function (data, ui) {
             var li = $(ui).parent();
             var ul = li.children('ul');
             if (ul.children('li[fake]').size() > 0) {
                 var newli = ul.children('li.newNode');
                 var url = option.url + "?" + li.attr('data');
-                ul.indicator({ insert: true })
+                ul.waitting({ insert: true })
                 $.get(url, function (data) {
 
                     ul.children('li[fake]').remove();
                     $.fitui.render_li(ul, data, option.href);
-                    ul.indicator({ remove: true });
+                    ul.waitting({ remove: true });
                     if (ul.children().size() > 0) {
-                        ul.ajaxtree($.extend({rootid: id}, option));
+                        ul.ajaxtree($.extend({ rootid: id }, option));
                         ul.append(newli);
                     }
                     else if (newli.size() == 1) {
@@ -172,7 +182,7 @@ $.fn.ajaxtree = function (option) {
         $(this).treeview(option);
         $.lastState.change(option.stateId);
     });
-}   
+}
 
 
 /**********            导航        **************/

@@ -72,7 +72,7 @@ $.fn.layout = function (test) {
                     });
                 }
             } else if (layout_type == 'v') {
-                
+
                 var contents = [];
                 var hOffset = $(this).intcss('padding-top') + $(this).intcss('padding-bottom');
                 $(this).children().each(function () {
@@ -102,10 +102,10 @@ $.fn.layout = function (test) {
 
 $.initLayout = function (option) {
     if (!option) option = {};
-    $.extend({ navWidth: 200, containers: [] }, option)
+    $.extend({ navWidth: 200, containers: [] }, option);
     $('body').layout();
     $.autoHeight({}, true);
-    
+
 }
 
 //创建缩略图

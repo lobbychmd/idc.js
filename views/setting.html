@@ -11,7 +11,7 @@
         </div>
         <div class="cmd">
             <ul class="cmd">
-                <li><a id="btnSave" class="cmd " href="/account/setting" action="/account/savesetting" form="setting" role="button"><span class="ui-button-text"> 保存 </span></a> </li>
+                <li><a id="btnSave" class="cmd " href="/account/setting{{if project}}/${project._id}{{/if}}" action="/account/savesetting" form="setting" role="button"><span class="ui-button-text"> 保存 </span></a> </li>
             </ul>
         </div>
         <div style="clear:both;"></div>
@@ -27,13 +27,11 @@
                 <div id="tabs">
 	                <ul>
                         {{each projects}}
-                            <li><a href="#tabs-${_id}" url="/account/setting/${_id}">${ProjectName}</a></li>
+                            <li><a href="#tabs-${_id}" url="/account/setting/${_id}">{{if _id}}${ProjectName}{{else}}[添加新项目]{{/if}}</a></li>
                         {{/each}}
-                        <li class="new"><a href="#tabs-new">添加项目</a></li>
 	                </ul>
-                        {{if project}}
+                    {{if project}}
 	                    <div id="tabs-${project._id}">
-                            
                                 <input type="hidden" name="_id" value="${project._id}" />
                                 <h3>设置您的项目</h3>
                                 <table>
@@ -46,26 +44,26 @@
                                 </table>
                 
                                 <fieldset><legend>项目成员</legend>
-                                    <table border="1">
+                                    <table border="1" id="users">
+                                        <thead><tr><td>用户名</td><td>昵称</td><td> </td></tr></thead>
                                         <tbody>
                                             {{each users}}
-                                            <tr><td>${user.UserNO}</td><td>${user.UserName}</td><td><input type="checkbox" {{if chk}}checked="checked"{{/if}} name="Users[${user._id}]" /></td></tr>
+                                            <tr>
+                                                <td><input type="hidden" name="Users[${user._id}]" />
+                                                    ${user.UserNO}
+                                                </td>
+                                                <td>${user.UserName}</td>
+                                                <td><input class="delPrjUser" type="button"  value="删除"></td>
+                                            </tr>
                                             {{/each}}
                                         </tbody>
                                     </table>
+                                    <hr />
+                                    <span>添加新成员</span> <input id="newPrjUser" /><input type="button" value="查找并添加" id="findUser" />
                                 </fieldset>
                             
 	                    </div>
-                        {{/if}}
-	                <div id="tabs-new">
-                        <form action="/account/newproj" >
-                            <table>
-                                <tr><td>项目代码</td><td><input name="newProjectCode"></td></tr>
-                                <tr><td>项目名称</td><td><input name="newProjectName"></td></tr>
-                            </table>
-                            <input type="button" value="提交" id="newProject"/>
-                        </form>
-	                </div>
+                    {{/if}}
                 </div>
           </form>
         </div>
@@ -77,12 +75,29 @@
 <script>
     $(function () {
         $("#btnSave").PageButton();
-        $('#tabs').tabs({selected: ${project_idx}}).find('li.ui-state-default:not(.new) a').unbind('click').each(function () {
+        $('#tabs').tabs({ selected: ${project_idx } }).find('li.ui-state-default:not(.new) a').unbind('click').each(function () {
             $(this).attr('href', $(this).attr('url'));
         });
 
-        $('#newProject').PageButton();
-    });
+        $('#findUser').button().click(function () {
+            var userNO = $(this).prev("#newPrjUser").val();
+            if (userNO) $.post("/account/finduser/" + userNO, null, function (data) {
+                if (data && data._id) {
+                    var tr = $("<tr>").appendTo("table#users tbody");
+                    $("<td><input type=hidden name='Users[" + data._id + "]' />"
+                    + data.UserNO + "</td>").appendTo(tr);
+                    $("<td>" + data.UserName + "</td>").appendTo(tr);
+                    $('<td><input class=delPrjUser type=button  value=删除></td>').appendTo(tr).find('.delPrjUser').button();
+                }
+                else alert("无此用户");
+            });
+
+        });
+        $(".delPrjUser").button().live("click", function () {
+            if (confirm("确认从本项目中删除此用户吗?"))
+                $(this).closest("tr").remove();
+        });
+     });
 
 </script>
 

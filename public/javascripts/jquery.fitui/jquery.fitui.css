@@ -1,35 +1,38 @@
-﻿/* 全局 */
+﻿ 
+/* 全局 */
 body { font-family: verdana,arial,helvetica,sans-serif; font-size: 12px;}
 a {text-decoration: none; }
 
 /* 风火轮 */
-a.waitting { display:inline-block; height: 16px; width: 16px; border:0; background:url("images/waitting.gif")}
+a.waitting { display:inline-block; height: 16px; width: 16px; border:0; background:url("images/waitting.gif"); vertical-align:middle}
+a.waitting.error { background:url("images/warning.png"); cursor:pointer}
 
 /* 布局 */
-footer, header {height: 32px; background: url("images/header_bg.png") repeat-x scroll right 0 transparent}
-body>header {background: repeat scroll 0 0 #2D2D2D; font-size: 1.2em; }
-header>* { display: inline-block; padding: 6px 8px; margin: 0px; vertical-align: middle; color: #d3d3d3 }
-header a { color: #d3d3d3 }
+footer, header, div.footer, div.header{height: 32px; background: url("images/header_bg.png") repeat-x scroll right 0 transparent}
+body > header, body > div.header {background: repeat scroll 0 0 #2D2D2D; font-size: 1.15em; }
+header>*, div.header>* { display: inline-block; padding: 6px 8px; margin: 0px; vertical-align: middle; color: #d3d3d3 }
+header a, div.header a{ color: #d3d3d3 ; margin: 0 5px;}
 nav {float: left}
-nav>header>h3 { color: #DD4B39}
+nav>header>h3, nav>div.header>h3 { color: #DD4B39}
 
 [align=spliter] { cursor: col-resize;width: 4px; float: left; background: #ddd}
 [layout=v]>[align=auto] { overflow: auto;}
 
 /* 编辑框 */
 [name].error{border: 1px solid red}
+.formatError{background:url('./images/invalid_line.gif') repeat-x 100px bottom;}
 
 /* 标签页(基于 jquery ui) */
 .headerTabs.ui-tabs{border-radius:0px; border: 0px; padding: 0px;}
-.headerTabs.ui-tabs ul { border-width: 0px; padding: 0 0 0 6px;   }
+.headerTabs.ui-tabs>ul { border-width: 0px; padding: 0 0 0 6px;   }
 .headerTabs.ui-tabs>.ui-widget-header {background: url("images/header_bg.png") repeat scroll 0 0 transparent;border-top-left-radius:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:0px;  }
-.headerTabs.ui-tabs .ui-tabs-nav{height:32px;}
-.headerTabs li .ui-icon-close {cursor: pointer; float: left; margin: 0.4em 0.6em 0 0;}
+.headerTabs.ui-tabs>.ui-tabs-nav{height:32px;}
+.headerTabs>ul>li>.ui-icon-close {cursor: pointer; float: left; margin: 0.4em 0.6em 0 0;}
 
-.headerTabs.ui-tabs li.ui-state-default {
-    background:url("/") repeat-x scroll 50% 50%   ; border: 0px;    height: 31px;  }
-.headerTabs.ui-tabs li.ui-state-active{ background: #F3F3F3; border-radius: 0px; height: 30px; border-width: 0 1px; border-color: #ddd; border-style: solid; }
-.headerTabs.ui-tabs .ui-tabs-panel {background: #F3F3F3}
+.headerTabs.ui-tabs>ul>li.ui-state-default {
+    background:url("/") repeat-x scroll 50% 50%   ; border: 0px;    height: 30px;  }
+.headerTabs.ui-tabs>ul>li.ui-state-active{ background: #F3F3F3; border-radius: 0px; height: 30px; border-width: 0 1px; border-color: #ddd; border-style: solid; }
+.headerTabs.ui-tabs>.ui-tabs-panel {background: #F3F3F3}
 
 /*  缩略图 */
 .thumbContainer { position: relative}

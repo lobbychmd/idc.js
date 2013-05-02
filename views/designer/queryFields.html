@@ -30,7 +30,7 @@
             list.children().remove();
             data = JSON.parse(data);
             for (var i in data.Schema) {
-                console.log(data.Schema[i]);
+               // console.log(data.Schema[i]);
                 for (var j in data.Schema[i])
                     $("<option>").val(data.Schema[i][j].ColumnName).text(data.Schema[i][j].Caption).appendTo(list);
             }
