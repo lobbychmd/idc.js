@@ -24,11 +24,11 @@
     {{each prop}}
         <div class="prop" {{if lineShow}}lineShow{{/if}}>
             <label >${caption}</label>{{if scriptType}}
-                <a class="designer code" designer="code" > </a>
+                <a class="designer code " designer="code" _default=true > </a>
                 <a class="designer text" designer="text" > </a>
             {{/if}} 
             {{if designer}}{{each designer}}
-                <a class="designer ${type}" designer="${type}" params="${params}" {{if helper}}helper{{/if}}  title="${title}"> </a>
+                <a class="designer ${type}" designer="${type}" params="${params}" {{if helper}}helper{{/if}} {{if _default}}_default=true{{/if}}  title="${title}"> </a>
                 {{/each}}
             {{/if}} 
             {{tmpl($value) "#editor"}}

@@ -100,6 +100,7 @@ app.post('/test', require('./routes/test').test);
 
 app.get('/sqlbuilder', require('./routes/designers').sqlbuilder);
 app.get('/queryFields/:queryName', require('./routes/designers').queryFields);
+app.get('/findMetaField/:fieldName', require('./routes/designers').findMetaField);
 
 app.post('/tablefields/:table', require('./routes/designers').tablefields);
 

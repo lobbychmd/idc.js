@@ -27,14 +27,16 @@
 </div>
 
 <script>
-    $(".ui-dialog select.columns").attr("size", Math.round( ($(window).height() * 0.75 - 200) /11));
-    $(".ui-dialog textarea").attr("rows", Math.round( ($(window).height() * 0.75 - 250) /11));
+    $(".ui-dialog select.columns").attr("size", Math.round(($(window).height() * 0.75 - 100) / 17));
+    $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 170) / 17));
     $(".ui-dialog select.table").change(function () {
         $.post("/tablefields/" + $(this).val(), null, function (data) {
             var list = $(".ui-dialog select.columns");
             list.children().remove();
-            for (var i in data.Columns)
-                $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption).appendTo(list);
+            for (var i in data.Columns) {  
+                var o = $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption).appendTo(list);
+                if (data.Columns[i].PK) o.attr("PK", true);
+            }
         });
 
     }).change();
@@ -42,11 +44,13 @@
         var t = $(".ui-dialog select.createSQLType").val();
         if (t == "select") {
             $(".ui-dialog textarea").val(
-                "select " +
+                "select \n" +
                 $.map($(".ui-dialog select.columns option").filter(function () {
                     return $(this).attr("selected");
-                }).toArray(), function (value, index) { return $(value).val(); }).join(",")
-                + " from " + $(".ui-dialog select.table").val()
+                }).toArray(), function (value, index) {
+                    return "  " + $(value).val().substring(1) + " = " + $(value).val();
+                }).join(", \n")
+                + "\n from " + $(".ui-dialog select.table").val()
             );
         }
     });

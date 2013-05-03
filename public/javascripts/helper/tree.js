@@ -220,7 +220,7 @@ $.json2array = function(conf, type, d, leaf, parent, index, tmplRow,path){
         return this.each(function () {
             $(this).find('a.designer').button({ })
             .end().children('div.prop').each(function(){
-                $(this).children('a.designer:first').click();
+                $(this).children('a.designer[_default]').click();
             });
        
         });

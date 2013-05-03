@@ -6,7 +6,7 @@
 {{/each}}
   .filetree li.expandable span.search {background: url("/images/metaIcon/search.png") no-repeat scroll 0 0 transparent; padding-left:18px}
 
-    .CodeMirror{ font-family: "Courier New"; font-size: 16px; }
+    .CodeMirror{ font-family: Consolas; font-size: 16px; }
 
   li.newNode a{background: url(/images/add.png); display:inline-block; width: 16px;height: 16px}
 
@@ -18,7 +18,7 @@
   .metaObject a.delRow {background: url(/images/1312563518_delete.png); display:inline-block; width: 16px;height: 16px}
   .metaObject div.zip.tmpl a.delRow {background: url(/images/new.png) no-repeat; display:inline-block; width: 42px;height: 16px}
   .metaObject span.rowIndex {display: inline-block; width: 24px;height: 16px;}
-  .metaObject div.zip.tmpl span.rowIndex {display: none}
+  .metaObject div.zip.tmpl span.rowIndex, .metaObject div.zip.tmpl a.designer {display: none}
   .metaObject .prop { padding: 3px 0px;}
     .metaObject .prop>* { vertical-align: middle}
   .metaObject label{width:180px;display:inline-block; text-align:right; margin-right:1px; margin-left:10px;}
@@ -26,6 +26,7 @@
 
   .metaObject .zip.deleted{  color: red; text-decoration:line-through}
   .metaObject .zip.tmpl{  color: blue}
+    .metaObject .zip.inline>*{  vertical-align: middle;}
   .metaObject .zip.inline>.prop{ display:inline-block; display:none}
   .metaObject .zip.inline>.prop[lineshow]{ display:inline-block;}
   .metaObject .zip.inline>.prop>label{ display:inline;}
@@ -48,4 +49,6 @@
    .metaObject a.designer.autoParams { background: url(/images/metaObject/autoParams.png) no-repeat scroll 50% 50% #E6E6E6;}
    .metaObject a.designer.columns { background: url(/images/metaObject/columns.gif) no-repeat scroll 50% 50% #E6E6E6;}
    .metaObject a.designer.queryFields { background: url(/images/metaObject/queryFields.png) no-repeat scroll 50% 50% #E6E6E6;}
+   .metaObject a.designer.pickList { background: url(/images/metaObject/pickList.png) no-repeat scroll 50% 50% #E6E6E6;}
+   .metaObject a.designer.createMeta { background: url(/images/metaObject/columns.gif) no-repeat scroll 50% 50% #E6E6E6;}
 </style>

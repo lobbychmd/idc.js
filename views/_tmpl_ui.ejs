@@ -6,3 +6,31 @@
         </fileset>
     </div>   
 </script>
+
+
+
+<script id="tp_pickList" type="text/x-jquery-tmpl">
+     <table   class="tp_pickList ui-widget ui-widget-content">
+        <thead>
+            <tr class="ui-widget-header ">
+                <th></th>
+                <th>键</th>
+                <th>值</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each data}}
+                <tr >
+                    <td><a class="removeRow" href="#"></a></td>
+                    <td><input value="${key}" /></td>
+                    <td><input value="${value}" /></td>
+                </tr>
+            {{/each}}
+            <tr class="tmpl">
+                <td><a class="removeRow" href="#"></a></td>
+                <td><input /></td>
+                <td><input /></td>
+            </tr>
+        </tbody>
+    </table>
+</script>

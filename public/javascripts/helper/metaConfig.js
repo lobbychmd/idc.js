@@ -176,7 +176,7 @@ metaObjectConfig = {
         ScriptIdx: { caption: '序号', identity: true, lineShow: true },
         ScriptType: { caption: '脚本类型', lineShow: true, editor: 'select', selection: [{ key: 0, value: "SQL" }, { key: 1, value: "C#"}] },
         MetaColumn: { caption: '字段元数据', readonly: true },
-        Script: { caption: '脚本', editor: "textarea", designer:[{type:"code", params: 'text/x-plsql'},{type:"text"},  {type:"sql", helper:true, title:"sql 生成器"}]  }
+        Script: { caption: '脚本', editor: "textarea", designer:[{type:"code", params: 'text/x-plsql', _default:true},{type:"text"},  {type:"sql", helper:true, title:"sql 生成器"}]  }
     },
     MetaField: {
         FieldName: { caption: '字段名', lineShow: true },
@@ -200,7 +200,7 @@ metaObjectConfig = {
         Indexes: { caption: '索引', type: 'MetaTableIndex' }
     },
     MetaTableField: {
-        ColumnName: {caption: '字段名', lineShow: true},
+        ColumnName: {caption: '字段名', lineShow: true, designer:[{type:"createMeta", title: "生成数据字典", helper:true}]},
         Caption: {caption: '字段显示', lineShow: true},
         Summary: {caption: '字段说明', lineShow: false},
         Type: {caption: '字段类型', lineShow: true, editor: 'select', 
@@ -208,9 +208,11 @@ metaObjectConfig = {
         Size: {caption: '字符长度', lineShow: false},
         Precision: {caption: '精度(位)', lineShow: false},
         Scale: {caption: '小数位', lineShow: false},
+        MetaType: {caption:'辅助类型', editor: 'select', 
+            selection: [{ key: 'List', value: '固定可选' }, { key: 'Property', value: '属性集合' },{ key: 'CheckTag', value: '复核标志位' }]},
         AllowNull: {caption: '允许空', lineShow: false, editor: "checkbox" },
         IsIdentity: {caption: '自增', lineShow: false, editor: "checkbox" },
-        Selection: {caption: '可选值', lineShow: false, editor: "textarea" }
+        Selection: {caption: '可选值', lineShow: false, editor: "textarea",  designer:[{type:"pickList", title:"字典编辑器", "_default":true}, {type:"text", title:"自由录入"}] }
     },
     MetaTableIndex: {
         IndexName: {caption: '索引名', lineShow: true},
