@@ -1,4 +1,5 @@
- 
+<script src="/javascripts/helper/sqlHelper.js" type="text/javascript"></script>
+
 <select class="table" >
     {{each tables}}
         <option>${TableName}</option>
@@ -16,6 +17,7 @@
             <option value="insert">insert</option>    
             <option value="update">update</option>    
             <option value="delete">delete</option>    
+            <option value="IUD">从表 IUD (updateFlag)</option>   
         </select>
         <span>语句</span>
         <hr>
@@ -33,7 +35,7 @@
         $.post("/tablefields/" + $(this).val(), null, function (data) {
             var list = $(".ui-dialog select.columns");
             list.children().remove();
-            for (var i in data.Columns) {  
+            for (var i in data.Columns) {
                 var o = $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption).appendTo(list);
                 if (data.Columns[i].PK) o.attr("PK", true);
             }
@@ -42,16 +44,24 @@
     }).change();
     $(".ui-dialog input.createSQL").button().click(function () {
         var t = $(".ui-dialog select.createSQLType").val();
-        if (t == "select") {
-            $(".ui-dialog textarea").val(
-                "select \n" +
-                $.map($(".ui-dialog select.columns option").filter(function () {
-                    return $(this).attr("selected");
-                }).toArray(), function (value, index) {
-                    return "  " + $(value).val().substring(1) + " = " + $(value).val();
-                }).join(", \n")
-                + "\n from " + $(".ui-dialog select.table").val()
-            );
-        }
+        var sqlH = new sqlHelper({
+            TableName: $(".ui-dialog select.table").val(),
+            Columns: $.map(
+                        $(".ui-dialog select.columns option").toArray(),
+                        function (value, index) {
+                            return { ColumnName: $(value).val(), PK: !!$(value).attr("PK") };
+                        })
+        });
+        var selFields = $.map($(".ui-dialog select.columns option").filter(function () {
+            return $(this).attr("selected");
+        }).toArray(), function (value, index) {
+            
+            return $(value).val();
+        });
+        if (t == "select") $(".ui-dialog textarea").val(sqlH.select(selFields));
+        else if (t == "insert") $(".ui-dialog textarea").val(sqlH.insert(selFields));
+        else if (t == "update") $(".ui-dialog textarea").val(sqlH.update(selFields));
+        else if (t == "delete") $(".ui-dialog textarea").val(sqlH.delete());
+        else if (t == "IUD") $(".ui-dialog textarea").val(sqlH.IUD(selFields));
     });
 </script>
