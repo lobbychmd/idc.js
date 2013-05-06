@@ -36,7 +36,9 @@
             var list = $(".ui-dialog select.columns");
             list.children().remove();
             for (var i in data.Columns) {
-                var o = $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption).appendTo(list);
+                var o = $("<option>").val(data.Columns[i].ColumnName).text(data.Columns[i].Caption)
+                    .attr('selection', data.Columns[i].Selection).appendTo(list);
+                if (data.Columns[i].MetaType) o.attr('metatype', data.Columns[i].MetaType);
                 if (data.Columns[i].PK) o.attr("PK", true);
             }
         });
@@ -49,7 +51,8 @@
             Columns: $.map(
                         $(".ui-dialog select.columns option").toArray(),
                         function (value, index) {
-                            return { ColumnName: $(value).val(), PK: !!$(value).attr("PK") };
+                            return { ColumnName: $(value).val(), PK: !!$(value).attr("PK") , 
+                                     "MetaType" : $(value).attr("MetaType"), "Selection" : $(value).attr("Selection")};
                         })
         });
         var selFields = $.map($(".ui-dialog select.columns option").filter(function () {
