@@ -10,12 +10,14 @@ sqlHelper.prototype = {
     sel_field: function (fieldName) {
         var metaf = _.find(this.meta.Columns, function (i) { return i.ColumnName == fieldName; });
         if (metaf.MetaType == "CheckTag") {
-            var selection = _.map(metaf.Selection.split(';'), function (i) { var ii = i.split("."); return {key: parseInt(ii[0]), value:ii[1]} });
+            var selection = _.map(metaf.Selection.split(';'), function (i) { var ii = i.split("."); return { key: parseInt(ii[0]), value: ii[1]} });
             var last = _.last(selection);
-            var statement = _.map( selection, function(i){
+            var idx = 0;
+            var statement = _.map(selection, function (i) {
+                idx++;
                 var lasti = last.key == i.key;
                 var jj = Math.pow(2, i.key).toString();
-                return "Checked" + (lasti?"": "_" + i.key) + " = Convert(bit, case when " + fieldName + " & " + jj + " = " + jj + " then 1 else 0 end)";
+                return "Checked" + (lasti ? "" : "_" + idx) + " = Convert(bit, case when " + fieldName + " & " + jj + " = " + jj + " then 1 else 0 end)";
             }).join(",\n");
             return statement;
         }

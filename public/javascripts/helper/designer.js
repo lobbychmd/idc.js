@@ -118,6 +118,50 @@
         });
     }
 
+    $.fn.toggleEditor_SelQueries_del = function () {
+        return this.each(function(){
+            $(this).find("a.del").bind("click",function (event) {
+                        $(this).closest("div").remove();
+                        return false;
+                    });
+
+        });    
+    };
+    $.fn.toggleEditor_SelQueries = function (show, params) {
+        return this.each(function () {
+            if (show) {
+                var data = _.filter($(this).val().trim().split(";"), function (i) { return !!i; });
+                var d = $("#tp_SelQueries").tmpl({ queries: data }).insertBefore(this)
+                    .find("a.add").click(function (event) {
+                        var input = $(this).prev();
+                        if (input.val())
+                            $("#tp_SelQueries_span").tmpl({ queryName: input.val() }).insertBefore(input)
+                            .toggleEditor_SelQueries_del().next().val('').focus();
+                        return false;
+                    }).end().toggleEditor_SelQueries_del()
+                    .find('input')
+                    .autocomplete({
+                        source: "/suggest/MetaQuery",
+                        minLength: 2
+                    })
+                    .data("autocomplete")._renderItem = function (ul, item) {
+                        return $("<li></li>").data("item.autocomplete", item).append("<a class='filetree'><span class='leaf " + item.type + "'>" + item.value + "</span></a>").appendTo(ul);
+                    };
+                $(this).hide();
+            }
+            else {
+                var txt = $.map(
+                            $(this).prev('div.tp_SelQueries').find('span'),
+                            function (ui, index) {
+                                return $(ui).text();
+                            }
+                        ).join(";");
+
+                $(this).val(txt).show().prev('.tp_SelQueries').remove();
+            }
+        });
+    }
+
     $.designTools = {
         "autoParams": function (ctrl) {
             var frm = $(ctrl).closest('form.metaObject');

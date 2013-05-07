@@ -34,3 +34,16 @@
         </tbody>
     </table>
 </script>
+
+<script id="tp_SelQueries" type="text/x-jquery-tmpl">
+     <div style="" class="tp_SelQueries">
+        {{each queries}}
+            {{tmpl({queryName: $value}) "#tp_SelQueries_span"}}
+        {{/each}}
+        <input > <a class="add" href="#"></a>
+    </div>
+</script>
+
+<script id="tp_SelQueries_span" type="text/x-jquery-tmpl">
+    <div class=query><span>${queryName}</span> <a class="del" href="#"></a></div>
+</script>
