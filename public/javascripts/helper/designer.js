@@ -138,7 +138,7 @@
                             $("#tp_SelQueries_span").tmpl({ queryName: input.val() }).insertBefore(input)
                             .toggleEditor_SelQueries_del().next().val('').focus();
                         return false;
-                    }).end().toggleEditor_SelQueries_del()
+                    }).end().toggleEditor_SelQueries_del() 
                     .find('input')
                     .autocomplete({
                         source: "/suggest/MetaQuery",
@@ -206,6 +206,20 @@
                 modal: true,
                 title: $(ctrl).attr("title")
             }).load("/queryFields/" + mainQuery);
+        },
+        "uiTemplate": function (ctrl) {
+            var pageType = $(ctrl).closest('div.zip').find('[path="ModulePages.PageType"]').val();
+            var mainQuery = $.trim($(ctrl).closest('div.zip').find('[path="ModulePages.Queries"]').val()).split(';')[0];
+            if (!mainQuery) alert("需要先设置页面查询.");
+            else {
+                $("body>.uiTemplate").remove();
+                $("<div class='designer uiTemplate'>").appendTo('body').dialog({
+                    width: $(window).width() * 0.75,
+                    height: $(window).height() * 0.75,
+                    modal: true,
+                    title: $(ctrl).attr("title")
+                }).load("/uiTemplate/" + mainQuery + "/" + pageType);
+            }
         },
         "createMeta": function (ctrl) {
             var parent = $(ctrl).closest('div.zip');

@@ -22,8 +22,8 @@
 </div>
 
 <script>
-    $(".ui-dialog select.columns").attr("size", Math.round(($(window).height() * 0.75 - 200) / 11));
-    $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 250) / 11));
+    $(".ui-dialog select.columns").attr("size", Math.round(($(window).height() * 0.75 - 100) / 17));
+    $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 170) / 17));
     $(".ui-dialog input.query").change(function () {
         $.post("/simulate/MetaQuery", { QueryName: $(this).val() }, function (data) {
             var list = $(".ui-dialog select.columns");

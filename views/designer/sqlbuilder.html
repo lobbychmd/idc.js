@@ -17,7 +17,8 @@
             <option value="insert">insert</option>    
             <option value="update">update</option>    
             <option value="delete">delete</option>    
-            <option value="IUD">从表 IUD (updateFlag)</option>   
+            <option value="IUD">从表 IUD (updateFlag)</option>  
+            <option value="SUM">汇总行数</option>   
         </select>
         <span>语句</span>
         <hr>
@@ -66,5 +67,6 @@
         else if (t == "update") $(".ui-dialog textarea").val(sqlH.update(selFields));
         else if (t == "delete") $(".ui-dialog textarea").val(sqlH.delete());
         else if (t == "IUD") $(".ui-dialog textarea").val(sqlH.IUD(selFields));
+        else if (t == "SUM") $(".ui-dialog textarea").val(sqlH.SUM(selFields));
     });
 </script>

@@ -34,6 +34,16 @@ sqlHelper.prototype = {
                     _.filter(this.meta.Columns, function (i) { return i.PK; }),
                     function (value, index) { return "  " + value.ColumnName + " = :" + value.ColumnName.substring(1); }).join(", \n");
     },
+    SUM: function(){
+       var o = this;
+        return "select \n" +
+                "  RecordCount = count(*) \n" +
+                " where \n" +
+                $.map(
+                    _.filter(this.meta.Columns, function (i) { return i.PK; }),
+                    function (value, index) { return "  " + value.ColumnName + " = :" + value.ColumnName.substring(1); }).join(", \n");
+     
+    },
     insert: function (fields) {
         return "insert  " + this.meta.TableName + "\n  (" +
                  fields.join(", ") +

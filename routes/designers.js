@@ -43,4 +43,11 @@ exports.queryFields = function (req, res) {
         });
    // });
 
+
+};
+
+exports.uiTemplate = function (req, res) {
+    res.render("designer/uiTemplate1.html", {
+        layout: null, queryName: req.params.queryName,  pageType: req.params.pageType
+    });
 };
