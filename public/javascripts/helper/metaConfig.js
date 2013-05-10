@@ -87,7 +87,7 @@ metaObjectConfig = {
         PageType: { caption: '页面类型', editor: "select", selection: [{ key: "0", value: "查询" }, { key: "1", value: "录入"}], lineShow: true },
         UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' , designer:[{type:"queryFields", title:"选择查询的字段", helper:true}, {type:"uiTemplate", title:"UI模板", helper:true}]},
         Queries: { caption: '所用查询', maxLength: 100, editor: 'textarea',designer: [{type:"text", title:"文本录入"},{ type:"SelQueries", title:"选择查询", _default:true}] },
-        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" , designer:[{type:"queryFields", title:"选择查询的字段", helper:true} ]},
+        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" , designer:[{type:"queryFields", title:"选择查询的字段", helper:true} , {type:"flowDesigner", title:"流程设计器"}]},
         PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json', designer:[{type:"queryFields", title:"选择查询的字段", helper:true}] },
         PageParams: { caption: '页面参数', scriptType: 'application/json', editor: "textarea" }
     },

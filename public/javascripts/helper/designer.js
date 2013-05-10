@@ -130,7 +130,7 @@
     $.fn.toggleEditor_SelQueries = function (show, params) {
         return this.each(function () {
             if (show) {
-                var data = _.filter($(this).val().trim().split(";"), function (i) { return !!i; });
+                var data = _.filter($.trim($(this).val()).split(";"), function (i) { return !!i; });
                 var d = $("#tp_SelQueries").tmpl({ queries: data }).insertBefore(this)
                     .find("a.add").click(function (event) {
                         var input = $(this).prev();
@@ -161,6 +161,33 @@
             }
         });
     }
+
+    $.fn.toggleEditor_flowDesigner = function (show, params) {
+        return this.each(function () {
+            if (show) {
+                var mainQuery = $.trim($(this).closest('div.zip').find('[path="ModulePages.Queries"]').val()).split(';')[0];
+                if (!mainQuery) alert("需要先设置页面查询.");
+                else {
+                    var data = $.trim($(this).val());
+                    if (data) data = eval("(" + data + ")"); else data = [];
+                    if (!_.isArray(data))
+                        alert("原配置的json格式有问题，请先修正.");
+                    else {
+                        var d = $("#tp_flowDesigner").tmpl({ flows: data }).insertBefore(this);
+                        d.find(".flowTab").tabs();
+                        $(this).hide();
+                    }
+
+                }
+            }
+            else {
+
+
+                $(this).val("").show().prev('.tp_flowDesigner').remove();
+            }
+        });
+    }
+
 
     $.designTools = {
         "autoParams": function (ctrl) {

@@ -47,3 +47,32 @@
 <script id="tp_SelQueries_span" type="text/x-jquery-tmpl">
     <div class=query><span>${queryName}</span> <a class="del" href="#"></a></div>
 </script>
+
+<script id="tp_flowDesigner" type="text/x-jquery-tmpl">
+     <div style="" class="tp_flowDesigner">
+         <div class="flowTab">
+            <ul>
+                {{each flows}}
+                    <li><a href="#tabs-${$index}">${Summary}</a></li>
+                {{/each}}
+            </ul>
+                {{each flows}}
+                    <div id="tabs-${$index}">
+                        <div style="float:left;width:49%">
+                            <fieldset><legend>流程描述</legend>
+                                <textarea style="width:100%">${Description}</textarea>
+                            </fieldset>
+                            <fieldset><legend><select>
+                                    <option value="BlackList">黑名单</option>
+                                    <option value="WhiteList">白名单</option>
+                                </select></legend>
+                            </fieldset>
+                        </div>
+                        <fieldset style="margin-left:51%"><legend>可执行操作</legend></fieldset>
+                        <div style="clear:both"></div>
+                        
+                    </div>
+                {{/each}}
+            </div>
+    </div>
+</script>

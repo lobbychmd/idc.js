@@ -1,35 +1,39 @@
  
  
-<textarea style="width:100%;" rows=12>
-    {{if pageType == 0}}                                                                                   
-        ToolBar {}      
-          ToolBtn {name: 'create', caption: '新增', type: 'create', page: 'detail'}
-          ToolBtn {name: 'query', caption: '查询', type: 'query'}
-          ToolBtn {name: 'report', caption: '报表', type: 'report'}
-        QueryParams {name:'sqm', query: '${queryName}', grid: 'grid1', button: 'query' }  
-        QueryGrid {name: 'grid1', table:'${queryName}', page: 'detail'}  
-        Paginating {table:'${queryName}', sumTable:'${queryName}.1', reqPageKey:'page', countPerPage: 20}
-    {{/if}}
-    {{if pageType == 1}}                                                                                   
-        ToolBar {}          
-          ToolBtn {name: 'create', caption: '新增', type: 'create', page: 'detail'}
-          ToolBtn {name: 'edit', caption: '修改', type: 'edit'}    
-          ToolBtn {name: 'delete', caption: '删除', type: 'remove', biz: 'accDel', page: 'index'}    
-          ToolBtn {name: 'cancel', caption: '取消', type: 'cancel'}      
-          ToolBtn {name: 'save', caption: '保存', type: 'save'}
-          ToolBtn {name: 'back', caption: '返回查询', type: 'back', page: 'index'}
-        DataInputs {table: 'Product', caption:'产品基本资料;产品其它信息', fields:'ProductNO;CategoryNO;CategoryName;Brand;ProductDesc;Spec;Power;UnitTypeID;Producer;MarketPrice;Configure;Life;FreeService;CheckAcceptNote;;Memo;PictureType;BuyFlag;ManagerFlag;IFDel;ChangeUser;ChangeDate;ConfirmUser;ConfirmDate;LastUpdateTime'} 
-        Accordion {name: "detailacc"}
-          AccordionSheet {name: "detailacc1", caption:"供应商"}
-            DataGrid {name: 'gridmq2', table: 'Product.1', fieldsMeta: 'Product', updateFlag: 'UpdateFlag'}
-            FastInputs {table: 'Product.1', fieldsMeta: 'Product', caption:'快速录入', keyfield:'SupplierNO', fields: 'SupplierName', grid:'gridmq2'}
-          AccordionSheet {name: "detailacc2", caption:"配件"}
-            DataGrid {name: 'gridmq3', table: 'Product.2', fieldsMeta: 'Product', updateFlag: 'UpdateFlag2'}
-            FastInputs {table: 'Product.2', fieldsMeta: 'Product', caption:'快速录入', keyfield:'PartName', fields: 'Price;Qty;PartAmount', grid:'gridmq3'}
-          AccordionSheet {name: "detailacc3", caption:"图片管理"}
-            Files {table: 'Product.3',  caption:'图片管理', name: 'filesmgr1',  updateFlag:'UpdateFlag3'}
-    {{/if}}
-</textarea>
+
+{{if error}}
+    <div>{{html error}}</div>
+{{else}}
+    <textarea style="width:100%;" rows=12>
+        {{if pageType == 0}}                                                                                   
+            ToolBar {}      
+              ToolBtn {name: 'create', caption: '新增', type: 'create', page: 'detail'}
+              ToolBtn {name: 'query', caption: '查询', type: 'query'}
+              ToolBtn {name: 'report', caption: '报表', type: 'report'}
+            QueryParams {name:'sqm', query: '${queryName}', grid: 'grid1', button: 'query' }  
+            QueryGrid {name: 'grid1', table:'${queryName}', page: 'detail'}  
+            Paginating {table:'${queryName}', sumTable:'${queryName}.1', reqPageKey:'page', countPerPage: 20}
+        {{/if}}
+        {{if pageType == 1}}                                                                                   
+            ToolBar {}          
+              ToolBtn {name: 'create', caption: '新增', type: 'create', page: 'detail'}
+              ToolBtn {name: 'edit', caption: '修改', type: 'edit'}    
+              ToolBtn {name: 'delete', caption: '删除', type: 'remove', biz: '${queryName}Del', page: 'index'}    
+              ToolBtn {name: 'cancel', caption: '取消', type: 'cancel'}      
+              ToolBtn {name: 'save', caption: '保存', type: 'save'}
+              ToolBtn {name: 'back', caption: '返回查询', type: 'back', page: 'index'}
+            DataInputs {table: '${queryName}', caption:'主表录入', fields:'{{each metaData.Schema[0]}}${ColumnName};{{/each}}'} 
+            {{if metaData.Schema.length > 1 }}
+                Accordion {name: "detail${queryName}"}
+                  {{each metaData.subTable}}
+                      AccordionSheet {name: "detail${queryName}${$index + 1}", caption:"第${$index + 1}个从表"}
+                        DataGrid {name: 'gridmq${$index + 1}', table: '${queryName}.${$index + 1}', fieldsMeta: '${queryName}', updateFlag: 'UpdateFlag{{if ($index > 0)}}${$index + 1}{{/if}}'}
+                        FastInputs {table: '${queryName}.${$index + 1}', fieldsMeta: '${queryName}', caption:'快速录入', keyfield:'${metaData.Schema[$index +1][0].ColumnName}', fields: '{{each   metaData.Schema[$index +1]   }}{{if $index }}${ColumnName};{{/if}}{{/each}}', grid:'gridmq${$index + 1}'}
+                  {{/each}}
+             {{/if}}
+        {{/if}}
+   </textarea>
+{{/if}}
 
 <script>
     $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 70) / 17));

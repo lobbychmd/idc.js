@@ -47,7 +47,22 @@ exports.queryFields = function (req, res) {
 };
 
 exports.uiTemplate = function (req, res) {
-    res.render("designer/uiTemplate1.html", {
-        layout: null, queryName: req.params.queryName,  pageType: req.params.pageType
+    require("simulate").MetaQuery(req.session.project, req.params.queryName, function (data) {
+
+        if (typeof (data) == "string")
+            try {
+                data = JSON.parse(data);
+                data.subTable = _.range(1, data.Schema.length -1);
+                var error = null;
+            } catch (e) {
+                var error = data;
+            }
+        //console.log(data.Schema[0]);
+        res.render("designer/uiTemplate1.html", {
+            error: error,
+            layout: null, queryName: req.params.queryName, pageType: req.params.pageType, metaData: data
+        });
+
     });
+
 };
