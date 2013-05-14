@@ -87,8 +87,8 @@ metaObjectConfig = {
         PageType: { caption: '页面类型', editor: "select", selection: [{ key: "0", value: "查询" }, { key: "1", value: "录入"}], lineShow: true },
         UI: { caption: '界面配置', editor: 'textarea', scriptType: 'application/json' , designer:[{type:"queryFields", title:"选择查询的字段", helper:true}, {type:"uiTemplate", title:"UI模板", helper:true}]},
         Queries: { caption: '所用查询', maxLength: 100, editor: 'textarea',designer: [{type:"text", title:"文本录入"},{ type:"SelQueries", title:"选择查询", _default:true}] },
-        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" , designer:[{type:"queryFields", title:"选择查询的字段", helper:true} , {type:"flowDesigner", title:"流程设计器"}]},
-        PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json', designer:[{type:"queryFields", title:"选择查询的字段", helper:true}] },
+        PageFlow: { caption: '流程定义', editor: 'textarea', scriptType: 'application/json', jsonType: "FlowItem" , designer:[{type:"queryFields", title:"选择查询的字段", helper:true} , {type:"flowDesigner", title:"流程设计器"}, {type:"flowTemplate", title:"流程模板", helper:true}]},
+        PageLookup: { caption: '关联信息定义', editor: 'textarea', scriptType: 'application/json', designer:[{type:"queryFields", title:"选择查询的字段", helper:true}, {type:"lookupTemplate", title:"关联模板", helper:true}] },
         PageParams: { caption: '页面参数', scriptType: 'application/json', editor: "textarea" }
     },
     FlowItem: {
@@ -136,7 +136,7 @@ metaObjectConfig = {
         ParamToCompare: { caption: '比较参数', selection: "@Params.ParamName" },
         CheckUpdateFlag: { caption: '检查标志', editor: 'select', selection: [{ key: "UpdateFlag", value: 'UpdateFlag' }, { key: "UpdateFlag2", value: 'UpdateFlag2' }, { key: "UpdateFlag3", value: 'UpdateFlag3' }, { key: "UpdateFlag4", value: 'UpdateFlag4' }, { key: "UpdateFlag5", value: 'UpdateFlag5'}] },
         CheckExecuteFlag: { caption: '检查执行标志', editor: 'select', selection: [{ key: "IUD", value: "增删改" }, { key: "IU", value: "增改" }, { key: "ID", value: "增删" }, { key: "UD", value: "删改" }, { key: "I", value: "增" }, { key: "U", value: "改" }, { key: "D", value: "删"}] },
-        CheckSQL: { caption: '检查SQL脚本', editor: "textarea", scriptType: 'text/x-plsql' }
+        CheckSQL: { caption: '检查SQL脚本', editor: "textarea", scriptType: 'text/x-plsql', designers:[ {type:"sql", helper:true, title:"sql 生成器"}] }
     },
     BizScript: {
         ProcIdx: { caption: '序号', lineShow: true, identity: true, maxLength: 3 },
@@ -147,7 +147,7 @@ metaObjectConfig = {
         ExpectedRows: { caption: '期望行数' },
         ProcUpdateFlag: { caption: '更新标志', editor: 'select', selection: [{ key: "UpdateFlag", value: 'UpdateFlag' }, { key: "UpdateFlag2", value: 'UpdateFlag2' }, { key: "UpdateFlag3", value: 'UpdateFlag3' }, { key: "UpdateFlag4", value: 'UpdateFlag4' }, { key: "UpdateFlag5", value: 'UpdateFlag5'}] },
         ProcExecuteFlag: { caption: '执行标志', editor: 'select', selection: [{ key: "IUD", value: "增删改" }, { key: "IU", value: "增改" }, { key: "ID", value: "增删" }, { key: "UD", value: "删改" }, { key: "I", value: "增" }, { key: "U", value: "改" }, { key: "D", value: "删"}] },
-        ProcSQL: { caption: 'SQL 脚本', editor: "textarea", scriptType: 'text/x-plsql' }
+        ProcSQL: { caption: 'SQL 脚本', editor: "textarea", scriptType: 'text/x-plsql', designer:[ {type:"sql", helper:true, title:"sql 生成器"}] }
     },
     BizParam: {
         ParamName: { caption: '参数名', lineShow: true, maxLength: 3 },

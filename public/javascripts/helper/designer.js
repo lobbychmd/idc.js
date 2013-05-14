@@ -248,6 +248,32 @@
                 }).load("/uiTemplate/" + mainQuery + "/" + pageType);
             }
         },
+        "lookupTemplate": function (ctrl) {
+            var mainQuery = $.trim($(ctrl).closest('div.zip').find('[path="ModulePages.Queries"]').val()).split(';')[0];
+            if (!mainQuery) alert("需要先设置页面查询.");
+            else {
+                $("body>.lookupTemplate").remove();
+                $("<div class='designer lookupTemplate'>").appendTo('body').dialog({
+                    width: $(window).width() * 0.75,
+                    height: $(window).height() * 0.75,
+                    modal: true,
+                    title: $(ctrl).attr("title")
+                }).load("/lookupTemplate/" + mainQuery);
+            }
+        },
+        "flowTemplate": function (ctrl) {
+            var mainQuery = $.trim($(ctrl).closest('div.zip').find('[path="ModulePages.Queries"]').val()).split(';')[0];
+            if (!mainQuery) alert("需要先设置页面查询.");
+            else {
+                $("body>.flowTemplate").remove();
+                $("<div class='designer flowTemplate'>").appendTo('body').dialog({
+                    width: $(window).width() * 0.75,
+                    height: $(window).height() * 0.75,
+                    modal: true,
+                    title: $(ctrl).attr("title")
+                }).load("/flowTemplate/" + mainQuery);
+            }
+        },
         "createMeta": function (ctrl) {
             var parent = $(ctrl).closest('div.zip');
             var fname = parent.find('[name$="\[ColumnName\]"]').val();

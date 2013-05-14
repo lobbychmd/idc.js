@@ -66,3 +66,15 @@ exports.uiTemplate = function (req, res) {
     });
 
 };
+
+exports.flowTemplate = function (req, res) {
+        res.render("designer/flowTemplate.html", {
+            layout: null, queryName: req.params.queryName
+        });
+};
+
+exports.lookupTemplate = function (req, res) {
+        res.render("designer/lookupTemplate.html", {
+            layout: null, queryName: req.params.queryName
+        });
+};

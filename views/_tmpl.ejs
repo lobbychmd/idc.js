@@ -1,18 +1,18 @@
 ﻿ 
 
 <script id="jt_tree_li" type="text/x-jquery-tmpl">
-        <li _id="${data._id}" metaType="${type}" {{if children && children.length > 0}}{{else}}class="closed"{{/if}}>
-            <span class="{{if (meta)}}${type}{{/if}}{{if folder}} folder{{else}} leaf{{/if}}" >
-                <a {{if (meta || multiEdit)}} href="#/design{{if multiEdit}}s{{/if}}/${type}/{{if data._id}}?_id=${data._id}{{else}}?${link}{{/if}}" {{/if}}>${data.text}</a>
-                {{if checkbox}}<input type=checkbox name="_id" value="${type}-${data._id}">{{/if}}
-            </span>
-            {{if folder}}
-                <ul>{{if children && children.length > 0}}{{tmpl(children) "#jt_tree_li"}}
-                    {{else}}<li metaType="fake"></li>{{/if}}
-                    {{if newType}}<li class="newNode"><a href="#/design/${newType.type}?parent_type=${type}&parent_id=${data._id}" title="新增${data.text}"></a></li>{{/if}}
-                </ul>
-            {{/if}}
-        </li>
+    <li _id="${data._id}" metaType="${type}" {{if children && children.length > 0}}{{else}}class="closed"{{/if}}>
+        <span class="{{if (meta)}}${type}{{/if}}{{if folder}} folder{{else}} leaf{{/if}}" >
+            <a {{if (meta || multiEdit)}} href="#/design{{if multiEdit}}s{{/if}}/${type}/{{if data._id}}?_id=${data._id}{{else}}?${link}{{/if}}" {{/if}}>${data.text}</a>
+            {{if checkbox}}<input type=checkbox name="_id" value="${type}-${data._id}">{{/if}}
+        </span>
+        {{if folder}}
+            <ul>{{if children && children.length > 0}}{{tmpl(children) "#jt_tree_li"}}
+                {{else}}<li metaType="fake"></li>{{/if}}
+                {{if newType}}<li class="newNode"><a href="#/design/${newType.type}?parent_type=${type}&parent_id=${data._id}" title="新增${data.text}"></a></li>{{/if}}
+            </ul>
+        {{/if}}
+    </li>
 </script>
 <script id="metaObject" type="text/x-jquery-tmpl">
     {{if leaf}}
@@ -82,6 +82,6 @@
     {{each selection}}
     <option value="${key}" {{if key == selValue}}selected="selected"{{/if}}>${value}</option>
     {{/each}}
-    <option value="" {{if (selValue == null || selValue == undefined)}}selected="selected"{{/if}}></option>
+    <option value="" {{if (!selValue && selValue != 0)}}selected="selected"{{/if}}></option>
 </script>
 

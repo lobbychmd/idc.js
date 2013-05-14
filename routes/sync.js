@@ -72,8 +72,9 @@ exports.Import = function (req, res) {
     //console.log(JSON.stringify( req.body));
     var str =body2str(req.body);
     if (str[str.length - 1] == "=") str = str.substring(0, str.length - 1);
+    if (str[str.length - 1] != "}") str = str +"}";
     //console.log(str);
-    req.body = JSON.parse(str +"}");
+    req.body = JSON.parse(str);
   
     var mongoose = require('mongoose');
     var query = getQuery(req);

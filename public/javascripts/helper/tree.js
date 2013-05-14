@@ -7,7 +7,10 @@ function treeData(data, checkboxMode) {
     for (var i in data) {
         var type = data[i]["type"].split('.')[0];
         var subtype = data[i]["type"] == type? null: data[i]["type"].split('.')[1];
-        data[i]["data"]["text"] = data[i]["data"][metaTreeConfig[type].text];
+        data[i]["data"]["text"] = 
+            typeof metaTreeConfig[type].text == "string"? 
+                data[i]["data"][metaTreeConfig[type].text]:
+                (_.map(metaTreeConfig[type].text, function(t){ return data[i]["data"][t];}).join("."));
         if (!data[i]["data"]["_id"]) {
             data[i]["link"] = metaTreeConfig[type].text + '=' + data[i]["data"][metaTreeConfig[type].text] + "&parent_type=" + data[i]["data"]["parent_type"] + "&parent_id=" + data[i]["data"]["parent_id"];
         }

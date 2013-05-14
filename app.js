@@ -101,6 +101,8 @@ app.post('/test', require('./routes/test').test);
 app.get('/sqlbuilder', require('./routes/designers').sqlbuilder);
 app.get('/queryFields/:queryName', require('./routes/designers').queryFields);
 app.get('/uiTemplate/:queryName/:pageType', require('./routes/designers').uiTemplate);
+app.get('/flowTemplate/:queryName', require('./routes/designers').flowTemplate);
+app.get('/lookupTemplate/:queryName', require('./routes/designers').lookupTemplate);
 app.get('/findMetaField/:fieldName', require('./routes/designers').findMetaField);
 
 app.post('/tablefields/:table', require('./routes/designers').tablefields);

@@ -1,0 +1,15 @@
+<textarea style="width:100%;" rows=12>
+                                                                              
+[                      
+   {ID: 'New', Summary:'新增', Description: '新增状态', SaveBiz: '${queryName}Add'},                      
+   {ID: 'Normal', Summary:'未审核', Description: '未审核状态', SaveBiz: '${queryName}Modify' , 
+        BlackList:[], 
+        Action: ['${queryName}Check']
+   } ,
+   {ID: 'Checked', Summary:'审核', Description: '已审核状态'}   
+ ]
+</textarea>
+
+<script>
+    $(".ui-dialog textarea").attr("rows", Math.round(($(window).height() * 0.75 - 70) / 17));
+</script>
