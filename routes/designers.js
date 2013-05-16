@@ -52,12 +52,12 @@ exports.uiTemplate = function (req, res) {
         if (typeof (data) == "string")
             try {
                 data = JSON.parse(data);
-                data.subTable = _.range(1, data.Schema.length -1);
+                data.subTable = _.range(1, data.Schema.length );
                 var error = null;
             } catch (e) {
                 var error = data;
             }
-        //console.log(data.Schema[0]);
+        console.log(data.Schema.length);
         res.render("designer/uiTemplate1.html", {
             error: error,
             layout: null, queryName: req.params.queryName, pageType: req.params.pageType, metaData: data
