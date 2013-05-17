@@ -295,8 +295,14 @@
                         });
                 })
             }
+        },
+        "regexList": function (ctrl) {
+            $(ctrl).next().autocomplete({
+                source: [
+                { label: "r正浮点数", value: '^\d+(\.\d+)?$' },
+                { label: "r非负整数", value: '^\d+$' }]
+            }).attr('title', '(键入r选择)').prev('.designer').remove();
         }
-
     }
 
     $.fn.designTools = function () { 

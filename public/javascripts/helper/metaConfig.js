@@ -182,7 +182,7 @@ metaObjectConfig = {
         FieldName: { caption: '字段名', lineShow: true },
         Context: { caption: '情景', lineShow: true },
         DisplayLabel: { caption: '中文', lineShow: true },
-        Regex: { caption: '输入字符约束', lineShow: true },
+        Regex: { caption: '输入字符约束', lineShow: true , designer:[{type:'regexList', title:"预设正则汇总",helper: true, _default: true}] },
         Inherited: { caption: '继承自' },
         CharLength: { caption: '字符长度' },
         Selection: { caption: '下拉选择' },

@@ -69,7 +69,13 @@
     {{if tmplRow }}field{{/if}}name='${name}' 
      path=${path} 
     {{if scriptType }} scriptType="${scriptType}" {{/if}}
-    {{if typeof selection == "string"}} selection="${selection}" {{/if}}
+    {{if isInput && selection}}
+        {{if typeof selection == "string"}} 
+            selection="${selection}"
+        {{else}}
+             
+        {{/if}}
+    {{/if}}
     {{if identity }} identity {{/if}}
     {{if (readonly||reference) }} readonly {{/if}}
     {{if maxLength}} style='{width:20px}' {{/if}}
