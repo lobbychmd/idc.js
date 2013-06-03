@@ -70,12 +70,12 @@ var body2str = function (body) {
 exports.Import = function (req, res) {
     //console.log(req.body);
     //console.log(JSON.stringify( req.body));
-    var str =body2str(req.body);
+    var str = body2str(req.body);
     if (str[str.length - 1] == "=") str = str.substring(0, str.length - 1);
-    if (str[str.length - 1] != "}") str = str +"}";
-    //console.log(str);
-    req.body = JSON.parse(str);
-  
+    if (str[str.length - 1] != "}") str = str + "}";
+    console.log(new Buffer(str, 'base64').toString());
+    req.body = JSON.parse(new Buffer(str, 'base64').toString()); 
+
     var mongoose = require('mongoose');
     var query = getQuery(req);
     console.log(query);
@@ -89,7 +89,7 @@ exports.Import = function (req, res) {
         } else {
             req.body._id = require('mongodb').BSONPure.ObjectID();
             doc = new m(req.body);
-            
+
             doc.ProjectName = req.params.ProjectName; //是从 filter 里面取得的
             console.log(doc);
             doc.save(function (err, numAffected) {

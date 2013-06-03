@@ -13,7 +13,7 @@ metaObjectConfig = {
     MetaTheme: {
         Theme: { caption: "主题名称" },
         LayoutUI: { caption: "界面配置", editor: 'textarea', scriptType: 'application/json' },
-        LayoutQueries: { caption: "所用查询", editor: 'textarea' },
+        LayoutQueries: { caption: "所用查询", editor: 'textarea',designer: [{type:"text", title:"文本录入"},{ type:"SelQueries", title:"选择查询", _default:true}] },
         StyleSheet: { caption: "样式", type: "MetaThemeStyle" }
 
     },

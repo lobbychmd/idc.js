@@ -80,8 +80,6 @@
     {{if (readonly||reference) }} readonly {{/if}}
     {{if maxLength}} style='{width:20px}' {{/if}}
     {{if isInput }}/>{{else}}>{{if editor == "select" }}{{tmpl({selection: selection, selValue: value}) "#select-option"}}{{/if}} ${value}</${editor}>{{/if}}
-
-
 </script>
 
 <script id="select-option" type="text/x-jquery-tmpl">  
